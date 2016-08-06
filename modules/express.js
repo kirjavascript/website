@@ -29,7 +29,7 @@ module.exports = function(config) {
     app.use('*', (req,res,next) => {
         let host = req.headers.host.split(':').shift();
 
-        if (!config.dev && sites.indexOf(host)) {
+        if (!config.dev && sites.indexOf(host) == -1) {
             res.send(host);
         }
         else {
