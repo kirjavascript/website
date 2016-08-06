@@ -57,14 +57,22 @@
 
 	var _reactDom = __webpack_require__(99);
 
-	__webpack_require__(239);
+	var _root = __webpack_require__(239);
+
+	var _root2 = _interopRequireDefault(_root);
+
+	var _index = __webpack_require__(243);
+
+	var _index2 = _interopRequireDefault(_index);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var App = function App(props) {
 
 	    return React.createElement(
 	        'div',
 	        null,
-	        'Home',
+	        React.createElement(_index2.default, null),
 	        React.createElement(
 	            'ul',
 	            null,
@@ -133,6 +141,13 @@
 	        React.createElement(_reactRouter.Route, { path: '/3', component: Page3 })
 	    )
 	), document.getElementById('app'));
+
+	// js golf couchDB? minify/babel/etc build in react? monokai
+	// generic sockets?
+
+	// tinyurl algorithm / dictionary
+
+	// ctrl + S saves & resaves (check if already exists)
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ },
@@ -27153,7 +27168,7 @@
 
 
 	// module
-	exports.push([module.id, "html, body {\n  height: 100%;\n  font-family: 'Source Sans Pro', sans-serif;\n  overflow: hidden;\n  margin: 0px; }\n\na {\n  text-decoration: none;\n  font-weight: bold;\n  color: #3399ff;\n  letter-spacing: -1px; }\n  a:active, a:visited, a:hover, a:link {\n    text-decoration: none; }\n\nselect {\n  background: transparent;\n  border: 1px solid #BBB;\n  padding: 3px; }\n\nh1 {\n  margin: 10px 0px; }\n\nh2 {\n  margin: 0px 0px 10px 0px; }\n\n::selection {\n  background-color: #000;\n  color: #FFF; }\n\n::-moz-selection {\n  background-color: #000;\n  color: #FFF; }\n", ""]);
+	exports.push([module.id, "html, body {\n  height: 100%;\n  font-family: 'Source Sans Pro', sans-serif;\n  overflow: hidden;\n  margin: 0px; }\n\na {\n  text-decoration: none;\n  font-weight: bold;\n  color: #3399ff;\n  letter-spacing: -1px; }\n  a:active, a:visited, a:hover, a:link {\n    text-decoration: none; }\n\nselect {\n  background: transparent;\n  border: 1px solid #BBB;\n  padding: 3px; }\n\nh1 {\n  margin: 10px 0px; }\n\nh2 {\n  margin: 0px 0px 10px 0px; }\n\n::selection {\n  background-color: #000;\n  color: #FFF; }\n\n::-moz-selection {\n  background-color: #000;\n  color: #FFF; }\n\n.aceEditor {\n  position: fixed;\n  bottom: 0px;\n  right: 200px;\n  top: 0px;\n  left: 0px; }\n", ""]);
 
 	// exports
 
@@ -27465,6 +27480,98 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(React) {'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/*
+	    Usage: <Editor onChange={} data={} />
+	*/
+	var editor = void 0;
+	var programmaticEdit = false;
+	var updateProps = false;
+	var elemId = 'aceEditor-' + Math.random().toString(36).substring(7);
+
+	function getValue() {
+	    return editor.getValue();
+	}
+
+	function setValue(str) {
+	    editor.setValue(str, -1);
+	}
+
+	var Editor = function (_React$Component) {
+	    _inherits(Editor, _React$Component);
+
+	    function Editor() {
+	        _classCallCheck(this, Editor);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Editor).apply(this, arguments));
+	    }
+
+	    _createClass(Editor, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var _this2 = this;
+
+	            editor = ace.edit(elemId);
+
+	            editor.$blockScrolling = Infinity;
+	            editor.getSession().setUseWorker(false);
+	            editor.setTheme('ace/theme/kuroir');
+	            editor.getSession().setMode('ace/mode/javascript');
+	            editor.setOptions({ fontSize: '12pt', wrap: true });
+
+	            setValue(this.props.data || '');
+
+	            editor.getSession().on('change', function () {
+
+	                if (!programmaticEdit) {
+	                    updateProps = true;
+	                    if (_this2.props.onChange) {
+	                        _this2.props.onChange(getValue());
+	                    }
+	                    updateProps = false;
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(props) {
+
+	            if (!updateProps) {
+	                programmaticEdit = true;
+	                setValue(props.data);
+	                programmaticEdit = false;
+	            }
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return React.createElement('div', { className: 'aceEditor', id: elemId });
+	        }
+	    }]);
+
+	    return Editor;
+	}(React.Component);
+
+	exports.default = Editor;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }
 /******/ ]);

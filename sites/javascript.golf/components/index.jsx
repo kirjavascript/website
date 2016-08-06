@@ -1,12 +1,14 @@
 import { Router, Route, Link, browserHistory } from 'react-router';
 import {render} from 'react-dom';
-import './root.scss';
+import styles from './root.scss';
+
+import Editor from './Editor/index.jsx';
 
 let App = props => {
 
 
-    return <div> 
-        Home
+    return <div>
+        <Editor/>
         <ul>
         <li><Link to="/1">1</Link></li>
         <li><Link to="/2">2</Link></li>
@@ -31,3 +33,11 @@ render((
         </Route>
     </Router>
 ), document.getElementById('app'));
+
+
+// js golf couchDB? minify/babel/etc build in react? monokai
+// generic sockets?
+
+// tinyurl algorithm / dictionary
+
+// ctrl + S saves & resaves (check if already exists)

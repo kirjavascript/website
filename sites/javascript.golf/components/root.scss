@@ -41,3 +41,13 @@ h2 {
     background-color: #000;
     color: #FFF;
 }
+
+:global {
+    .aceEditor {
+        position: fixed;
+        bottom: 0px;
+        right: 200px;
+        top: 0px;
+        left: 0px;
+    }
+}

@@ -1,11 +1,6 @@
 /*
     Usage: <Editor onChange={} data={} />
 */
-
-import React from 'react';
-
-import styles from './index.scss';
-
 let editor;
 let programmaticEdit = false;
 let updateProps = false;
@@ -27,10 +22,10 @@ class Editor extends React.Component {
         editor.$blockScrolling = Infinity;
         editor.getSession().setUseWorker(false);
         editor.setTheme('ace/theme/kuroir');
-        editor.getSession().setMode('ace/mode/svg');
+        editor.getSession().setMode('ace/mode/javascript');
         editor.setOptions({fontSize: '12pt', wrap: true});
 
-        setValue(this.props.data);
+        setValue(this.props.data || '');
 
         editor.getSession().on('change', () => {
 

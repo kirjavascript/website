@@ -20,10 +20,3 @@ module.exports = function({app, config, express, site}) {
     app.use(vhost(hostname, local));
     
 }
-
-// js golf couchDB? minify/babel/etc build in react? monokai
-// generic sockets?
-
-// tinyurl algorithm
-
-// ctrl + S saves & resaves (check if already exists)
