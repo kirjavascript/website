@@ -1,5 +1,6 @@
 let fs = require('fs');
 let express = require('express');
+var bodyParser = require('body-parser');
 let deploy = require('./deploy');
 
 module.exports = function(config) {
@@ -10,6 +11,7 @@ module.exports = function(config) {
     let sites = fs.readdirSync('sites');
 
     let server = app
+        .use(bodyParser.json())
         .listen(config.port.express, function () {
             console.log('express:'+config.port.express)
         });
@@ -18,7 +20,6 @@ module.exports = function(config) {
         //res.json(req);
 //
         console.log(req.body)
-        console.log(req.params)
     })
 
     if (config.dev) {
