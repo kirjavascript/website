@@ -3,40 +3,33 @@ import {render} from 'react-dom';
 import styles from './root.scss';
 
 import Editor from './Editor/index.jsx';
+import Menu from './Menu/index.jsx';
+
+import { saveNew } from './util/file.js';
 
 let App = props => {
 
-
     return <div>
-        <ul>
-        <li><Link to="/1">1</Link></li>
-        <li><Link to="/2">2</Link></li>
-        <li><Link to="/3">3</Link></li>
-        </ul>
-
-        {props.children}
+        <Editor onSave={saveNew} />
+        <Menu />
     </div>;
 
 }
 
-let Page1 = props => <p>Page1</p>;
-let Page2 = props => <p>Page2</p>;
-let Page3 = props => <p>Page3</p>;
-
 render((
     <Router history={browserHistory}>
         <Route component={App} path="/">
-            <Route path="/1" component={Page1} />
-            <Route path="/2" component={Page2} />
-            <Route path="/3" component={Page3} />
         </Route>
     </Router>
 ), document.getElementById('app'));
 
 
-// js golf couchDB? minify/babel/etc build in react? monokai
-// generic sockets?
+// add /edited to route
 
 // tinyurl algorithm / dictionary
 
 // ctrl + S saves & resaves (check if already exists)
+
+// use javascripty words
+
+// load routes from db (???)

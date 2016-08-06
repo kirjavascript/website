@@ -65,6 +65,12 @@
 
 	var _index2 = _interopRequireDefault(_index);
 
+	var _index3 = __webpack_require__(244);
+
+	var _index4 = _interopRequireDefault(_index3);
+
+	var _file = __webpack_require__(247);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var App = function App(props) {
@@ -72,81 +78,26 @@
 	    return React.createElement(
 	        'div',
 	        null,
-	        React.createElement(
-	            'ul',
-	            null,
-	            React.createElement(
-	                'li',
-	                null,
-	                React.createElement(
-	                    _reactRouter.Link,
-	                    { to: '/1' },
-	                    '1'
-	                )
-	            ),
-	            React.createElement(
-	                'li',
-	                null,
-	                React.createElement(
-	                    _reactRouter.Link,
-	                    { to: '/2' },
-	                    '2'
-	                )
-	            ),
-	            React.createElement(
-	                'li',
-	                null,
-	                React.createElement(
-	                    _reactRouter.Link,
-	                    { to: '/3' },
-	                    '3'
-	                )
-	            )
-	        ),
-	        props.children
-	    );
-	};
-
-	var Page1 = function Page1(props) {
-	    return React.createElement(
-	        'p',
-	        null,
-	        'Page1'
-	    );
-	};
-	var Page2 = function Page2(props) {
-	    return React.createElement(
-	        'p',
-	        null,
-	        'Page2'
-	    );
-	};
-	var Page3 = function Page3(props) {
-	    return React.createElement(
-	        'p',
-	        null,
-	        'Page3'
+	        React.createElement(_index2.default, { onSave: _file.saveNew }),
+	        React.createElement(_index4.default, null)
 	    );
 	};
 
 	(0, _reactDom.render)(React.createElement(
 	    _reactRouter.Router,
 	    { history: _reactRouter.browserHistory },
-	    React.createElement(
-	        _reactRouter.Route,
-	        { component: App, path: '/' },
-	        React.createElement(_reactRouter.Route, { path: '/1', component: Page1 }),
-	        React.createElement(_reactRouter.Route, { path: '/2', component: Page2 }),
-	        React.createElement(_reactRouter.Route, { path: '/3', component: Page3 })
-	    )
+	    React.createElement(_reactRouter.Route, { component: App, path: '/' })
 	), document.getElementById('app'));
 
-	// js golf couchDB? minify/babel/etc build in react? monokai
-	// generic sockets?
+	// add /edited to route
 
 	// tinyurl algorithm / dictionary
 
 	// ctrl + S saves & resaves (check if already exists)
+
+	// use javascripty words
+
+	// load routes from db (???)
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ },
@@ -27498,9 +27449,12 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	/*
-	    Usage: <Editor onChange={} data={} />
-	*/
+	// props;
+
+	// onSave
+	// onChange
+	// data
+
 	var editor = void 0;
 	var programmaticEdit = false;
 	var updateProps = false;
@@ -27532,9 +27486,23 @@
 
 	            editor.$blockScrolling = Infinity;
 	            editor.getSession().setUseWorker(false);
-	            editor.setTheme('ace/theme/kuroir');
+	            editor.setTheme('ace/theme/monokai');
 	            editor.getSession().setMode('ace/mode/javascript');
 	            editor.setOptions({ fontSize: '12pt', wrap: true });
+
+	            if (this.props.onSave) {
+	                editor.commands.addCommand({
+	                    name: 'save',
+	                    bindKey: { win: "Ctrl-S", "mac": "Cmd-S" },
+	                    exec: function exec(editor) {
+	                        var value = editor.session.getValue();
+
+	                        if (value != '') {
+	                            _this2.props.onSave(value);
+	                        }
+	                    }
+	                });
+	            }
 
 	            setValue(this.props.data || '');
 
@@ -27571,6 +27539,281 @@
 
 	exports.default = Editor;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(React) {'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _styles = __webpack_require__(245);
+
+	var _styles2 = _interopRequireDefault(_styles);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Menu = function (_React$Component) {
+	    _inherits(Menu, _React$Component);
+
+	    function Menu(props) {
+	        _classCallCheck(this, Menu);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Menu).call(this, props));
+
+	        _this.nextSprite = function () {
+	            if (_this.props.currentTile < _this.props.mappings.length - 1) {
+	                var state = _this.context.getRootState();
+	                state.currentTile++;
+	                _this.context.setRootState(state);
+	            }
+	        };
+
+	        return _this;
+	    }
+
+	    _createClass(Menu, [{
+	        key: 'render',
+	        value: function render() {
+	            return React.createElement(
+	                'div',
+	                { className: _styles2.default.menu },
+	                React.createElement(
+	                    'h1',
+	                    null,
+	                    'transpiling pastebin'
+	                ),
+	                'browse pastes',
+	                React.createElement('br', null),
+	                'save',
+	                React.createElement('br', null),
+	                'format',
+	                React.createElement('br', null),
+	                'minify',
+	                React.createElement('br', null),
+	                'transpile',
+	                React.createElement('br', null),
+	                'dupe + edit',
+	                React.createElement('br', null),
+	                'wrap on/off settings        colourscheme (localstorage)',
+	                React.createElement('br', null)
+	            );
+	        }
+	    }]);
+
+	    return Menu;
+	}(React.Component);
+
+	exports.default = Menu;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(246);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(242)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?modules&localIdentName=[local][hash:base64:5]!./../../../../node_modules/sass-loader/index.js!./styles.scss", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?modules&localIdentName=[local][hash:base64:5]!./../../../../node_modules/sass-loader/index.js!./styles.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(241)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".menu1CnzG {\n  position: fixed;\n  right: 0px;\n  width: 200px;\n  bottom: 0px;\n  top: 0px; }\n", ""]);
+
+	// exports
+	exports.locals = {
+		"menu": "menu1CnzG"
+	};
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.saveNew = saveNew;
+
+	var _hash = __webpack_require__(248);
+
+	function saveNew(value) {
+
+	    var hash = (0, _hash.getHash)(value);
+
+	    console.log(hash);
+	}
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.getHash = getHash;
+
+	var _crc = __webpack_require__(249);
+
+	var _crc2 = _interopRequireDefault(_crc);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var words = ['aggregator', 'agile', 'ajax', 'algorithm', 'benchmark', 'backend', 'beta', 'bigdata', 'bleedingedge', 'blogosphere', 'clickthrough', 'cloud', 'cloudops', 'cloudscale', 'collaboration', 'analytics', 'cms', 'convergence', 'crossplatform', 'synergy', 'leftpad', 'datafication', 'datamining', 'datascience', 'datavis', 'deepdive', 'deepweb', 'designpattern', 'devops', 'digitaldivide', 'xml', 'drm', 'digitalsignage', 'disruptivetech', 'jsx', 'dotbomb', 'npm', 'elearning', 'end2end', 'engine', 'refactor', 'enterprise', 'servicebus', 'evolution', 'framework', 'css', 'fuzzylogic', 'growthhacking', 'html', 'immersion', 'infohighway', 'internetofthings', 'innovation', 'mashup', 'microservices', 'mobile', 'module', 'service', 'nanotech', 'netiquette', 'nfv', 'nextgen', 'objectoriented', 'functional', 'omnichannel', 'bitcoin', 'parser', 'paas', 'podcasting', 'portal', 'realtime', 'responsive', 'dotio', 'saas', 'scalability', 'skeuomorphic', 'social', 'transpile', 'minify', 'spam', 'struts', 'syncup', 'lifecycle', 'tagging', 'seo', 'thoughtleader', 'sprint', 'ui', 'ux', 'github', 'viral', 'virtualize', 'vlogging', 'vortal', 'malware', 'webinar', 'weblog', 'webservices', 'wikiality', 'workflow', 'webscale', 'es6', 'babel', 'gulp', 'recursion', 'emscripten', 'webassembly', 'eslint', 'webpack', 'dojotoolkit', 'jquery', 'midori', 'polyfill', 'hax', 'react', 'yui', 'anychart', 'd3', 'highcharts', 'easeljs', 'infovistoolkit', 'p5', 'pixi', 'plotly', 'processing', 'raphaël', 'swf', 'webgl', 'velocity', 'whitestormjs', 'extjs', 'angularjs', 'bootstrap', 'dhtml', 'dojowidgets', 'foundation', 'polymer', 'jqueryui', 'jqwidgets', 'igniteui', 'kendoui', 'api', 'wijmo5', 'openui5', 'qooxdoo', 'smartclient', 'webix', 'winjs', 'vue', 'amplesdk', 'glow', 'livelykernel', 'script.aculo.us', 'typescript', 'googleclosure', 'joose', 'jsphp', 'mochikit', 'pdf', 'rico', 'socket.io', 'spryframework', 'underscore', 'cascade', 'handlebars', 'jquerymobile', 'mustache', 'jasmine', 'mocha', 'qunit', 'unit', 'databind', 'backbone', 'cappuccino', 'chaplin', 'echo', 'ember', 'enyo', 'webkit', 'mvc', 'knockout', 'meteor', 'mojito', 'mootools', 'nodejs', 'prototype', 'cycle', 'rialtotoolkit', 'sproutcore', 'wakanda', 'abstract', 'arguments', 'boolean', 'break', 'byte', 'case', 'catch', 'char', 'class', 'const', 'continue', 'debugger', 'default', 'delete', 'do', 'double', 'else', 'enum', 'eval', 'export', 'extends', 'false', 'final', 'finally', 'float', 'for', 'function', 'goto', 'if', 'implements', 'import', 'in', 'instanceof', 'int', 'interface', 'let', 'long', 'native', 'new', 'null', 'package', 'private', 'protected', 'public', 'return', 'short', 'static', 'super', 'switch', 'synchronized', 'this', 'throw', 'throws', 'transient', 'true', 'try', 'typeof', 'var', 'void', 'volatile', 'while', 'with', 'yield', 'mozilla', 'google'];
+
+	function getHash(value) {
+
+	    var hexHash = (0, _crc2.default)(value);
+
+	    return hexHash.match(/../g).map(function (hex) {
+	        return words[parseInt(hex, 16)];
+	    }).join('-');
+	}
+
+/***/ },
+/* 249 */
+/***/ function(module, exports) {
+
+	(function () {
+		'use strict';
+
+		var table = [],
+			poly = 0xEDB88320; // reverse polynomial
+
+		// build the table
+		function makeTable() {
+			var c, n, k;
+
+			for (n = 0; n < 256; n += 1) {
+				c = n;
+				for (k = 0; k < 8; k += 1) {
+					if (c & 1) {
+						c = poly ^ (c >>> 1);
+					} else {
+						c = c >>> 1;
+					}
+				}
+				table[n] = c >>> 0;
+			}
+		}
+
+		function strToArr(str) {
+			// sweet hack to turn string into a 'byte' array
+			return Array.prototype.map.call(str, function (c) {
+				return c.charCodeAt(0);
+			});
+		}
+
+		/*
+		 * Compute CRC of array directly.
+		 *
+		 * This is slower for repeated calls, so append mode is not supported.
+		 */
+		function crcDirect(arr) {
+			var crc = -1, // initial contents of LFBSR
+				i, j, l, temp;
+
+			for (i = 0, l = arr.length; i < l; i += 1) {
+				temp = (crc ^ arr[i]) & 0xff;
+
+				// read 8 bits one at a time
+				for (j = 0; j < 8; j += 1) {
+					if ((temp & 1) === 1) {
+						temp = (temp >>> 1) ^ poly;
+					} else {
+						temp = (temp >>> 1);
+					}
+				}
+				crc = (crc >>> 8) ^ temp;
+			}
+
+			// flip bits
+			return crc ^ -1;
+		}
+
+		/*
+		 * Compute CRC with the help of a pre-calculated table.
+		 *
+		 * This supports append mode, if the second parameter is set.
+		 */
+		function crcTable(arr, append) {
+			var crc, i, l;
+
+			// if we're in append mode, don't reset crc
+			// if arr is null or undefined, reset table and return
+			if (typeof crcTable.crc === 'undefined' || !append || !arr) {
+				crcTable.crc = 0 ^ -1;
+
+				if (!arr) {
+					return;
+				}
+			}
+
+			// store in temp variable for minor speed gain
+			crc = crcTable.crc;
+
+			for (i = 0, l = arr.length; i < l; i += 1) {
+				crc = (crc >>> 8) ^ table[(crc ^ arr[i]) & 0xff];
+			}
+
+			crcTable.crc = crc;
+
+			return crc ^ -1;
+		}
+
+		// build the table
+		// this isn't that costly, and most uses will be for table assisted mode
+		makeTable();
+
+		module.exports = function (val, direct) {
+			var val = (typeof val === 'string') ? strToArr(val) : val,
+				ret = direct ? crcDirect(val) : crcTable(val);
+
+			// convert to 2's complement hex
+			return (ret >>> 0).toString(16);
+		};
+		module.exports.direct = crcDirect;
+		module.exports.table = crcTable;
+	}());
+
 
 /***/ }
 /******/ ]);

@@ -1,6 +1,9 @@
-/*
-    Usage: <Editor onChange={} data={} />
-*/
+// props;
+
+// onSave
+// onChange
+// data
+
 let editor;
 let programmaticEdit = false;
 let updateProps = false;
@@ -21,9 +24,24 @@ class Editor extends React.Component {
 
         editor.$blockScrolling = Infinity;
         editor.getSession().setUseWorker(false);
-        editor.setTheme('ace/theme/kuroir');
+        editor.setTheme('ace/theme/monokai');
         editor.getSession().setMode('ace/mode/javascript');
         editor.setOptions({fontSize: '12pt', wrap: true});
+
+        if (this.props.onSave) {
+            editor.commands.addCommand({
+                name: 'save',
+                bindKey: {win: "Ctrl-S", "mac": "Cmd-S"},
+                exec: editor => {
+                    let value = editor.session.getValue();
+
+                    if (value != '') {
+                        this.props.onSave(value);
+                    }
+                    
+                }
+            })
+        }
 
         setValue(this.props.data || '');
 
