@@ -25,6 +25,7 @@ class Menu extends React.Component {
         transpile<br />
         dupe + edit<br/>
         wrap on/off
+        lint / validate
         settings        colourscheme (localstorage)<br/>
         </div>;
     }

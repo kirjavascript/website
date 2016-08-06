@@ -1,8 +1,11 @@
 let fs = require('fs');
 let vhost = require('vhost');
 let connect = require('connect');
+let initdb = require('./initdb');
 
-module.exports = function({app, config, express, site}) {
+module.exports = function({app, config, express, database, site}) {
+
+    initdb(database);
 
     let hostname = config.dev ? 'localhost' : site;
 

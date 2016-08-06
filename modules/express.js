@@ -1,8 +1,9 @@
 let fs = require('fs');
 let express = require('express');
 let vhost = require('vhost');
-var bodyParser = require('body-parser');
+let bodyParser = require('body-parser');
 let deploy = require('./deploy');
+let database = require('./database');
 
 module.exports = function(config) {
 
@@ -35,7 +36,6 @@ module.exports = function(config) {
         else {
             next();
         }
-        
     })
 
     // vhost router
@@ -46,6 +46,7 @@ module.exports = function(config) {
             app,
             config,
             express,
+            database,
             site:config.devSite
         });
     }
@@ -53,7 +54,14 @@ module.exports = function(config) {
         // load them all
         sites.forEach(site => {
 
-            require(`../sites/${site}/site.js`)({app, config, express, site});
+            require(`../sites/${site}/site.js`)
+                ({
+                    app,
+                    config,
+                    express,
+                    database,
+                    site
+                });
 
         });
     }
