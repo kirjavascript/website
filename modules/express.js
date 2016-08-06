@@ -30,7 +30,7 @@ module.exports = function(config) {
         let host = req.headers.host.split(':').shift();
 
         if (!config.dev && sites.indexOf(host) == -1) {
-            res.send(host);
+            res.send('error 418');
         }
         else {
             next();
