@@ -2,14 +2,19 @@ let fs = require('fs');
 let vhost = require('vhost');
 let connect = require('connect');
 let initdb = require('./initdb');
+let api = require('./api');
 
 module.exports = function({app, config, express, database, site}) {
 
+    // populate tables if they don't exist
     initdb(database);
 
     let hostname = config.dev ? 'localhost' : site;
 
     let local = connect();
+
+    // routes for ajax functions
+    api({ local, database });
 
     local.use('/', express.static(`sites/${site}/static`));
 
