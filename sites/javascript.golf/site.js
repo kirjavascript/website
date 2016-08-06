@@ -25,8 +25,3 @@ module.exports = function({app, config, express, site}) {
 // generic sockets?
 
 // tinyurl algorithm
-
-// deployment?
-
-// webpack alternative node_modules dir
-// webpack middleware

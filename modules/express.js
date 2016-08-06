@@ -16,10 +16,14 @@ module.exports = function(config) {
             console.log('express:'+config.port.express)
         });
 
+    // deployment
+
     app.post('/github-deploy', (req,res) => {
         res.json({});
         deploy(req.body);
     })
+
+    // vhost router
 
     if (config.dev) {
         // just load one site @ localhost's hostname
