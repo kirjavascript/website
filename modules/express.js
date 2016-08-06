@@ -19,7 +19,6 @@ module.exports = function(config) {
     app.post('/github-deploy', (req,res) => {
         res.json({});
         deploy(req.body);
-        console.log(req);
     })
 
     if (config.dev) {
