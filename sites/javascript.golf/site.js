@@ -25,3 +25,5 @@ module.exports = function({app, config, express, site}) {
 // generic sockets?
 
 // tinyurl algorithm
+
+// ctrl + S saves & resaves (check if already exists)

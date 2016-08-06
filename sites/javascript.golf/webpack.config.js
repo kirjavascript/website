@@ -13,6 +13,7 @@ module.exports = {
             {
                 test:   /\.jsx?/,
                 loader: 'babel',
+                include: __dirname + '/components',
                 query: {
                     presets: ['es2015', 'react', 'stage-0'],
                 }
