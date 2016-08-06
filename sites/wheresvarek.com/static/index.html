@@ -5,6 +5,7 @@
 <style>
 body {
     background-size: cover;
+    display: none;
 }
 img {
     position: absolute;
@@ -20,5 +21,8 @@ img.style.left = ((Math.random()*window.innerWidth)|0)+'px';
 img.addEventListener("click", function() {
     document.write('<h1><br/>YOURE WINNER</h1>');
 });
+window.onload = function() {
+    document.body.style.display = 'block';
+}
 </script></body>
 </html>
