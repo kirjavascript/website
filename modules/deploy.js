@@ -16,6 +16,8 @@ module.exports = function() {
         child.exec('uptime', function (error, stdout, stderr) {
             res.send(stdout);
         });
+
+        console.log()
     }
 
 

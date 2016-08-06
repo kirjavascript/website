@@ -14,8 +14,8 @@ module.exports = function(config) {
             console.log('express:'+config.port.express)
         });
 
-    app.get('/bitbucket-deploy', (req,res) => {
-        res.send(deploy());
+    app.get('/github-deploy', (req,res) => {
+        res.json(req);
     })
 
     if (config.dev) {
