@@ -18,7 +18,7 @@ module.exports = function(config) {
         //res.json(req);
 
         console.log(req.body)
-        console.log(req)
+        console.log(req.params)
     })
 
     if (config.dev) {
