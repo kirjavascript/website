@@ -14,10 +14,10 @@ module.exports = function(config) {
             console.log('express:'+config.port.express)
         });
 
-    app.get('/github-deploy', (req,res) => {
-        res.json(req);
+    app.post('/github-deploy', (req,res) => {
+        //res.json(req);
 
-        console.log(req)
+        console.log(req.body)
     })
 
     if (config.dev) {
