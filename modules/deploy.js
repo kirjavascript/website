@@ -3,16 +3,11 @@ var child = require('child_process');
 
 module.exports = function(gitObj) {
 
-    // check origin request
+    if (gitObj.ref == 'refs/heads/master') {
 
-
-        child.exec('uptime', function (error, stdout, stderr) {
-            res.send(stdout);
+        child.exec('npm run update', function (error, stdout, stderr) {
         });
 
-        // run npm install
-
-        console.log()
-
+    }
 
 }
