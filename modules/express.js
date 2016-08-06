@@ -1,5 +1,6 @@
 let fs = require('fs');
 let express = require('express');
+let vhost = require('vhost');
 var bodyParser = require('body-parser');
 let deploy = require('./deploy');
 
@@ -21,6 +22,20 @@ module.exports = function(config) {
     app.post('/github-deploy', (req,res) => {
         res.json({});
         deploy(req.body);
+    })
+
+    // catch unknown vhosts
+
+    app.use('*', (req,res,next) => {
+        let host = req.headers.host.split(':').shift();
+
+        if (!config.dev && sites.indexOf(host)) {
+            res.send('error 418');
+        }
+        else {
+            next();
+        }
+        
     })
 
     // vhost router
