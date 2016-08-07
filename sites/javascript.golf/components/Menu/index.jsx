@@ -9,7 +9,7 @@ import initialConfig from '../util/initialConfig';
 // support error handling
 // async loading msg?
 // validate first?
-// character/filesize count
+// character/filesize count + gzip
 // files too large
 // run in new window?
 
@@ -44,12 +44,16 @@ class Menu extends React.Component {
             this.setState({lebab});
         }
 
-        this.beautify = () => beautify(this.state);
-        this.minify = () => minify(this.state);
-        this.jscrush = () => jscrush(this.state);
-        this.mangle = () => mangle(this.state);
-        this.babelTransform = () => babelTransform(this.state);
-        this.lebabTransform = () => lebabTransform(this.state);
+        function catchError(error) {
+            console.log(error);
+        }
+
+        this.beautify = () => beautify(this.state, catchError);
+        this.minify = () => minify(this.state, catchError);
+        this.jscrush = () => jscrush(this.state, catchError);
+        this.mangle = () => mangle(this.state, catchError);
+        this.babelTransform = () => babelTransform(this.state, catchError);
+        this.lebabTransform = () => lebabTransform(this.state, catchError);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -192,6 +196,9 @@ deobfuscate
 packer
 jsmin
 jscompressor
+
+typescript
+coffeescript
 
 lint
 fix semicolons, etc

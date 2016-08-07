@@ -40,53 +40,69 @@ let lebab = scriptLoader('lebab');
 
 // transpilation
 
-function jscrush() {
-    setEditor(crush(getEditor()));
+function jscrush(state, catchError) {
+
+    try {
+        setEditor(crush(getEditor()));
+    } catch (e) { catchError(e); }
+    
 }
 
-function beautifyFunc(state) {
+function beautifyFunc(state, catchError) {
 
     beautify(() => {
 
-        let indent_size = state.indent;
+        try {
 
-        setEditor(js_beautify(getEditor(), {indent_size}));
+            let indent_size = state.indent;
+
+            setEditor(js_beautify(getEditor(), {indent_size}));
+
+        } catch (e) { catchError(e); }
 
     })
 
 }
 
-function minify() {
+function minify(state, catchError) {
 
     uglify(() => {
 
-        let ast = UglifyJS.parse(getEditor());
-        ast.figure_out_scope();
-        let compressor = UglifyJS.Compressor();
-        ast = ast.transform(compressor);
-        let output = ast.print_to_string();
+        try {
 
-        setEditor(output);
+            let ast = UglifyJS.parse(getEditor());
+            ast.figure_out_scope();
+            let compressor = UglifyJS.Compressor();
+            ast = ast.transform(compressor);
+            let output = ast.print_to_string();
+
+            setEditor(output);
+
+        } catch (e) { catchError(e); }
     });
 
 }
 
-function mangle() {
+function mangle(state, catchError) {
 
     uglify(() => {
 
-        let ast = UglifyJS.parse(getEditor());
-        ast.figure_out_scope();
-        ast.compute_char_frequency();
-        ast.mangle_names();
-        let output = ast.print_to_string();
+        try {
 
-        setEditor(output);
+            let ast = UglifyJS.parse(getEditor());
+            ast.figure_out_scope();
+            ast.compute_char_frequency();
+            ast.mangle_names();
+            let output = ast.print_to_string();
+
+            setEditor(output);
+
+        } catch (e) { catchError(e); }
     });
 
 }
 
-function babelTransform(state) {
+function babelTransform(state, catchError) {
 
     babel(() => {
 
@@ -94,13 +110,20 @@ function babelTransform(state) {
             .filter(obj => obj.enabled)
             .map(obj => obj.preset);
 
-        let output = Babel.transform(getEditor(),{ presets }).code;
+        let output;
 
-        setEditor(output);
+        try {
+
+            output = Babel.transform(getEditor(),{ presets }).code;
+
+            setEditor(output);
+
+        } catch (e) { catchError(e); }
+        
     })
 
 }
-function lebabTransform(state) {
+function lebabTransform(state, catchError) {
 
     lebab(() => {
 
@@ -114,9 +137,15 @@ function lebabTransform(state) {
 
         var transformer = new Lebab.Transformer(options);
 
-        let output = transformer.run(getEditor());
+        let output;
 
-        setEditor(output);
+        try {
+
+            output = transformer.run(getEditor());
+
+            setEditor(output);
+
+        } catch (e) { catchError(e); }
 
     });
 
