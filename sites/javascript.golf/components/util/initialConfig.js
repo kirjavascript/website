@@ -10,7 +10,20 @@ let config = {
         { preset: 'stage-0', enabled: true },
         { preset: 'stage-1', enabled: false },
         { preset: 'stage-2', enabled: false },
-        { preset: 'stage-3', enabled: false }
+        { preset: 'stage-3', enabled: false },
+    ],
+    lebab: [
+        { option: 'arrow', enabled: true },
+        { option: 'let', enabled: true },
+        { option: 'arg-spread', enabled: true },
+        { option: 'obj-method', enabled: true },
+        { option: 'obj-shorthand', enabled: true },
+        { option: 'no-strict', enabled: true },
+        { option: 'commonjs', enabled: true },
+        { option: 'class', enabled: false },
+        { option: 'template', enabled: false },
+        { option: 'default-param', enabled: false },
+        { option: 'exponent', enabled: false },
     ]
 
 };

@@ -37,6 +37,11 @@ class Menu extends React.Component {
             babel[+e.target.value].enabled = e.target.checked;
             this.setState({babel});
         }
+        this.setLebab = (e) => {
+            let lebab = this.state.lebab;
+            lebab[+e.target.value].enabled = e.target.checked;
+            this.setState({lebab});
+        }
 
         // transpilation
 
@@ -99,33 +104,22 @@ class Menu extends React.Component {
 
         this.lebabTransform = () => {
             lebab(() => {
-// arrow
-// let
-// arg-spread
-// obj-method
-// obj-shorthand
-// no-strict
-// commonjs
 
-// class
-// template
-// default-param
-// exponent
-//                 var transformer = new Lebab.Transformer({
-//                     'arrow': true,
-//                     'let': true,
-//                     'class': true,
-//                     'template': true,
-//                     'default-param': true,
-//                     'obj-method': true,
-//                     'obj-shorthand': true,
-//                     'no-strict': true,
-//                     'commonjs': true
-//                 });
+                let options = {};
 
-//                 let output = transformer.run(getEditor());
+                this.state.lebab.forEach(obj => {
+                    if (obj.enabled) {
+                        options[obj.option] = true;
+                    }
+                })
 
-//                 this.props.setCode(output);
+                console.log(options)
+
+                var transformer = new Lebab.Transformer(options);
+
+                let output = transformer.run(getEditor());
+
+                this.props.setCode(output);
 
             })
         }
@@ -241,6 +235,18 @@ class Menu extends React.Component {
 
             <div className={headerClass}>
                 Lebab
+            </div>
+
+            <div className={styles.boxList}>
+                {this.state.lebab.map((obj,i) => (
+                    <div key={i}>
+                        <input 
+                            type="checkbox"
+                            value={i}
+                            onChange={this.setLebab}
+                            checked={obj.enabled}/> {obj.option}
+                    </div>
+                ))}
             </div>
 
             <button 
