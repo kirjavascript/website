@@ -11,6 +11,7 @@ import initialConfig from '../util/initialConfig';
 // validate first?
 // character/filesize count
 // files too large
+// run in new window?
 
 class Menu extends React.Component {
 

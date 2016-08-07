@@ -13,9 +13,18 @@ function scriptLoader(name) {
             callback();
         }
         else {
+            // ugh
+            let msg = document.createElement('div');
+            msg.className = 'loadingMessage';
+            msg.innerHTML = `Loading ${name}.js...`;
+            document.body.appendChild(msg);
+
             $script(`/scripts/${name}.js`, () => {
+
+                document.body.removeChild(msg);
                 callback();
                 loaded = true;
+
             });
         }
     }

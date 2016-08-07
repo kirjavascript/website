@@ -50,4 +50,12 @@ h2 {
         top: 0px;
         left: 0px;
     }
+    .loadingMessage {
+        position: fixed;
+        left: 0px;
+        bottom: 0px;
+        background-color: white;
+        margin: auto;
+        display: inline;
+    }
 }

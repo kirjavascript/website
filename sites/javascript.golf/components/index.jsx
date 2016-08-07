@@ -109,11 +109,9 @@ class App extends React.Component {
             data={this.state.code} />
 
         <Menu 
-            setLoading={this.setLoading}
             state={this.state} />
         
         <Window
-            loading={this.state.loading}
             errors={this.state.errors}/>
 
         </div>;
