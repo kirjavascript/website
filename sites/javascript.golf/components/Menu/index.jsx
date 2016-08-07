@@ -42,6 +42,13 @@ class Menu extends React.Component {
             lebab[+e.target.value].enabled = e.target.checked;
             this.setState({lebab});
         }
+
+        this.beautify = () => beautify(state);
+        this.uglify = () => uglify(state);
+        this.jscrush = () => jscrush(state);
+        this.mangle = () => mangle(state);
+        this.babelTransform = () => babelTransform(state);
+        this.lebabTransform = () => lebabTransform(state);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -94,7 +101,7 @@ class Menu extends React.Component {
 
             <button 
                 className={aceSelectClass}
-                onClick={beautify}>
+                onClick={this.beautify}>
                 Beautify
             </button>
 
@@ -112,13 +119,13 @@ class Menu extends React.Component {
 
             <button 
                 className={aceSelectClass}
-                onClick={minify}>
+                onClick={this.minify}>
                 Minify
             </button>
 
             <button 
                 className={aceSelectClass}
-                onClick={mangle}>
+                onClick={this.mangle}>
                 Mangle
             </button>
 
@@ -128,7 +135,7 @@ class Menu extends React.Component {
 
             <button 
                 className={aceSelectClass}
-                onClick={jscrush}>
+                onClick={this.jscrush}>
                 JSCrush
             </button>
 
@@ -150,7 +157,7 @@ class Menu extends React.Component {
             
             <button 
                 className={aceSelectClass}
-                onClick={babelTransform}>
+                onClick={this.babelTransform}>
                 Transform
             </button>
 
@@ -159,7 +166,7 @@ class Menu extends React.Component {
             </div>
 
             <div className={styles.boxList}>
-                {state.lebab.map((obj,i) => (
+                {this.state.lebab.map((obj,i) => (
                     <div key={i}>
                         <input 
                             type="checkbox"

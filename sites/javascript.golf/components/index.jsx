@@ -94,13 +94,13 @@ class App extends React.Component {
     render () {
         return <div>
 
-            <Editor 
-                onChange={this.onChange}
-                onCommand={this.handleCommands}
-                data={this.state.code} />
-            
-            <Menu 
-                state={this.state} />
+        <Editor 
+            onChange={this.onChange}
+            onCommand={this.handleCommands}
+            data={this.state.code} />
+        
+        <Menu 
+            state={this.state} />
 
         </div>;
     }

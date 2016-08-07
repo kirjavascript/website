@@ -36,11 +36,11 @@ function jscrush() {
     setEditor(crush(getEditor()));
 }
 
-function beautifyFunc() {
+function beautifyFunc(state) {
 
     beautify(() => {
 
-        let indent_size = 4;
+        let indent_size = state.indent;
 
         setEditor(js_beautify(getEditor(), {indent_size}));
 
@@ -78,11 +78,11 @@ function mangle() {
 
 }
 
-function babelTransform() {
+function babelTransform(state) {
 
     babel(() => {
 
-        let presets = this.state.babel
+        let presets = state.babel
             .filter(obj => obj.enabled)
             .map(obj => obj.preset);
 
@@ -92,13 +92,13 @@ function babelTransform() {
     })
 
 }
-function lebabTransform() {
+function lebabTransform(state) {
 
     lebab(() => {
 
         let options = {};
 
-        this.state.lebab.forEach(obj => {
+        state.lebab.forEach(obj => {
             if (obj.enabled) {
                 options[obj.option] = true;
             }
