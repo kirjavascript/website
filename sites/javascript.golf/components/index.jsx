@@ -91,11 +91,11 @@ class App extends React.Component {
         }
 
         this.onError = (error) => {
-            this.setState({error:error.toString()});
+            //this.setState({error:error.toString()});
         }
 
         this.clearError = () => {
-            this.setState({error:null});
+            //this.setState({error:null});
         }
 
     }
