@@ -50,4 +50,5 @@ export default function() {
 
 window.__reset = function() {
     localStorage.removeItem('config');
+    location.reload();
 }

@@ -1,6 +1,7 @@
 let fs = require('fs');
 let vhost = require('vhost');
 let connect = require('connect');
+var favicon = require('serve-favicon');
 let initdb = require('./initdb');
 let api = require('./api');
 
@@ -12,6 +13,8 @@ module.exports = function({app, config, express, database, site}) {
     let hostname = config.dev ? 'localhost' : site;
 
     let local = connect();
+
+    local.use(favicon(__dirname + '/static/favicon.ico'))
 
     // routes for ajax functions
     api({ local, database });

@@ -57,7 +57,7 @@ class Menu extends React.Component {
                 ast = ast.transform(compressor);
                 let output = ast.print_to_string();
 
-                this.props.setCode(output);
+                setEditor(output);
             });
             
         }
@@ -72,13 +72,13 @@ class Menu extends React.Component {
                 ast.mangle_names();
                 let output = ast.print_to_string();
 
-                this.props.setCode(output);
+                setEditor(output);
             });
 
         }
 
         this.jscrush = () => {
-            this.props.setCode(crush(getEditor()));
+            setEditor(crush(getEditor()));
         }
 
         this.beautify = () => {
@@ -86,7 +86,7 @@ class Menu extends React.Component {
 
                 let indent_size = this.state.indent;
 
-                this.props.setCode(js_beautify(getEditor(), {indent_size}));
+                setEditor(js_beautify(getEditor(), {indent_size}));
 
             })
         }
@@ -100,7 +100,7 @@ class Menu extends React.Component {
 
                 let output = Babel.transform(getEditor(),{ presets }).code;
 
-                this.props.setCode(output);
+                setEditor(output);
             })
         }
 
@@ -119,7 +119,7 @@ class Menu extends React.Component {
 
                 let output = transformer.run(getEditor());
 
-                this.props.setCode(output);
+                setEditor(output);
 
             })
         }

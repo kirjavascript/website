@@ -6,7 +6,6 @@ import Editor from './Editor/index.jsx';
 import Menu from './Menu/index.jsx';
 
 import { saveAjax, loadAjax } from './util/ajax.js';
-import { getEditor, setEditor } from './Editor/index.jsx';
 
 function initialState() {
     let state;
@@ -81,11 +80,6 @@ class App extends React.Component {
             }
         }
 
-        this.setCode = (code) => {
-            setEditor(code);
-            //this.setState({code});
-        }
-
         this.handleCommands = (command, value) => {
             if (command == 'save') {
                 this.saveSnippet(value);
@@ -106,7 +100,6 @@ class App extends React.Component {
                 data={this.state.code} />
             
             <Menu 
-                setCode={this.setCode}
                 state={this.state} />
 
         </div>;

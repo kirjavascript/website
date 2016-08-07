@@ -39,6 +39,7 @@
     "bouncy": "^3.2.2",
     "connect": "^3.4.1",
     "express": "^4.14.0",
+    "serve-favicon": "^2.3.0",
     "sqlite3": "^3.1.4",
     "vhost": "^3.0.2"
   }
