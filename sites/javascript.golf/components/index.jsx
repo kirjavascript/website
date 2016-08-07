@@ -53,8 +53,7 @@ console.log(hash)
 
     }
 
-    componentDidMount() {
-
+    componentWillMount() {
         // check we aren't at root
         if (this.props.params.splat) {
 
@@ -63,6 +62,11 @@ console.log(hash)
             this.loadSnippet(currentHash);
 
         }
+    }
+
+    componentDidMount() {
+
+
 
     }
 
@@ -74,7 +78,7 @@ console.log(hash)
                 onSave={this.saveSnippet}
                 data={this.state.code} />
             <Menu />
-            
+
         </div>;
     }
 }

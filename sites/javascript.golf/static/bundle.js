@@ -128,9 +128,8 @@
 	    }
 
 	    _createClass(App, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
 	            // check we aren't at root
 	            if (this.props.params.splat) {
 
@@ -139,6 +138,9 @@
 	                this.loadSnippet(currentHash);
 	            }
 	        }
+	    }, {
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {}
 	    }, {
 	        key: 'render',
 	        value: function render() {
