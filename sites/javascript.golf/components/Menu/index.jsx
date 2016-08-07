@@ -1,8 +1,12 @@
+// 1) fix state
+// 2) move transpiler code
+
+
 import styles from './styles.scss';
 
 import themeData from '../Editor/themeData';
 
-import { uglify, crush, beautify, babel } from './transpilers';
+import { uglify, crush, beautify, babel, lebab } from './transpilers';
 import { getEditor, setEditor } from '../Editor/index.jsx';
 
 class Menu extends React.Component {
@@ -58,7 +62,7 @@ class Menu extends React.Component {
             })
         }
 
-        this.es6 = () => {
+        this.babel = () => {
             babel(() => {
                 let output = Babel.transform(getEditor(),
                     { presets: ['es2015'] }).code;
@@ -143,12 +147,28 @@ class Menu extends React.Component {
             </button>
 
             <div className={headerClass}>
-                BabelJS
+                Babel
+            </div>
+            <div><input type="checkbox"/> es2015</div>
+            <div><input type="checkbox"/> react</div>
+            <div><input type="checkbox"/> stage-0</div>
+            <div><input type="checkbox"/> stage-1</div>
+            <div><input type="checkbox"/> stage-2</div>
+            <div><input type="checkbox"/> stage-3</div>   
+            
+            <button 
+                className={aceSelectClass}
+                onClick={this.babel}>
+                Transform
+            </button>
+
+            <div className={headerClass}>
+                Lebab
             </div>
 
             <button 
                 className={aceSelectClass}
-                onClick={this.es6}>
+                onClick={this.es2015}>
                 es2015
             </button>
 
@@ -156,9 +176,12 @@ class Menu extends React.Component {
 
         {/*
 
+have babel/lebab in columns
 the rest of babel
-lebab
+https://github.com/mohebifar/lebab
 deobfuscate
+packer
+jsmin
 jscompressor
 regpack
 lint

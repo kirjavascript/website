@@ -52,6 +52,7 @@ function initialState() {
 
             theme: 'monokai',
             indent: 4,
+            babel: 'es2015'
 
         }, state);
     }
@@ -109,7 +110,8 @@ class App extends React.Component {
         }
 
         this.setCode = (code) => {
-            setEditor(code);
+            //setEditor(code);
+            this.setState({code});
         }
 
         this.setTheme = (e) => {

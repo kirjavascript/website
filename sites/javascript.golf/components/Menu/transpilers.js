@@ -47,3 +47,17 @@ export function babel(callback) {
         });
     }
 }
+
+let lebabLoaded = false;
+
+export function lebab(callback) {
+    if (lebabLoaded) {
+        callback();
+    }
+    else {
+        $script('/lebab.min.js', function(asd) {
+            callback();
+            lebabLoaded = true;
+        });
+    }
+}

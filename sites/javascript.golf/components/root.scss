@@ -25,6 +25,10 @@ select {
     padding: 3px;
 }
 
+input, select {
+    box-sizing: content-box;
+}
+
 h1 {
     margin: 10px 0px;
 }
