@@ -27,10 +27,8 @@ module.exports = function({app, config, express, database, site}) {
         
         if (/\/(.*?)-(.*?)-(.*?)-(.*)/.test(req.path)) {
 
-            let hash = req.path.slice(1)
-
             database.get('SELECT code FROM snippets WHERE route = ?',
-                [hash],
+                [req.path.slice(1)],
                 (err, data) => {
                     let code;
 
@@ -45,9 +43,8 @@ module.exports = function({app, config, express, database, site}) {
                         <body>
                             <script>
                                 __code = ${JSON.stringify(code)};
-                                __snippetHash = "${hash}"
                             </script>
-                    `);
+                        `);
 
                     res.send(injected);
                 })

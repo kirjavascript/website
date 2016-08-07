@@ -22,13 +22,15 @@ class Editor extends React.Component {
     componentDidMount () {
         editor = ace.edit(elemId);
 
+        let theme = this.props.theme || 'monokai';
+
         editor.$blockScrolling = Infinity;
         editor.getSession().setUseWorker(false);
-        editor.setTheme('ace/theme/monokai');
+        editor.setTheme('ace/theme/' + this.props.theme);
         editor.getSession().setMode('ace/mode/javascript');
         editor.setOptions({fontSize: '12pt', wrap: true});
 
-        if (this.props.onSave) {
+        if (this.props.onCommand) {
             editor.commands.addCommand({
                 name: 'save',
                 bindKey: {win: "Ctrl-S", "mac": "Cmd-S"},
@@ -36,9 +38,15 @@ class Editor extends React.Component {
                     let value = editor.session.getValue();
 
                     if (value != '') {
-                        this.props.onSave(value);
+                        this.props.onCommand('save', value);
                     }
-                    
+                }
+            })
+            editor.commands.addCommand({
+                name: 'new',
+                bindKey: {win: "Ctrl-N", "mac": "Cmd-N"},
+                exec: editor => {
+                    this.props.onCommand('new');
                 }
             })
         }
@@ -60,10 +68,17 @@ class Editor extends React.Component {
 
     componentWillReceiveProps (nextProps) {
 
-        if (!updateProps && nextProps.data != getValue()) {
-            programmaticEdit = true; 
-            setValue(nextProps.data || '');
-            programmaticEdit = false; 
+        if (!updateProps) {
+
+            if (nextProps.data != getValue()) {
+                programmaticEdit = true; 
+                setValue(nextProps.data || '');
+                programmaticEdit = false; 
+            }
+            if (nextProps.theme != this.props.theme) {
+                editor.setTheme('ace/theme/' + nextProps.theme);
+            }
+
         }
 
     }

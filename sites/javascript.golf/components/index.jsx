@@ -1,6 +1,6 @@
+import styles from './root.scss';
 import { Router, Route, Link, browserHistory } from 'react-router';
 import {render} from 'react-dom';
-import styles from './root.scss';
 
 import Editor from './Editor/index.jsx';
 import Menu from './Menu/index.jsx';
@@ -8,29 +8,52 @@ import Menu from './Menu/index.jsx';
 import { saveAjax, loadAjax } from './util/ajax.js';
 
 function initialState() {
-    let partialState;
+    let state;
 
     // grab code from the document if included
 
     if (typeof __code != 'undefined') {
 
-        partialState = {
+        state = {
             code: __code,
-            snippetHash: __snippetHash
+            snippetHash: location.pathname.slice(1)
         }
     }
     else {
-        partialState = {
+        state = {
             code: '',
             snippetHash: null
         }
     }
 
-    return Object.assign({
+    // check localstorage
 
-        colourscheme: 'monokai',
+    let storedState = localStorage.getItem('state');
 
-    }, partialState);
+    if (storedState) {
+        try {
+            storedState = JSON.parse(storedState);
+        }
+        catch(e) { 
+            localStorage.removeItem('state');
+            console.error('Error: localStorage is corrupted')
+        }
+        delete storedState.code;
+        delete storedState.snippetHash;
+
+        return Object.assign(storedState, state);
+    }
+    else {
+
+        // default state
+
+        return Object.assign({
+
+            theme: 'monokai',
+
+        }, state);
+    }
+    
 }
 
 class App extends React.Component {
@@ -83,17 +106,37 @@ class App extends React.Component {
             }
         }
 
+        this.setTheme = (e) => {
+            this.setState({theme: e.target.value});
+        }
+
+        this.handleCommands = (command, value) => {
+            if (command == 'save') {
+                this.saveSnippet(value);
+            }
+            else if (command == 'new') {
+                this.resetApp();
+            }
+        }
+
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        localStorage.setItem('state', JSON.stringify(nextState));    
     }
 
     render () {
         return <div>
 
             <Editor 
+                theme={this.state.theme}
                 onChange={this.onChange}
-                onSave={this.saveSnippet}
+                onCommand={this.handleCommands}
                 data={this.state.code} />
             
-            <Menu />
+            <Menu 
+                setTheme={this.setTheme}
+                theme={this.state.theme}/>
 
         </div>;
     }
