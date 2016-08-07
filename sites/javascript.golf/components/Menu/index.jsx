@@ -44,7 +44,7 @@ class Menu extends React.Component {
         }
 
         this.beautify = () => beautify(this.state);
-        this.uglify = () => uglify(this.state);
+        this.minify = () => minify(this.state);
         this.jscrush = () => jscrush(this.state);
         this.mangle = () => mangle(this.state);
         this.babelTransform = () => babelTransform(this.state);
