@@ -36,7 +36,7 @@ export function crush(code) {
 
 let babelLoaded = false;
 
-export function beautify(callback) {
+export function babel(callback) {
     if (babelLoaded) {
         callback();
     }

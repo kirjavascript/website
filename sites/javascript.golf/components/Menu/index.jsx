@@ -2,7 +2,7 @@ import styles from './styles.scss';
 
 import themeData from '../Editor/themeData';
 
-import { uglify, crush, beautify } from './transpilers';
+import { uglify, crush, beautify, babel } from './transpilers';
 import { getEditor, setEditor } from '../Editor/index.jsx';
 
 class Menu extends React.Component {
@@ -57,6 +57,15 @@ class Menu extends React.Component {
 
             })
         }
+
+        this.es6 = () => {
+            babel(() => {
+                let output = Babel.transform(getEditor(),
+                    { presets: ['es2015'] }).code;
+
+                this.props.setCode(output);
+            })
+        }
     }
 
     render () {
@@ -90,6 +99,24 @@ class Menu extends React.Component {
             </select>
 
             <div className={headerClass}>
+                js-beautify
+            </div>
+
+            <button 
+                className={aceSelectClass}
+                onClick={this.beautify}>
+                Beautify
+            </button>
+
+            <select 
+                className={aceSelectClass}
+                onChange={this.props.setIndent}
+                value={this.props.state.indent}>
+                <option value="4">4 Spaces</option>
+                <option value="2">2 Spaces</option>
+            </select>
+
+            <div className={headerClass}>
                 UglifyJS
             </div>
 
@@ -116,32 +143,20 @@ class Menu extends React.Component {
             </button>
 
             <div className={headerClass}>
-                js-beautify
+                BabelJS
             </div>
 
             <button 
                 className={aceSelectClass}
-                onClick={this.beautify}>
-                Beautify
+                onClick={this.es6}>
+                es2015
             </button>
-
-            <select 
-                className={aceSelectClass}
-                onChange={this.props.setIndent}
-                value={this.props.state.indent}>
-                <option value="4">4 Spaces</option>
-                <option value="2">2 Spaces</option>
-            </select>
-
-            <div className={headerClass}>
-                Babel
-            </div>
 
 
 
         {/*
 
-babel
+the rest of babel
 lebab
 deobfuscate
 jscompressor
