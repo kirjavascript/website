@@ -21,6 +21,6 @@ export function loadAjax(hash, callback) {
         .post('/api/load')
         .send({ hash })
         .end((err, res) => {
-            callback(err, res.body);
+            !err && callback(res.body);
         });
 }

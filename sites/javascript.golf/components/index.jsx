@@ -7,7 +7,6 @@ import Menu from './Menu/index.jsx';
 
 import { saveAjax, loadAjax } from './util/ajax.js';
 
-
 class App extends React.Component {
 
     constructor (props) {
@@ -28,11 +27,13 @@ class App extends React.Component {
             });
             browserHistory.push(`/${hash}`);
 
+            document.title = 'golfbin';
+
         }
 
         this.loadSnippet = (hash) => {
 
-            loadAjax(hash, (err, obj) => {
+            loadAjax(hash, (obj) => {
 
                 this.setState({
                     code: obj.code,
@@ -41,14 +42,23 @@ class App extends React.Component {
 
             })
 
-console.log(hash)
+        }
 
+        this.resetApp = () => {
+            this.setState({
+                code: '',
+                snippetHash: null
+            });
+            browserHistory.push(`/`);
         }
 
         this.onChange = (value) => {
-            //console.log(value != )
-
-            //console.log(this.state.snippetHash)
+            if (value != this.state.code) {
+                document.title = 'golfbin (unsaved)';
+            }
+            else {
+                document.title = 'golfbin';
+            }
         }
 
     }
@@ -64,12 +74,6 @@ console.log(hash)
         }
     }
 
-    componentDidMount() {
-
-
-
-    }
-
     render () {
         return <div>
 
@@ -77,6 +81,7 @@ console.log(hash)
                 onChange={this.onChange}
                 onSave={this.saveSnippet}
                 data={this.state.code} />
+            
             <Menu />
 
         </div>;
@@ -86,13 +91,7 @@ console.log(hash)
 render((
     <Router history={browserHistory}>
         <Route component={App} path="/">
-            <Route path="/*-*-*-*">
-                <Route path="edited"/>
-            </Route>
+            <Route path="/*-*-*-*"/>
         </Route>
     </Router>
 ), document.getElementById('app'));
-
-
-// add /edited to route
-// show paste route is *-*-*-* wildcard

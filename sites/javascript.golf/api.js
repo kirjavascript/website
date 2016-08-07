@@ -31,8 +31,12 @@ module.exports = function({ local, database }) {
 
         database.get(query, [hash], 
             (err,data) => {
-                if (err) res.json({err});
-                else res.json({code:data.code});
+                if (err) {
+                    res.json({err});
+                }
+                else if (data && data.code) {
+                    res.json({code:data.code});
+                }
             }
         )
     })

@@ -18,6 +18,7 @@ class Menu extends React.Component {
         minify<br />
         transpile<br />
         dupe + edit<br/>
+        undo edits
         wrap on/off
         lint / validate
         settings        colourscheme (localstorage)<br/>

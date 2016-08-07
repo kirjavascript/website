@@ -103,25 +103,35 @@
 	                snippetHash: hash
 	            });
 	            _reactRouter.browserHistory.push('/' + hash);
+
+	            document.title = 'golfbin';
 	        };
 
 	        _this.loadSnippet = function (hash) {
 
-	            (0, _ajax.loadAjax)(hash, function (err, obj) {
+	            (0, _ajax.loadAjax)(hash, function (obj) {
 
 	                _this.setState({
 	                    code: obj.code,
 	                    snippetHash: hash
 	                });
 	            });
+	        };
 
-	            console.log(hash);
+	        _this.resetApp = function () {
+	            _this.setState({
+	                code: '',
+	                snippetHash: null
+	            });
+	            _reactRouter.browserHistory.push('/');
 	        };
 
 	        _this.onChange = function (value) {
-	            //console.log(value != )
-
-	            //console.log(this.state.snippetHash)
+	            if (value != _this.state.code) {
+	                document.title = 'golfbin (unsaved)';
+	            } else {
+	                document.title = 'golfbin';
+	            }
 	        };
 
 	        return _this;
@@ -138,9 +148,6 @@
 	                this.loadSnippet(currentHash);
 	            }
 	        }
-	    }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {}
 	    }, {
 	        key: 'render',
 	        value: function render() {
@@ -165,16 +172,9 @@
 	    React.createElement(
 	        _reactRouter.Route,
 	        { component: App, path: '/' },
-	        React.createElement(
-	            _reactRouter.Route,
-	            { path: '/*-*-*-*' },
-	            React.createElement(_reactRouter.Route, { path: 'edited' })
-	        )
+	        React.createElement(_reactRouter.Route, { path: '/*-*-*-*' })
 	    )
 	), document.getElementById('app'));
-
-	// add /edited to route
-	// show paste route is *-*-*-* wildcard
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ },
@@ -27677,7 +27677,7 @@
 	                React.createElement('br', null),
 	                'dupe + edit',
 	                React.createElement('br', null),
-	                'wrap on/off lint / validate settings        colourscheme (localstorage)',
+	                'undo edits wrap on/off lint / validate settings        colourscheme (localstorage)',
 	                React.createElement('br', null)
 	            );
 	        }
@@ -27765,7 +27765,7 @@
 	function loadAjax(hash, callback) {
 
 	    _superagent2.default.post('/api/load').send({ hash: hash }).end(function (err, res) {
-	        callback(err, res.body);
+	        !err && callback(res.body);
 	    });
 	}
 
