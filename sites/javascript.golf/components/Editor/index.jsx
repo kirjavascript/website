@@ -1,3 +1,5 @@
+import initialConfig from '../util/initialConfig';
+
 let editor;
 let programmaticEdit = false;
 let updateProps = false;
@@ -11,9 +13,21 @@ function setValue(str) {
     editor.setValue(str,-1);
 }
 
+function updateEditor(obj) {
+    Object.keys(obj).forEach(prop => {
+        if (prop == 'theme') {
+            editor.setTheme(`ace/theme/${obj[prop]}`);
+        }
+        else if (prop == 'wrap') {
+            editor.getSession().setUseWrapMode(obj[prop]);
+        }
+    })
+}
+
 export {
     getValue as getEditor,
-    setValue as setEditor
+    setValue as setEditor,
+    updateEditor
 };
 
 class Editor extends React.Component {
@@ -21,13 +35,16 @@ class Editor extends React.Component {
     componentDidMount () {
         editor = ace.edit(elemId);
 
-        let theme = this.props.theme || 'monokai';
+        let config = initialConfig();
 
         editor.$blockScrolling = Infinity;
         editor.getSession().setUseWorker(false);
-        editor.setTheme('ace/theme/' + theme);
+        editor.setTheme(`ace/theme/${config.theme}`);
         editor.getSession().setMode('ace/mode/javascript');
-        editor.setOptions({fontSize: '12pt', wrap: true});
+        editor.setOptions({
+            fontSize: '12pt',
+            wrap: config.wrap
+        });
 
         if (this.props.onCommand) {
             editor.commands.addCommand({
@@ -73,9 +90,6 @@ class Editor extends React.Component {
                 programmaticEdit = true; 
                 setValue(nextProps.data || '');
                 programmaticEdit = false; 
-            }
-            if (nextProps.theme != this.props.theme) {
-                editor.setTheme('ace/theme/' + nextProps.theme);
             }
 
         }

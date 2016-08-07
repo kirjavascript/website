@@ -23,7 +23,7 @@ export function beautify(callback) {
         callback();
     }
     else {
-        $script('/beautify.js', function(asd) {
+        $script('/beautify.js', function() {
             callback();
             beautifyLoaded = true;
         });
@@ -41,7 +41,7 @@ export function babel(callback) {
         callback();
     }
     else {
-        $script('/babel.min.js', function(asd) {
+        $script('/babel.min.js', function() {
             callback();
             babelLoaded = true;
         });
@@ -55,7 +55,7 @@ export function lebab(callback) {
         callback();
     }
     else {
-        $script('/lebab.min.js', function(asd) {
+        $script('/lebab.min.js', function() {
             callback();
             lebabLoaded = true;
         });

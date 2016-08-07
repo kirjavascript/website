@@ -1,22 +1,44 @@
-// 1) fix state
-// 2) move transpiler code
-
-
 import styles from './styles.scss';
 
 import themeData from '../Editor/themeData';
 
 import { uglify, crush, beautify, babel, lebab } from './transpilers';
-import { getEditor, setEditor } from '../Editor/index.jsx';
+import { getEditor, setEditor, updateEditor } from '../Editor/index.jsx';
+import initialConfig from '../util/initialConfig';
+
+// support error handling
+// async loading msg?
+// validate first?
 
 class Menu extends React.Component {
 
     constructor (props) {
         super(props);
 
-        // support error handling
-        // async loading msg?
-        // validate first?
+        // state
+
+        this.state = initialConfig();
+
+        this.setTheme = (e) => {
+            let obj = {theme: e.target.value};
+            this.setState(obj);
+            updateEditor(obj);
+        };
+        this.setIndent = (e) => {
+            this.setState({indent: e.target.value});
+        };
+        this.setWrap = (e) => {
+            let obj = {wrap: e.target.value == "true"};
+            this.setState(obj);
+            updateEditor(obj);
+        }
+        this.setBabel = (e) => {
+            let babel = this.state.babel;
+            babel[+e.target.value].enabled = e.target.checked;
+            this.setState({babel});
+        }
+
+        // transpilation
 
         this.minify = () => {
 
@@ -48,32 +70,73 @@ class Menu extends React.Component {
 
         }
 
-        this.crush = () => {
+        this.jscrush = () => {
             this.props.setCode(crush(getEditor()));
         }
 
         this.beautify = () => {
             beautify(() => {
 
-                let indent_size = this.props.state.indent;
+                let indent_size = this.state.indent;
 
                 this.props.setCode(js_beautify(getEditor(), {indent_size}));
 
             })
         }
 
-        this.babel = () => {
+        this.babelTransform = () => {
             babel(() => {
-                let output = Babel.transform(getEditor(),
-                    { presets: ['es2015'] }).code;
+
+                let presets = this.state.babel
+                    .filter(obj => obj.enabled)
+                    .map(obj => obj.preset);
+
+                let output = Babel.transform(getEditor(),{ presets }).code;
 
                 this.props.setCode(output);
             })
         }
+
+        this.lebabTransform = () => {
+            lebab(() => {
+// arrow
+// let
+// arg-spread
+// obj-method
+// obj-shorthand
+// no-strict
+// commonjs
+
+// class
+// template
+// default-param
+// exponent
+//                 var transformer = new Lebab.Transformer({
+//                     'arrow': true,
+//                     'let': true,
+//                     'class': true,
+//                     'template': true,
+//                     'default-param': true,
+//                     'obj-method': true,
+//                     'obj-shorthand': true,
+//                     'no-strict': true,
+//                     'commonjs': true
+//                 });
+
+//                 let output = transformer.run(getEditor());
+
+//                 this.props.setCode(output);
+
+            })
+        }
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        localStorage.setItem('config', JSON.stringify(nextState));
     }
 
     render () {
-        let aceClass = `ace-${this.props.state.theme.replace(/_/g,'-')}`;
+        let aceClass = `ace-${this.state.theme.replace(/_/g,'-')}`;
         let aceSelectClass = `${aceClass} ace_selection`;
         let rootClass = [styles.menu,aceClass].join(' ');
         let headerClass = `${aceClass} ace_keyword ${styles.header}`;
@@ -88,18 +151,26 @@ class Menu extends React.Component {
             <div>Save: Ctrl + S</div>
 
             <div className={headerClass}>
-                Settings
+                Editor Settings
             </div>
 
             <select 
                 className={aceSelectClass}
-                value={this.props.state.theme}
-                onChange={this.props.setTheme}>
+                value={this.state.theme}
+                onChange={this.setTheme}>
                 {themeData.map((datum,i) => (
                     <option key={i} value={datum.value}>
                         {datum.name}
                     </option>
                 ))}
+            </select>
+
+            <select 
+                className={aceSelectClass}
+                onChange={this.setWrap}
+                value={this.state.wrap}>
+                <option value="true">Word Wrap On</option>
+                <option value="false">Word Wrap Off</option>
             </select>
 
             <div className={headerClass}>
@@ -114,8 +185,8 @@ class Menu extends React.Component {
 
             <select 
                 className={aceSelectClass}
-                onChange={this.props.setIndent}
-                value={this.props.state.indent}>
+                onChange={this.setIndent}
+                value={this.state.indent}>
                 <option value="4">4 Spaces</option>
                 <option value="2">2 Spaces</option>
             </select>
@@ -142,23 +213,29 @@ class Menu extends React.Component {
 
             <button 
                 className={aceSelectClass}
-                onClick={this.crush}>
+                onClick={this.jscrush}>
                 Crush
             </button>
 
             <div className={headerClass}>
                 Babel
             </div>
-            <div><input type="checkbox"/> es2015</div>
-            <div><input type="checkbox"/> react</div>
-            <div><input type="checkbox"/> stage-0</div>
-            <div><input type="checkbox"/> stage-1</div>
-            <div><input type="checkbox"/> stage-2</div>
-            <div><input type="checkbox"/> stage-3</div>   
+            
+            <div className={styles.boxList}>
+                {this.state.babel.map((obj,i) => (
+                    <div key={i}>
+                        <input 
+                            type="checkbox"
+                            value={i}
+                            onChange={this.setBabel}
+                            checked={obj.enabled}/> {obj.preset}
+                    </div>
+                ))}
+            </div>
             
             <button 
                 className={aceSelectClass}
-                onClick={this.babel}>
+                onClick={this.babelTransform}>
                 Transform
             </button>
 
@@ -168,8 +245,8 @@ class Menu extends React.Component {
 
             <button 
                 className={aceSelectClass}
-                onClick={this.es2015}>
-                es2015
+                onClick={this.lebabTransform}>
+                Transform
             </button>
 
 
@@ -177,19 +254,19 @@ class Menu extends React.Component {
         {/*
 
 have babel/lebab in columns
-the rest of babel
 https://github.com/mohebifar/lebab
+crushers: regpack, jscrush
+
 deobfuscate
 packer
 jsmin
 jscompressor
-regpack
+
 lint
 fix semicolons, etc
 validate
 
 save indent in state
-Word Wrap
 public/private
 browse pastes
 .golf logo at bottom.

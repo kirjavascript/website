@@ -27,35 +27,7 @@ function initialState() {
         }
     }
 
-    // check localstorage
-
-    let storedState = localStorage.getItem('state');
-
-    if (storedState) {
-        try {
-            storedState = JSON.parse(storedState);
-        }
-        catch(e) { 
-            localStorage.removeItem('state');
-            console.error('Error: localStorage is corrupted')
-        }
-        delete storedState.code;
-        delete storedState.snippetHash;
-
-        return Object.assign(storedState, state);
-    }
-    else {
-
-        // default state
-
-        return Object.assign({
-
-            theme: 'monokai',
-            indent: 4,
-            babel: 'es2015'
-
-        }, state);
-    }
+    return state;
     
 }
 
@@ -114,14 +86,6 @@ class App extends React.Component {
             this.setState({code});
         }
 
-        this.setTheme = (e) => {
-            this.setState({theme: e.target.value});
-        }
-
-        this.setIndent = (e) => {
-            this.setState({indent: e.target.value});
-        }
-
         this.handleCommands = (command, value) => {
             if (command == 'save') {
                 this.saveSnippet(value);
@@ -133,24 +97,17 @@ class App extends React.Component {
 
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        localStorage.setItem('state', JSON.stringify(nextState));
-    }
-
     render () {
         return <div>
 
             <Editor 
-                theme={this.state.theme}
                 onChange={this.onChange}
                 onCommand={this.handleCommands}
                 data={this.state.code} />
             
             <Menu 
                 setCode={this.setCode}
-                setTheme={this.setTheme}
-                setIndent={this.setIndent}
-                state={this.state}/>
+                state={this.state} />
 
         </div>;
     }
