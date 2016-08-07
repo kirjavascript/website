@@ -43,12 +43,12 @@ class Menu extends React.Component {
             this.setState({lebab});
         }
 
-        this.beautify = () => beautify(state);
-        this.uglify = () => uglify(state);
-        this.jscrush = () => jscrush(state);
-        this.mangle = () => mangle(state);
-        this.babelTransform = () => babelTransform(state);
-        this.lebabTransform = () => lebabTransform(state);
+        this.beautify = () => beautify(this.state);
+        this.uglify = () => uglify(this.state);
+        this.jscrush = () => jscrush(this.state);
+        this.mangle = () => mangle(this.state);
+        this.babelTransform = () => babelTransform(this.state);
+        this.lebabTransform = () => lebabTransform(this.state);
     }
 
     componentWillUpdate(nextProps, nextState) {
