@@ -5,20 +5,14 @@ class Menu extends React.Component {
     constructor (props) {
         super(props);
 
-        this.nextSprite = () => {
-            if (this.props.currentTile < this.props.mappings.length-1) {
-                let state = this.context.getRootState();
-                state.currentTile++;
-                this.context.setRootState(state);
-            }
-        }
-
     }
 
     render () {
         return <div className={styles.menu}>
         <h1>transpiling pastebin</h1>
         browse pastes<br />
+        new<br />
+        public/private<br />
         save<br />
         format<br />
         minify<br />

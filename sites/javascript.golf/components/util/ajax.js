@@ -6,9 +6,21 @@ export function saveAjax(value) {
     let hash = getHash(value);
 
     request
-        .post('/api/saveNew')
+        .post('/api/save')
         .send({ hash, value })
-        .end(function(err, res){
-            console.log(res.body);
+        .end((err, res) => {
+            //console.log(res.body);
+        });
+
+    return hash;
+}
+
+export function loadAjax(hash, callback) {
+
+    request
+        .post('/api/load')
+        .send({ hash })
+        .end((err, res) => {
+            callback(err, res.body);
         });
 }

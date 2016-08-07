@@ -4,19 +4,35 @@ module.exports = function({ local, database }) {
 
     local.use(bodyParser.json());
 
-    local.use('/api/saveNew', (req, res) => {
+    local.use('/api/save', (req, res) => {
 
         let {hash, value} = req.body;
 
         let query = `
-            INSERT INTO pastes(route,code,public)
+            INSERT OR REPLACE INTO snippets(route,code,public)
             VALUES (?,?,?)
         `;
 
         database.run(query, [hash, value, true], 
             (err,data) => {
-                if (err) res.json({err})
-                else res.json({data})
+                if (err) res.json({err});
+                else res.json({});
+            }
+        )
+    })
+
+    local.use('/api/load', (req, res) => {
+
+        let {hash} = req.body;
+
+        let query = `
+            SELECT code FROM snippets WHERE route = ?
+        `;
+
+        database.get(query, [hash], 
+            (err,data) => {
+                if (err) res.json({err});
+                else res.json({code:data.code});
             }
         )
     })

@@ -53,6 +53,8 @@
 
 	/* WEBPACK VAR INJECTION */(function(React) {'use strict';
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _reactRouter = __webpack_require__(36);
 
 	var _reactDom = __webpack_require__(99);
@@ -73,27 +75,100 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// saveNew and route change are different functions
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function saveNew(value) {
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	    (0, _ajax.saveAjax)(value);
-	}
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var App = function App(props) {
+	var App = function (_React$Component) {
+	    _inherits(App, _React$Component);
 
-	    return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(_index2.default, { onSave: saveNew }),
-	        React.createElement(_index4.default, null)
-	    );
-	};
+	    function App(props) {
+	        _classCallCheck(this, App);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
+
+	        _this.state = {
+	            code: '',
+	            colourscheme: 'monokai',
+	            snippetHash: null
+	        };
+
+	        _this.saveSnippet = function (value) {
+	            var hash = (0, _ajax.saveAjax)(value);
+
+	            _this.setState({
+	                code: value,
+	                snippetHash: hash
+	            });
+	            _reactRouter.browserHistory.push('/' + hash);
+	        };
+
+	        _this.loadSnippet = function (hash) {
+
+	            (0, _ajax.loadAjax)(hash, function (err, obj) {
+
+	                _this.setState({
+	                    code: obj.code,
+	                    snippetHash: hash
+	                });
+	            });
+
+	            console.log(hash);
+	        };
+
+	        _this.onChange = function (value) {
+	            //console.log(value != )
+
+	            //console.log(this.state.snippetHash)
+	        };
+
+	        return _this;
+	    }
+
+	    _createClass(App, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+
+	            // check we aren't at root
+	            if (this.props.params.splat) {
+
+	                var currentHash = this.props.params.splat.join('-');
+
+	                this.loadSnippet(currentHash);
+	            }
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return React.createElement(
+	                'div',
+	                null,
+	                React.createElement(_index2.default, {
+	                    onChange: this.onChange,
+	                    onSave: this.saveSnippet,
+	                    data: this.state.code }),
+	                React.createElement(_index4.default, null)
+	            );
+	        }
+	    }]);
+
+	    return App;
+	}(React.Component);
 
 	(0, _reactDom.render)(React.createElement(
 	    _reactRouter.Router,
 	    { history: _reactRouter.browserHistory },
-	    React.createElement(_reactRouter.Route, { component: App, path: '/' })
+	    React.createElement(
+	        _reactRouter.Route,
+	        { component: App, path: '/' },
+	        React.createElement(
+	            _reactRouter.Route,
+	            { path: '/*-*-*-*' },
+	            React.createElement(_reactRouter.Route, { path: 'edited' })
+	        )
+	    )
 	), document.getElementById('app'));
 
 	// add /edited to route
@@ -27519,11 +27594,11 @@
 	        }
 	    }, {
 	        key: 'componentWillReceiveProps',
-	        value: function componentWillReceiveProps(props) {
+	        value: function componentWillReceiveProps(nextProps) {
 
-	            if (!updateProps) {
+	            if (!updateProps && nextProps.data != getValue()) {
 	                programmaticEdit = true;
-	                setValue(props.data);
+	                setValue(nextProps.data || '');
 	                programmaticEdit = false;
 	            }
 	        }
@@ -27570,17 +27645,7 @@
 	    function Menu(props) {
 	        _classCallCheck(this, Menu);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Menu).call(this, props));
-
-	        _this.nextSprite = function () {
-	            if (_this.props.currentTile < _this.props.mappings.length - 1) {
-	                var state = _this.context.getRootState();
-	                state.currentTile++;
-	                _this.context.setRootState(state);
-	            }
-	        };
-
-	        return _this;
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Menu).call(this, props));
 	    }
 
 	    _createClass(Menu, [{
@@ -27595,6 +27660,10 @@
 	                    'transpiling pastebin'
 	                ),
 	                'browse pastes',
+	                React.createElement('br', null),
+	                'new',
+	                React.createElement('br', null),
+	                'public/private',
 	                React.createElement('br', null),
 	                'save',
 	                React.createElement('br', null),
@@ -27670,6 +27739,7 @@
 	    value: true
 	});
 	exports.saveAjax = saveAjax;
+	exports.loadAjax = loadAjax;
 
 	var _hash = __webpack_require__(248);
 
@@ -27683,8 +27753,17 @@
 
 	    var hash = (0, _hash.getHash)(value);
 
-	    _superagent2.default.post('/api/saveNew').send({ hash: hash, value: value }).end(function (err, res) {
-	        console.log(res.body);
+	    _superagent2.default.post('/api/save').send({ hash: hash, value: value }).end(function (err, res) {
+	        //console.log(res.body);
+	    });
+
+	    return hash;
+	}
+
+	function loadAjax(hash, callback) {
+
+	    _superagent2.default.post('/api/load').send({ hash: hash }).end(function (err, res) {
+	        callback(err, res.body);
 	    });
 	}
 
@@ -27709,7 +27788,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var words = ['aggregator', 'agile', 'ajax', 'algorithm', 'benchmark', 'backend', 'beta', 'bigdata', 'bleedingedge', 'blogosphere', 'clickbait', 'cloud', 'fabricjs', 'cloudscale', 'scope', 'analytics', 'cms', 'unicode', 'crossplatform', 'synergy', 'leftpad', 'datafication', 'datamining', 'emoji', 'datavis', 'deepdive', 'deepweb', 'designpattern', 'devops', 'digitaldivide', 'xml', 'drm', 'digitalsignage', 'disruptivetech', 'jsx', 'dotbomb', 'npm', 'elearning', 'end2end', 'engine', 'refactor', 'enterprise', 'servicebus', 'evolution', 'framework', 'css', 'fuzzylogic', 'trend', 'html', 'immersion', 'router', 'internetofthings', 'innovation', 'mashup', 'microservices', 'mobile', 'module', 'service', 'nanotech', 'netiquette', 'nfv', 'nextgen', 'objectoriented', 'functional', 'omnichannel', 'bitcoin', 'parser', 'paas', 'podcasting', 'portal', 'realtime', 'responsive', 'dotio', 'saas', 'scalability', 'skeuomorphic', 'social', 'transpile', 'minify', 'spam', 'struts', 'syncup', 'lifecycle', 'tagging', 'seo', 'thoughtleader', 'sprint', 'ui', 'ux', 'github', 'viral', 'virtualize', 'vlogging', 'vortal', 'malware', 'webinar', 'weblog', 'webservices', 'wikiality', 'workflow', 'webscale', 'es6', 'babel', 'gulp', 'recursion', 'emscripten', 'webassembly', 'eslint', 'webpack', 'dojotoolkit', 'jquery', 'midori', 'polyfill', 'hax', 'react', 'yui', 'anychart', 'd3', 'highcharts', 'easeljs', 'component', 'p5', 'pixi', 'plotly', 'processing', 'raphaël', 'swf', 'webgl', 'velocity', 'whitestormjs', 'extjs', 'angularjs', 'bootstrap', 'dhtml', 'dojowidgets', 'foundation', 'polymer', 'jqueryui', 'jqwidgets', 'igniteui', 'kendoui', 'api', 'wijmo5', 'openui5', 'qooxdoo', 'smartclient', 'webix', 'winjs', 'vue', 'amplesdk', 'glow', 'livelykernel', 'script', 'typescript', 'googleclosure', 'joose', 'jsphp', 'mochikit', 'pdf', 'rico', 'websockets', 'redux', 'lodash', 'underscore', 'cascade', 'handlebars', 'async', 'mustache', 'jasmine', 'mocha', 'qunit', 'unit', 'databind', 'backbone', 'cappuccino', 'chaplin', 'echo', 'ember', 'enyo', 'webkit', 'mvc', 'knockout', 'meteor', 'mojito', 'mootools', 'nodejs', 'prototype', 'cycle', 'sproutcore', 'wakanda', 'abstract', 'arguments', 'boolean', 'break', 'byte', 'case', 'catch', 'char', 'class', 'const', 'continue', 'debugger', 'default', 'delete', 'promise', 'double', 'else', 'enum', 'eval', 'export', 'extends', 'false', 'final', 'finally', 'float', 'for', 'function', 'goto', 'if', 'implements', 'import', 'in', 'instanceof', 'int', 'interface', 'let', 'long', 'native', 'new', 'null', 'package', 'private', 'protected', 'public', 'return', 'short', 'static', 'super', 'switch', 'concurrent', 'this', 'throw', 'throws', 'transient', 'true', 'try', 'typeof', 'var', 'void', 'volatile', 'while', 'with', 'yield', 'mozilla', 'google', 'ajax'];
+	var words = ['aggregator', 'agile', 'churn', 'fatigue', 'buzzword', 'benchmark', 'backend', 'beta', 'bigdata', 'bleedingedge', 'blogosphere', 'clickbait', 'cloud', 'canvas', 'cloudscale', 'scope', 'analytics', 'cms', 'unicode', 'crossplatform', 'synergy', 'leftpad', 'datafication', 'datamining', 'emoji', 'datavis', 'deepdive', 'deepweb', 'designpattern', 'devops', 'digitaldivide', 'xml', 'drm', 'digitalsignage', 'disruptivetech', 'jsx', 'dotbomb', 'npm', 'elearning', 'bigdata', 'engine', 'refactor', 'enterprise', 'servicebus', 'evolution', 'framework', 'css', 'fuzzylogic', 'trend', 'html', 'immersion', 'router', 'internetofthings', 'innovation', 'mashup', 'microservices', 'mobile', 'module', 'service', 'nanotech', 'netiquette', 'nextgen', 'objectoriented', 'functional', 'omnichannel', 'bitcoin', 'parser', 'paas', 'podcasting', 'portal', 'realtime', 'responsive', 'dotio', 'saas', 'scalability', 'skeuomorphic', 'social', 'transpile', 'minify', 'spam', 'struts', 'syncup', 'lifecycle', 'tagging', 'seo', 'thoughtleader', 'sprint', 'ui', 'ux', 'github', 'viral', 'virtualize', 'vlogging', 'vortal', 'malware', 'webinar', 'weblog', 'webservices', 'wikiality', 'workflow', 'webscale', 'es6', 'babel', 'gulp', 'recursion', 'emscripten', 'webassembly', 'eslint', 'webpack', 'dojotoolkit', 'jquery', 'midori', 'polyfill', 'hax', 'react', 'yui', 'anychart', 'd3', 'highcharts', 'easeljs', 'component', 'p5', 'pixi', 'plotly', 'processing', 'raphael', 'bluebird', 'webgl', 'velocity', 'whitestormjs', 'extjs', 'angularjs', 'bootstrap', 'dhtml', 'dojowidgets', 'foundation', 'polymer', 'jqueryui', 'jqwidgets', 'igniteui', 'kendoui', 'api', 'wijmo5', 'openui5', 'qooxdoo', 'smartclient', 'browserify', 'coffeescript', 'vue', 'amplesdk', 'glow', 'livelykernel', 'script', 'typescript', 'googleclosure', 'joose', 'jsphp', 'mochikit', 'pdf', 'rico', 'websockets', 'redux', 'lodash', 'underscore', 'cascade', 'handlebars', 'async', 'mustache', 'jasmine', 'mocha', 'qunit', 'unit', 'databind', 'backbone', 'cappuccino', 'chaplin', 'echo', 'ember', 'enyo', 'webkit', 'mvc', 'knockout', 'meteor', 'mojito', 'mootools', 'nodejs', 'prototype', 'cycle', 'sproutcore', 'strategic', 'abstract', 'arguments', 'boolean', 'break', 'byte', 'case', 'catch', 'char', 'class', 'const', 'continue', 'debugger', 'default', 'delete', 'promise', 'double', 'else', 'enum', 'eval', 'export', 'extends', 'false', 'final', 'finally', 'float', 'for', 'function', 'goto', 'if', 'implements', 'import', 'in', 'instanceof', 'int', 'interface', 'let', 'long', 'native', 'new', 'null', 'package', 'private', 'protected', 'public', 'return', 'short', 'static', 'super', 'switch', 'concurrent', 'this', 'throw', 'throws', 'transient', 'true', 'try', 'typeof', 'var', 'void', 'volatile', 'while', 'with', 'yield', 'mozilla', 'google', 'ajax'];
 
 	function getHash(value) {
 

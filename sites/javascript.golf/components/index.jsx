@@ -5,31 +5,86 @@ import styles from './root.scss';
 import Editor from './Editor/index.jsx';
 import Menu from './Menu/index.jsx';
 
-import { saveAjax } from './util/ajax.js';
+import { saveAjax, loadAjax } from './util/ajax.js';
 
-// saveNew and route change are different functions
 
-function saveNew(value) {
+class App extends React.Component {
 
-    saveAjax(value);
-    
+    constructor (props) {
+        super(props);
 
-}
+        this.state = {
+            code: '',
+            colourscheme: 'monokai',
+            snippetHash: null
+        }
 
-let App = props => {
+        this.saveSnippet = (value) => {
+            let hash = saveAjax(value);
 
-    return <div>
-        <Editor onSave={saveNew} />
-        <Menu />
-    </div>;
+            this.setState({
+                code: value,
+                snippetHash: hash
+            });
+            browserHistory.push(`/${hash}`);
 
+        }
+
+        this.loadSnippet = (hash) => {
+
+            loadAjax(hash, (err, obj) => {
+
+                this.setState({
+                    code: obj.code,
+                    snippetHash: hash
+                });
+
+            })
+
+console.log(hash)
+
+        }
+
+        this.onChange = (value) => {
+            //console.log(value != )
+
+            //console.log(this.state.snippetHash)
+        }
+
+    }
+
+    componentDidMount() {
+
+        // check we aren't at root
+        if (this.props.params.splat) {
+
+            let currentHash = this.props.params.splat.join('-');
+
+            this.loadSnippet(currentHash);
+
+        }
+
+    }
+
+    render () {
+        return <div>
+
+            <Editor 
+                onChange={this.onChange}
+                onSave={this.saveSnippet}
+                data={this.state.code} />
+            <Menu />
+            
+        </div>;
+    }
 }
 
 render((
     <Router history={browserHistory}>
         <Route component={App} path="/">
-
-
+            <Route path="/*-*-*-*">
+                <Route path="edited"/>
+            </Route>
         </Route>
     </Router>
 ), document.getElementById('app'));

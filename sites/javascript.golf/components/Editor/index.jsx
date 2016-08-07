@@ -58,11 +58,11 @@ class Editor extends React.Component {
         });
     }
 
-    componentWillReceiveProps (props) {
+    componentWillReceiveProps (nextProps) {
 
-        if (!updateProps) {
+        if (!updateProps && nextProps.data != getValue()) {
             programmaticEdit = true; 
-            setValue(props.data);
+            setValue(nextProps.data || '');
             programmaticEdit = false; 
         }
 
