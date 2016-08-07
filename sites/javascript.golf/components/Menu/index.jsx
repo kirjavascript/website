@@ -22,6 +22,7 @@ class Menu extends React.Component {
         wrap on/off
         lint / validate
         settings        colourscheme (localstorage)<br/>
+        url
         </div>;
     }
 }

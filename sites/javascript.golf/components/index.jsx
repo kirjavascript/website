@@ -13,9 +13,9 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            code: '',
+            code: __code || '',
+            snippetHash: __snippetHash || null,
             colourscheme: 'monokai',
-            snippetHash: null
         }
 
         this.saveSnippet = (value) => {
@@ -61,17 +61,6 @@ class App extends React.Component {
             }
         }
 
-    }
-
-    componentWillMount() {
-        // check we aren't at root
-        if (this.props.params.splat) {
-
-            let currentHash = this.props.params.splat.join('-');
-
-            this.loadSnippet(currentHash);
-
-        }
     }
 
     render () {

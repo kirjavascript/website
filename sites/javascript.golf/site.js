@@ -22,9 +22,45 @@ module.exports = function({app, config, express, database, site}) {
 
     // wildcard
     local.use(function (req, res, next) {
-        res.send(baseHTML);
+
+        // inject requested code into the document
+        
+        if (/\/(.*?)-(.*?)-(.*?)-(.*)/.test(req.path)) {
+
+            let hash = req.path.slice(1)
+
+            database.get('SELECT code FROM snippets WHERE route = ?',
+                [hash],
+                (err, data) => {
+                    let code;
+
+                    if (data && data.code) {
+                        code = data.code;
+                    }
+                    else {
+                        code = 'Error loading data';
+                    }
+
+                    let injected = baseHTML.replace('<body>',`
+                        <body>
+                            <script>
+                                __code = ${JSON.stringify(code)};
+                                __snippetHash = "${hash}"
+                            </script>
+                    `);
+
+                    res.send(injected);
+                })
+        }
+        else {
+            res.send(baseHTML);
+        }
     })
 
     app.use(vhost(hostname, local));
     
 }
+
+// set the code state and snippet has
+
+// for the menu ui, use the same colours as ace editor
