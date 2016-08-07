@@ -2,13 +2,15 @@ import styles from './styles.scss';
 
 import themeData from '../Editor/themeData';
 
-import { uglify, crush, beautify, babel, lebab } from './transpilers';
+import { uglify, crush, regpack, beautify, babel, lebab } from './transpilers';
 import { getEditor, setEditor, updateEditor } from '../Editor/index.jsx';
 import initialConfig from '../util/initialConfig';
 
 // support error handling
 // async loading msg?
 // validate first?
+// character/filesize count
+// files too large
 
 class Menu extends React.Component {
 
@@ -113,8 +115,6 @@ class Menu extends React.Component {
                     }
                 })
 
-                console.log(options)
-
                 var transformer = new Lebab.Transformer(options);
 
                 let output = transformer.run(getEditor());
@@ -150,6 +150,7 @@ class Menu extends React.Component {
 
             <select 
                 className={aceSelectClass}
+                style={{width:'100%'}}
                 value={this.state.theme}
                 onChange={this.setTheme}>
                 {themeData.map((datum,i) => (
@@ -161,6 +162,7 @@ class Menu extends React.Component {
 
             <select 
                 className={aceSelectClass}
+                style={{width:'100%'}}
                 onChange={this.setWrap}
                 value={this.state.wrap}>
                 <option value="true">Word Wrap On</option>
@@ -202,13 +204,13 @@ class Menu extends React.Component {
             </button>
 
             <div className={headerClass}>
-                JSCrush
+                Crushers
             </div>
 
             <button 
                 className={aceSelectClass}
                 onClick={this.jscrush}>
-                Crush
+                JSCrush
             </button>
 
             <div className={headerClass}>
@@ -259,8 +261,6 @@ class Menu extends React.Component {
 
         {/*
 
-have babel/lebab in columns
-https://github.com/mohebifar/lebab
 crushers: regpack, jscrush
 
 deobfuscate
