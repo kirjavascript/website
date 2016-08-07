@@ -51,6 +51,7 @@ function initialState() {
         return Object.assign({
 
             theme: 'monokai',
+            indent: 4,
 
         }, state);
     }
@@ -115,6 +116,10 @@ class App extends React.Component {
             this.setState({theme: e.target.value});
         }
 
+        this.setIndent = (e) => {
+            this.setState({indent: e.target.value});
+        }
+
         this.handleCommands = (command, value) => {
             if (command == 'save') {
                 this.saveSnippet(value);
@@ -127,7 +132,7 @@ class App extends React.Component {
     }
 
     componentWillUpdate(nextProps, nextState) {
-        localStorage.setItem('state', JSON.stringify(nextState));    
+        localStorage.setItem('state', JSON.stringify(nextState));
     }
 
     render () {
@@ -141,9 +146,9 @@ class App extends React.Component {
             
             <Menu 
                 setCode={this.setCode}
-                code={this.state.code}
                 setTheme={this.setTheme}
-                theme={this.state.theme}/>
+                setIndent={this.setIndent}
+                state={this.state}/>
 
         </div>;
     }

@@ -34,3 +34,16 @@ export function crush(code) {
     return jscrush(code);
 }
 
+let babelLoaded = false;
+
+export function beautify(callback) {
+    if (babelLoaded) {
+        callback();
+    }
+    else {
+        $script('/babel.min.js', function(asd) {
+            callback();
+            babelLoaded = true;
+        });
+    }
+}

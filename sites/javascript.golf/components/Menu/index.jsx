@@ -11,6 +11,7 @@ class Menu extends React.Component {
         super(props);
 
         // support error handling
+        // async loading msg?
         // validate first?
 
         this.minify = () => {
@@ -50,7 +51,7 @@ class Menu extends React.Component {
         this.beautify = () => {
             beautify(() => {
 
-                let indent_size = this.refs.indent.value;
+                let indent_size = this.props.state.indent;
 
                 this.props.setCode(js_beautify(getEditor(), {indent_size}));
 
@@ -59,7 +60,7 @@ class Menu extends React.Component {
     }
 
     render () {
-        let aceClass = `ace-${this.props.theme.replace(/_/g,'-')}`;
+        let aceClass = `ace-${this.props.state.theme.replace(/_/g,'-')}`;
         let aceSelectClass = `${aceClass} ace_selection`;
         let rootClass = [styles.menu,aceClass].join(' ');
         let headerClass = `${aceClass} ace_keyword ${styles.header}`;
@@ -72,6 +73,21 @@ class Menu extends React.Component {
 
             <div>New: Ctrl + N</div>
             <div>Save: Ctrl + S</div>
+
+            <div className={headerClass}>
+                Settings
+            </div>
+
+            <select 
+                className={aceSelectClass}
+                value={this.props.state.theme}
+                onChange={this.props.setTheme}>
+                {themeData.map((datum,i) => (
+                    <option key={i} value={datum.value}>
+                        {datum.name}
+                    </option>
+                ))}
+            </select>
 
             <div className={headerClass}>
                 UglifyJS
@@ -111,10 +127,17 @@ class Menu extends React.Component {
 
             <select 
                 className={aceSelectClass}
-                ref="indent">
+                onChange={this.props.setIndent}
+                value={this.props.state.indent}>
                 <option value="4">4 Spaces</option>
                 <option value="2">2 Spaces</option>
             </select>
+
+            <div className={headerClass}>
+                Babel
+            </div>
+
+
 
         {/*
 
@@ -124,8 +147,10 @@ deobfuscate
 jscompressor
 regpack
 lint
-validate            
+fix semicolons, etc
+validate
 
+save indent in state
 Word Wrap
 public/private
 browse pastes
@@ -134,20 +159,7 @@ browse pastes
         */}
 
 
-            <div className={headerClass}>
-                Settings
-            </div>
 
-            <select 
-                className={aceSelectClass}
-                value={this.props.theme}
-                onChange={this.props.setTheme}>
-                {themeData.map((datum,i) => (
-                    <option key={i} value={datum.value}>
-                        {datum.name}
-                    </option>
-                ))}
-            </select>
 
         </div>;
     }
