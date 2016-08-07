@@ -65,7 +65,7 @@ function minify() {
 
 function mangle() {
 
-    uglify(UglifyJS => {
+    uglify(() => {
 
         let ast = UglifyJS.parse(getEditor());
         ast.figure_out_scope();
