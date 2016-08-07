@@ -6,6 +6,7 @@ import Editor from './Editor/index.jsx';
 import Menu from './Menu/index.jsx';
 
 import { saveAjax, loadAjax } from './util/ajax.js';
+import { getEditor, setEditor } from './Editor/index.jsx';
 
 function initialState() {
     let state;
@@ -106,6 +107,10 @@ class App extends React.Component {
             }
         }
 
+        this.setCode = (code) => {
+            setEditor(code);
+        }
+
         this.setTheme = (e) => {
             this.setState({theme: e.target.value});
         }
@@ -135,6 +140,8 @@ class App extends React.Component {
                 data={this.state.code} />
             
             <Menu 
+                setCode={this.setCode}
+                code={this.state.code}
                 setTheme={this.setTheme}
                 theme={this.state.theme}/>
 

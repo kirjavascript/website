@@ -1,9 +1,3 @@
-// props;
-
-// onSave
-// onChange
-// data
-
 let editor;
 let programmaticEdit = false;
 let updateProps = false;
@@ -17,6 +11,11 @@ function setValue(str) {
     editor.setValue(str,-1);
 }
 
+export {
+    getValue as getEditor,
+    setValue as setEditor
+};
+
 class Editor extends React.Component {
 
     componentDidMount () {
@@ -26,7 +25,7 @@ class Editor extends React.Component {
 
         editor.$blockScrolling = Infinity;
         editor.getSession().setUseWorker(false);
-        editor.setTheme('ace/theme/' + this.props.theme);
+        editor.setTheme('ace/theme/' + theme);
         editor.getSession().setMode('ace/mode/javascript');
         editor.setOptions({fontSize: '12pt', wrap: true});
 
