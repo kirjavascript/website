@@ -72,8 +72,6 @@ class App extends React.Component {
             browserHistory.push(`/`);
         }
 
-        // editor
-
         this.onChange = (value) => {
             if (value != this.state.code) {
                 document.title = 'golfbin (unsaved)';
@@ -92,10 +90,12 @@ class App extends React.Component {
             }
         }
 
-        // window
+        this.onError = (error) => {
+            this.setState({error:error.toString()});
+        }
 
-        this.setLoading = (loading) => {
-            this.setState({loading});
+        this.clearError = () => {
+            this.setState({error:null});
         }
 
     }
@@ -109,10 +109,12 @@ class App extends React.Component {
             data={this.state.code} />
 
         <Menu 
+            onError={this.onError}
             state={this.state} />
         
         <Window
-            errors={this.state.errors}/>
+            close={this.clearError}
+            error={this.state.error}/>
 
         </div>;
     }

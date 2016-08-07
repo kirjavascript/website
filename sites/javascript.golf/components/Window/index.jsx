@@ -10,15 +10,23 @@ class Window extends React.Component {
     }
 
     render () {
-        return <div>
-            
-            {do { if (this.props.loading)
-                <div className={styles.loadingMessage}>
-                    Loading {this.props.loading}.js...
-                </div>
-            }}
-            
-        </div>;
+        return do { if (this.props.error) {
+
+            <div className={styles.error}>
+
+                <pre>
+                    {this.props.error}
+                </pre>
+
+                <button 
+                    onClick={this.props.close}
+                    className={styles.close}>
+                    Close
+                </button>
+
+            </div>
+
+        } else null }
     }
 }
 

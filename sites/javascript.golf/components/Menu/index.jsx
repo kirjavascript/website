@@ -44,16 +44,12 @@ class Menu extends React.Component {
             this.setState({lebab});
         }
 
-        function catchError(error) {
-            console.log(error);
-        }
-
-        this.beautify = () => beautify(this.state, catchError);
-        this.minify = () => minify(this.state, catchError);
-        this.jscrush = () => jscrush(this.state, catchError);
-        this.mangle = () => mangle(this.state, catchError);
-        this.babelTransform = () => babelTransform(this.state, catchError);
-        this.lebabTransform = () => lebabTransform(this.state, catchError);
+        this.beautify = () => beautify(this.state, this.props.onError);
+        this.minify = () => minify(this.state, this.props.onError);
+        this.jscrush = () => jscrush(this.state, this.props.onError);
+        this.mangle = () => mangle(this.state, this.props.onError);
+        this.babelTransform = () => babelTransform(this.state, this.props.onError);
+        this.lebabTransform = () => lebabTransform(this.state, this.props.onError);
     }
 
     componentWillUpdate(nextProps, nextState) {
