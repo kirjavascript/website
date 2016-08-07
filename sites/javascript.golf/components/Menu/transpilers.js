@@ -1,63 +1,124 @@
 import $script from 'scriptjs';
 
-import jscrush from 'jscrush';
+import crush from 'jscrush';
 
-let uglifyLoaded = false;
+import { getEditor, setEditor } from '../Editor/index.jsx';
 
-export function uglify(callback) {
-    if (uglifyLoaded) {
-        callback(UglifyJS);
-    }
-    else {
-        $script('/scripts/uglifyjs.js', function() {
-            callback(UglifyJS);
-            uglifyLoaded = true;
-        });
-    }
-}
 
-let beautifyLoaded = false;
+function scriptLoader(name) {
 
-export function beautify(callback) {
-    if (beautifyLoaded) {
-        callback();
-    }
-    else {
-        $script('/scripts/beautify.js', function() {
+    let loaded = false;
+
+    return (callback) => {
+        if (loaded) {
             callback();
-            beautifyLoaded = true;
-        });
+        }
+        else {
+            $script(`/scripts/${name}.js`, () => {
+                callback();
+                loaded = true;
+            });
+        }
     }
+
 }
 
-export function crush(code) {
-    return jscrush(code);
+// loaders
+
+let uglify = scriptLoader('uglify');
+let beautify = scriptLoader('beautify');
+let babel = scriptLoader('babel');
+let lebab = scriptLoader('lebab');
+
+// transpilation
+
+function jscrush() {
+    setEditor(crush(getEditor()));
 }
 
-let babelLoaded = false;
+function beautifyFunc() {
 
-export function babel(callback) {
-    if (babelLoaded) {
-        callback();
-    }
-    else {
-        $script('/scripts/babel.min.js', function() {
-            callback();
-            babelLoaded = true;
-        });
-    }
+    beautify(() => {
+
+        let indent_size = this.state.indent;
+
+        setEditor(js_beautify(getEditor(), {indent_size}));
+
+    })
+
 }
 
-let lebabLoaded = false;
+function minify() {
 
-export function lebab(callback) {
-    if (lebabLoaded) {
-        callback();
-    }
-    else {
-        $script('/scripts/lebab.min.js', function() {
-            callback();
-            lebabLoaded = true;
-        });
-    }
+    uglify(() => {
+
+        let ast = UglifyJS.parse(getEditor());
+        ast.figure_out_scope();
+        let compressor = UglifyJS.Compressor();
+        ast = ast.transform(compressor);
+        let output = ast.print_to_string();
+
+        setEditor(output);
+    });
+
+}
+
+function mangle() {
+
+    uglify(UglifyJS => {
+
+        let ast = UglifyJS.parse(getEditor());
+        ast.figure_out_scope();
+        ast.compute_char_frequency();
+        ast.mangle_names();
+        let output = ast.print_to_string();
+
+        setEditor(output);
+    });
+
+}
+
+function babelTransform() {
+
+    babel(() => {
+
+        let presets = this.state.babel
+            .filter(obj => obj.enabled)
+            .map(obj => obj.preset);
+
+        let output = Babel.transform(getEditor(),{ presets }).code;
+
+        setEditor(output);
+    })
+
+}
+function lebabTransform() {
+
+    lebab(() => {
+
+        let options = {};
+
+        this.state.lebab.forEach(obj => {
+            if (obj.enabled) {
+                options[obj.option] = true;
+            }
+        })
+
+        var transformer = new Lebab.Transformer(options);
+
+        let output = transformer.run(getEditor());
+
+        setEditor(output);
+
+    });
+
+}
+
+export {
+    beautifyFunc as beautify,
+    jscrush,
+    minify,
+    mangle,
+    babelTransform,
+    lebabTransform
 }

@@ -22,8 +22,7 @@ let config = {
         { option: 'commonjs', enabled: true },
         { option: 'class', enabled: false },
         { option: 'template', enabled: false },
-        { option: 'default-param', enabled: false },
-        { option: 'exponent', enabled: false },
+        { option: 'default-param', enabled: false }
     ]
 
 };

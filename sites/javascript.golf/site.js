@@ -45,7 +45,7 @@ module.exports = function({app, config, express, database, site}) {
                     let injected = baseHTML.replace('<body>',`
                         <body>
                             <script>
-                                __code = ${JSON.stringify(code)};
+                                __code = ${JSON.stringify(code).replace(/<\/script>/g,`<"+"/script>`)};
                             </script>
                         `);
 

@@ -2,8 +2,8 @@ import styles from './styles.scss';
 
 import themeData from '../Editor/themeData';
 
-import { uglify, crush, regpack, beautify, babel, lebab } from './transpilers';
-import { getEditor, setEditor, updateEditor } from '../Editor/index.jsx';
+import { jscrush, beautify, minify, mangle, babelTransform, lebabTransform } from './transpilers';
+import { updateEditor } from '../Editor/index.jsx';
 import initialConfig from '../util/initialConfig';
 
 // support error handling
@@ -16,8 +16,6 @@ class Menu extends React.Component {
 
     constructor (props) {
         super(props);
-
-        // state
 
         this.state = initialConfig();
 
@@ -43,85 +41,6 @@ class Menu extends React.Component {
             let lebab = this.state.lebab;
             lebab[+e.target.value].enabled = e.target.checked;
             this.setState({lebab});
-        }
-
-        // transpilation
-
-        this.minify = () => {
-
-            uglify(UglifyJS => {
-
-                let ast = UglifyJS.parse(getEditor());
-                ast.figure_out_scope();
-                let compressor = UglifyJS.Compressor();
-                ast = ast.transform(compressor);
-                let output = ast.print_to_string();
-
-                setEditor(output);
-            });
-            
-        }
-
-        this.mangle = () => {
-
-            uglify(UglifyJS => {
-
-                let ast = UglifyJS.parse(getEditor());
-                ast.figure_out_scope();
-                ast.compute_char_frequency();
-                ast.mangle_names();
-                let output = ast.print_to_string();
-
-                setEditor(output);
-            });
-
-        }
-
-        this.jscrush = () => {
-            setEditor(crush(getEditor()));
-        }
-
-        this.beautify = () => {
-            beautify(() => {
-
-                let indent_size = this.state.indent;
-
-                setEditor(js_beautify(getEditor(), {indent_size}));
-
-            })
-        }
-
-        this.babelTransform = () => {
-            babel(() => {
-
-                let presets = this.state.babel
-                    .filter(obj => obj.enabled)
-                    .map(obj => obj.preset);
-
-                let output = Babel.transform(getEditor(),{ presets }).code;
-
-                setEditor(output);
-            })
-        }
-
-        this.lebabTransform = () => {
-            lebab(() => {
-
-                let options = {};
-
-                this.state.lebab.forEach(obj => {
-                    if (obj.enabled) {
-                        options[obj.option] = true;
-                    }
-                })
-
-                var transformer = new Lebab.Transformer(options);
-
-                let output = transformer.run(getEditor());
-
-                setEditor(output);
-
-            })
         }
     }
 
@@ -175,7 +94,7 @@ class Menu extends React.Component {
 
             <button 
                 className={aceSelectClass}
-                onClick={this.beautify}>
+                onClick={beautify}>
                 Beautify
             </button>
 
@@ -193,13 +112,13 @@ class Menu extends React.Component {
 
             <button 
                 className={aceSelectClass}
-                onClick={this.minify}>
+                onClick={minify}>
                 Minify
             </button>
 
             <button 
                 className={aceSelectClass}
-                onClick={this.mangle}>
+                onClick={mangle}>
                 Mangle
             </button>
 
@@ -209,7 +128,7 @@ class Menu extends React.Component {
 
             <button 
                 className={aceSelectClass}
-                onClick={this.jscrush}>
+                onClick={jscrush}>
                 JSCrush
             </button>
 
@@ -231,7 +150,7 @@ class Menu extends React.Component {
             
             <button 
                 className={aceSelectClass}
-                onClick={this.babelTransform}>
+                onClick={babelTransform}>
                 Transform
             </button>
 
@@ -240,7 +159,7 @@ class Menu extends React.Component {
             </div>
 
             <div className={styles.boxList}>
-                {this.state.lebab.map((obj,i) => (
+                {state.lebab.map((obj,i) => (
                     <div key={i}>
                         <input 
                             type="checkbox"
@@ -257,11 +176,9 @@ class Menu extends React.Component {
                 Transform
             </button>
 
-
-
         {/*
 
-crushers: regpack, jscrush
+crushers: regpack
 
 deobfuscate
 packer
