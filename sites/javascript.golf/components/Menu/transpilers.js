@@ -40,7 +40,7 @@ function beautifyFunc() {
 
     beautify(() => {
 
-        let indent_size = this.state.indent;
+        let indent_size = 4;
 
         setEditor(js_beautify(getEditor(), {indent_size}));
 
