@@ -82,8 +82,8 @@ class App extends React.Component {
         }
 
         this.setCode = (code) => {
-            //setEditor(code);
-            this.setState({code});
+            setEditor(code);
+            //this.setState({code});
         }
 
         this.handleCommands = (command, value) => {
