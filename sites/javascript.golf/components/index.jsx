@@ -7,16 +7,38 @@ import Menu from './Menu/index.jsx';
 
 import { saveAjax, loadAjax } from './util/ajax.js';
 
+function initialState() {
+    let partialState;
+
+    // grab code from the document if included
+
+    if (typeof __code != 'undefined') {
+
+        partialState = {
+            code: __code,
+            snippetHash: __snippetHash
+        }
+    }
+    else {
+        partialState = {
+            code: '',
+            snippetHash: null
+        }
+    }
+
+    return Object.assign({
+
+        colourscheme: 'monokai',
+
+    }, partialState);
+}
+
 class App extends React.Component {
 
     constructor (props) {
         super(props);
 
-        this.state = {
-            code: __code || '',
-            snippetHash: __snippetHash || null,
-            colourscheme: 'monokai',
-        }
+        this.state = initialState();
 
         this.saveSnippet = (value) => {
             let hash = saveAjax(value);
