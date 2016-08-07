@@ -4,7 +4,6 @@ import crush from 'jscrush';
 
 import { getEditor, setEditor } from '../Editor/index.jsx';
 
-
 function scriptLoader(name) {
 
     let loaded = false;
@@ -14,7 +13,9 @@ function scriptLoader(name) {
             callback();
         }
         else {
+            updater(name);
             $script(`/scripts/${name}.js`, () => {
+                updater(null);
                 callback();
                 loaded = true;
             });

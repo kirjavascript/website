@@ -4,6 +4,7 @@ import {render} from 'react-dom';
 
 import Editor from './Editor/index.jsx';
 import Menu from './Menu/index.jsx';
+import Window from './Window/index.jsx';
 
 import { saveAjax, loadAjax } from './util/ajax.js';
 
@@ -71,6 +72,8 @@ class App extends React.Component {
             browserHistory.push(`/`);
         }
 
+        // editor
+
         this.onChange = (value) => {
             if (value != this.state.code) {
                 document.title = 'golfbin (unsaved)';
@@ -89,6 +92,12 @@ class App extends React.Component {
             }
         }
 
+        // window
+
+        this.setLoading = (loading) => {
+            this.setState({loading});
+        }
+
     }
 
     render () {
@@ -98,9 +107,14 @@ class App extends React.Component {
             onChange={this.onChange}
             onCommand={this.handleCommands}
             data={this.state.code} />
-        
+
         <Menu 
+            setLoading={this.setLoading}
             state={this.state} />
+        
+        <Window
+            loading={this.state.loading}
+            errors={this.state.errors}/>
 
         </div>;
     }

@@ -67,7 +67,7 @@ class Menu extends React.Component {
                 Keyboard Shortcuts
             </div>
 
-            <div>New: Ctrl + N</div>
+            <div>New: Ctrl + Enter</div>
             <div>Save: Ctrl + S</div>
 
             <div className={headerClass}>

@@ -60,7 +60,7 @@ class Editor extends React.Component {
             })
             editor.commands.addCommand({
                 name: 'new',
-                bindKey: {win: "Ctrl-N", "mac": "Cmd-N"},
+                bindKey: {win: "Ctrl-Enter", "mac": "Cmd-Enter"},
                 exec: editor => {
                     this.props.onCommand('new');
                 }
