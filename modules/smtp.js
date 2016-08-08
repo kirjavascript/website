@@ -114,3 +114,5 @@ server.on('error', function (err) {
 
 // start listening
 server.listen(25);
+
+// add smtp port to config
