@@ -67,6 +67,7 @@ var server = new SMTPServer({
         if (/^deny/i.test(address.address)) {
             return callback(new Error('Not accepted'));
         }
+        console.log('mail')
         callback();
     },
 
