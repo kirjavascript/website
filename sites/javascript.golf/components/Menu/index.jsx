@@ -2,7 +2,7 @@ import styles from './styles.scss';
 
 import themeData from '../Editor/themeData';
 
-import { jscrush, beautify, minify, mangle, babelTransform, lebabTransform } from './transpilers';
+import { jscrush, beautify, minify, mangle, babelTransform, lebabTransform } from '../util/transpilers';
 import { updateEditor } from '../Editor/index.jsx';
 import initialConfig from '../util/initialConfig';
 
