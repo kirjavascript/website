@@ -10,4 +10,3 @@ let config = {
 
 require('./modules/bounce')(config);
 require('./modules/express')(config);
-require('./modules/smtp');
