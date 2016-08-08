@@ -28,7 +28,7 @@ function initialState() {
     }
 
     return state;
-    
+
 }
 
 class App extends React.Component {
@@ -98,20 +98,23 @@ class App extends React.Component {
             //this.setState({error:null});
         }
 
+        // have data.code && data.saved to fix concurrency issues
+        // brace editor ??
+
     }
 
     render () {
         return <div>
 
-        <Editor 
+        <Editor
             onChange={this.onChange}
             onCommand={this.handleCommands}
             data={this.state.code} />
 
-        <Menu 
+        <Menu
             onError={this.onError}
             state={this.state} />
-        
+
         <Window
             close={this.clearError}
             error={this.state.error}/>

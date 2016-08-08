@@ -21,13 +21,22 @@ module.exports = function({app, config, express, database, site}) {
 
     local.use('/', express.static(`sites/${site}/static`));
 
+    local.use('/archive', (req, res) => {
+        database.all('SELECT route FROM snippets', (err, data) => {
+            let archive = data.map(datum=> (
+                `<a href="/${datum.route}">${datum.route}</a><br/>`
+            )).join('');
+            res.send(archive);
+        });
+    });
+
     let baseHTML = fs.readFileSync(`sites/${site}/static/index.html`, 'utf-8');
 
     // wildcard
     local.use(function (req, res, next) {
 
         // inject requested code into the document
-        
+
         if (/\/(.*?)-(.*?)-(.*?)-(.*)/.test(req.path)) {
 
             database.get('SELECT code FROM snippets WHERE route = ?',
@@ -58,7 +67,7 @@ module.exports = function({app, config, express, database, site}) {
     })
 
     app.use(vhost(hostname, local));
-    
+
 }
 
 // set the code state and snippet has
