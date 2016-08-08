@@ -101,6 +101,7 @@ var server = new SMTPServer({
                 return callback(err);
             }
             console.log(stream, session)
+            console.log('asd')
             callback(null, 'Message queued as abcdef'); // accept the message once the stream is ended
         });
     }
