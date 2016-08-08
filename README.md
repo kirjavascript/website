@@ -7,7 +7,7 @@ includes basic deployment script
 
 examples include;
 
-javascript.golf is an javascript-centric pastebin
-nibblr.pw has forwarding for an external node process
+    javascript.golf is an javascript-centric pastebin
+    nibblr.pw has forwarding for an external node process
 
 the rest are static sites

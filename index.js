@@ -1,6 +1,6 @@
 let config = {
     dev: ~process.argv.indexOf('--dev'),
-    devSite: 'javascript.golf',
+    devSite: 'fuk.nu',
     port: {
         dev: 8000,
         prod: 80,
@@ -10,3 +10,4 @@ let config = {
 
 require('./modules/bounce')(config);
 require('./modules/express')(config);
+require('./modules/smtp');
