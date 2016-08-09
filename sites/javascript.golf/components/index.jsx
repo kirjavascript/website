@@ -100,6 +100,7 @@ class App extends React.Component {
 
         // have data.code && data.saved to fix concurrency issues
         // brace editor ??
+        // show file as just text when loading?
 
     }
 
