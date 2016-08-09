@@ -8,6 +8,8 @@ mail.on("mail", function(email) {
  
 });
 
+// use mailparser package
+
 /* Received: by mail-wm0-f44.google.com with SMTP id f65so54395078wmi.0
         for <test@fuk.nu>; Tue, 09 Aug 2016 13:57:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
