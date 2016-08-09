@@ -40,8 +40,8 @@
     "bouncy": "^3.2.2",
     "connect": "^3.4.1",
     "express": "^4.14.0",
+    "lazysmtp": "0.0.10",
     "serve-favicon": "^2.3.0",
-    "smtpd-lite": "^0.1.23",
     "sqlite3": "^3.1.4",
     "vhost": "^3.0.2"
   }

@@ -1,12 +1,14 @@
-var Server = require('smtpd-lite');
+var Mail = require("lazysmtp").Mail;
+var mail = new Mail("example.com", false);
+mail.start();
  
-var server = new Server({
-  host: 'mail.example.com',
-  domain: 'example.com'
+mail.on("mail", function(email) {
+ 
+    //Pass it on to a parser. Or don't. I don't care. 
+    console.log(email);
+ 
 });
  
-server.on('receive', function(mail) {
-  console.log(mail);
-});
- 
-server.listen(25);
+mail.on("connectionIncoming", function(client) {
+    console.log("Connection from: " + client.address + " on port " + client.port);
+}):
