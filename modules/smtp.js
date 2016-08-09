@@ -92,7 +92,9 @@ var server = new SMTPServer({
 
     // Handle message stream
     onData: function (stream, session, callback) {
-        stream.pipe(process.stdout);
+        stream.pipe(function(a) {
+            console.log(a)
+        });
         stream.on('end', function () {
             var err;
             if (stream.sizeExceeded) {
@@ -100,8 +102,6 @@ var server = new SMTPServer({
                 err.responseCode = 552;
                 return callback(err);
             }
-            console.log(stream, session)
-            console.log('asd')
             callback(null, 'Message queued as abcdef'); // accept the message once the stream is ended
         });
     }
