@@ -69,7 +69,3 @@ module.exports = function({app, config, express, database, site}) {
     app.use(vhost(hostname, local));
 
 }
-
-// set the code state and snippet has
-
-// for the menu ui, use the same colours as ace editor
