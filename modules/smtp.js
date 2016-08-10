@@ -37,7 +37,7 @@ function save2db(obj) {
         obj.from[0].address,
         obj.to[0].address,
         obj.subject,
-        obj.date,
+        obj.date.toString(),
         obj.text,
         obj.html,
         JSON.stringify(obj.headers)
