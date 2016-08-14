@@ -3,7 +3,7 @@ import styles from './styles.scss';
 import themeData from '../Editor/themeData';
 
 import { jscrush, beautify, minify, mangle, babelTransform, lebabTransform } from '../util/transpilers';
-import { updateEditor } from '../Editor/index.jsx';
+import { updateEditor, getEditor } from '../Editor/index.jsx';
 import initialConfig from '../util/initialConfig';
 
 // support error handling
@@ -19,6 +19,14 @@ class Menu extends React.Component {
         super(props);
 
         this.state = initialConfig();
+
+        this.save = () => {
+            this.props.onCommand('save', getEditor());
+        }
+
+        this.new = () => {
+            this.props.onCommand('new')
+        }
 
         this.setTheme = (e) => {
             let obj = {theme: e.target.value};
@@ -68,8 +76,22 @@ class Menu extends React.Component {
                 Keyboard Shortcuts
             </div>
 
-            <div>New: Ctrl + Enter</div>
-            <div>Save: Ctrl + S</div>
+            <div>
+                <button 
+                    className={aceSelectClass}
+                    onClick={this.new}>
+                    New
+                </button>
+                Ctrl + Enter
+            </div>
+            <div>
+                <button 
+                    className={aceSelectClass}
+                    onClick={this.save}>
+                    Save
+                </button>
+                Ctrl + S
+            </div>
 
             <div className={headerClass}>
                 Editor Settings

@@ -52,10 +52,7 @@ class Editor extends React.Component {
                 bindKey: {win: "Ctrl-S", "mac": "Cmd-S"},
                 exec: editor => {
                     let value = editor.session.getValue();
-
-                    if (value != '') {
-                        this.props.onCommand('save', value);
-                    }
+                    this.props.onCommand('save', value);
                 }
             })
             editor.commands.addCommand({

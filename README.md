@@ -8,7 +8,7 @@ includes basic deployment script
 examples include;
 
     javascript.golf is an javascript-centric pastebin
-    fuk.nu is a throwaway SMTP server frontend
+    WIP: fuk.nu is a throwaway SMTP server frontend
     nibblr.pw has forwarding for an external node process
 
 the rest are static sites

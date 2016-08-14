@@ -82,7 +82,7 @@ class App extends React.Component {
         }
 
         this.handleCommands = (command, value) => {
-            if (command == 'save') {
+            if (command == 'save' && value != '') {
                 this.saveSnippet(value);
             }
             else if (command == 'new') {
@@ -108,11 +108,12 @@ class App extends React.Component {
         return <div>
 
         <Editor
-            onChange={this.onChange}
             onCommand={this.handleCommands}
+            onChange={this.onChange}
             data={this.state.code} />
 
         <Menu
+            onCommand={this.handleCommands}
             onError={this.onError}
             state={this.state} />
 
