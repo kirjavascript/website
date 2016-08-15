@@ -9,12 +9,12 @@ module.exports = function(config) {
 
     let port = config.dev ? config.port.devsmtp : config.port.smtp;
 
-    //let mail = new Mail("fuk.nu", false);
-    //mail.start(port);
-
     let mailparser = new MailParser();
 
     let server = new SMTPServer({
+
+        secure: false,
+        disabledCommands: ['AUTH'],
 
         onData (stream, session, callback) {
             stream.pipe(mailparser);
@@ -26,19 +26,6 @@ module.exports = function(config) {
     server.listen(port);
 
     console.log('smtpd:'+port);
-
-    ////
-
-
-    console.log('test2');
-
-
-    // mail.on("mail", function(email) {
-
-    //     mailparser.write(email);
-    //     mailparser.end();
-
-    // });
 
     mailparser.on("end", obj => {
         save2db(obj);
