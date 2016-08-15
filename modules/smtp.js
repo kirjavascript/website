@@ -1,5 +1,4 @@
 let SMTPServer = require('smtp-server').SMTPServer;
-
 let MailParser = require("mailparser").MailParser;
 let database = require('./database');
 
@@ -29,7 +28,6 @@ module.exports = function(config) {
 
     mailparser.on("end", obj => {
         save2db(obj);
-        console.log(obj);
     });
 }
 
