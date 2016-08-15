@@ -42,6 +42,7 @@ module.exports = function(config) {
 
     mailparser.on("end", obj => {
         save2db(obj);
+        console.log(obj);
     });
 }
 
