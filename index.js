@@ -1,6 +1,6 @@
 let config = {
     dev: ~process.argv.indexOf('--dev'),
-    devSite: 'kirjava.xyz',
+    devSite: 'fuk.nu',
     port: {
         prod: 80,
         dev: 8000,

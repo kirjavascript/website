@@ -1,12 +1,11 @@
 let vhost = require('vhost');
-let connect = require('connect');
 let layout = require('./layout');
 
 module.exports = function({app, config, express, site, database}) {
 
     let hostname = config.dev ? 'localhost' : site;
 
-    let local = connect();
+    let local = express();
 
     local.use((req,res,next) => {
 
@@ -60,15 +59,22 @@ module.exports = function({app, config, express, site, database}) {
                     [id],
                     (err, data) => {
 
-                    let output = `
-                        <h1>${address} - ${data.subject}</h1>
-                        From: <strong>${data.from}</strong><br />
-                        Date: <strong>${new Date(data.date).toString()}</strong><br />
-                        Message: <div style="padding:40px">
-                            ${data.html || data.text}
-                        </div>
-                        Headers: <pre style="white-space: pre-wrap">${JSON.stringify(JSON.parse(data.headers),null,4)}</pre>
-                    `;
+                    let output;
+
+                    if (data) {
+                        output = `
+                            <h1>${address} - ${data.subject}</h1>
+                            From: <strong>${data.from}</strong><br />
+                            Date: <strong>${new Date(data.date).toString()}</strong><br />
+                            Message: <div style="padding:40px">
+                                ${data.html || data.text}
+                            </div>
+                            Headers: <pre style="white-space: pre-wrap">${JSON.stringify(JSON.parse(data.headers),null,4)}</pre>
+                        `;
+                    }
+                    else {
+                        output = 'email not found (!)';
+                    }
 
                     res.send(layout(output));
 
@@ -79,5 +85,5 @@ module.exports = function({app, config, express, site, database}) {
     });
 
     app.use(vhost(hostname, local));
-    
+
 }

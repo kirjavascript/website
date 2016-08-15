@@ -1,29 +1,48 @@
-let Mail = require("lazysmtp").Mail;
+//let Mail = require("lazysmtp").Mail;
+
+var smtpd = require('smtpd-lite');
+
+
+
 let MailParser = require("mailparser").MailParser;
 let database = require('./database');
 
 database.run('CREATE TABLE IF NOT EXISTS `mail` (id INTEGER PRIMARY KEY AUTOINCREMENT, "from" TEXT, "to" TEXT, subject TEXT, date TEXT, text TEXT, html TEXT, headers TEXT);');
 
-module.exports = function(config) {    
+module.exports = function(config) {
 
     let port = config.dev ? config.port.devsmtp : config.port.smtp;
-    
-    let mail = new Mail("fuk.nu", false);
-    var mailparser = new MailParser();
-    mail.start(port);
 
-    console.log('smtp:'+port);
-     
-    mail.on("mail", function(email) {
+    //let mail = new Mail("fuk.nu", false);
+    //mail.start(port);
 
-        mailparser.write(email);
-        mailparser.end();
-     
+    var mailserver = new smtpd({
+        host: 'fuk.nu',
+        domain: 'fuk.nu'
     });
 
-    mailparser.on("end", obj => {
-        save2db(obj);
+    mailserver.on('receive', function(mail) {
+        console.log(mail);
     });
+
+    mailserver.listen(port);
+
+    console.log('smtpd:'+port);
+
+    ////
+
+    // var mailparser = new MailParser();
+
+    // mail.on("mail", function(email) {
+
+    //     mailparser.write(email);
+    //     mailparser.end();
+
+    // });
+
+    // mailparser.on("end", obj => {
+    //     save2db(obj);
+    // });
 }
 
 function save2db(obj) {
