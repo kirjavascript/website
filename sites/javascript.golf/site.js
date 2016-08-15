@@ -1,6 +1,5 @@
 let fs = require('fs');
 let vhost = require('vhost');
-let connect = require('connect');
 var favicon = require('serve-favicon');
 let initdb = require('./initdb');
 let api = require('./api');
@@ -12,7 +11,7 @@ module.exports = function({app, config, express, database, site}) {
 
     let hostname = config.dev ? 'localhost' : site;
 
-    let local = connect();
+    let local = express();
 
     local.use(favicon(__dirname + '/static/favicon.ico'))
 
@@ -21,7 +20,7 @@ module.exports = function({app, config, express, database, site}) {
 
     local.use('/', express.static(`sites/${site}/static`));
 
-    local.use('/archive', (req, res) => {
+    local.get('/archive', (req, res) => {
         database.all('SELECT route FROM snippets', (err, data) => {
             let archive = data.map(datum=> (
                 `<a href="/${datum.route}">${datum.route}</a><br/>`
