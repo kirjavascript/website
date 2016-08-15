@@ -41,7 +41,7 @@
     "express": "^4.14.0",
     "mailparser": "^0.6.1",
     "serve-favicon": "^2.3.0",
-    "smtpd-lite": "^0.1.23",
+    "smtp-server": "^1.14.0",
     "sqlite3": "^3.1.4",
     "vhost": "^3.0.2"
   }

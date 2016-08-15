@@ -1,8 +1,4 @@
-//let Mail = require("lazysmtp").Mail;
-
-var smtpd = require('smtpd-lite');
-
-
+let SMTPServer = require('smtp-server').SMTPServer;
 
 let MailParser = require("mailparser").MailParser;
 let database = require('./database');
@@ -16,22 +12,26 @@ module.exports = function(config) {
     //let mail = new Mail("fuk.nu", false);
     //mail.start(port);
 
-    var mailserver = new smtpd({
-        host: 'fuk.nu',
-        domain: 'fuk.nu'
+    let mailparser = new MailParser();
+
+    let server = new SMTPServer({
+
+        onData (stream, session, callback) {
+            stream.pipe(mailparser);
+            stream.on('end', callback);
+        }
+
     });
 
-    mailserver.on('receive', function(mail) {
-        console.log(mail);
-    });
-
-    mailserver.listen(port);
+    server.listen(port);
 
     console.log('smtpd:'+port);
 
     ////
 
-    // var mailparser = new MailParser();
+
+    console.log('test2');
+
 
     // mail.on("mail", function(email) {
 
@@ -40,9 +40,9 @@ module.exports = function(config) {
 
     // });
 
-    // mailparser.on("end", obj => {
-    //     save2db(obj);
-    // });
+    mailparser.on("end", obj => {
+        save2db(obj);
+    });
 }
 
 function save2db(obj) {
