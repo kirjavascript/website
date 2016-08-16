@@ -1,25 +1,30 @@
-let Mail = require("lazysmtp").Mail;
+let SMTPServer = require('smtp-server').SMTPServer;
 let MailParser = require("mailparser").MailParser;
 let database = require('./database');
 
 database.run('CREATE TABLE IF NOT EXISTS `mail` (id INTEGER PRIMARY KEY AUTOINCREMENT, "from" TEXT, "to" TEXT, subject TEXT, date TEXT, text TEXT, html TEXT, headers TEXT);');
 
-module.exports = function(config) {    
+module.exports = function(config) {
 
     let port = config.dev ? config.port.devsmtp : config.port.smtp;
-    
-    let mail = new Mail("fuk.nu", false);
-    var mailparser = new MailParser();
-    mail.start(port);
 
-    console.log('smtp:'+port);
-     
-    mail.on("mail", function(email) {
+    let mailparser = new MailParser();
 
-        mailparser.write(email);
-        mailparser.end();
-     
+    let server = new SMTPServer({
+
+        secure: false,
+        disabledCommands: ['AUTH'],
+
+        onData (stream, session, callback) {
+            stream.pipe(mailparser);
+            stream.on('end', callback);
+        }
+
     });
+
+    server.listen(port);
+
+    console.log('smtpd:'+port);
 
     mailparser.on("end", obj => {
         save2db(obj);
