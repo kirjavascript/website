@@ -5,7 +5,7 @@ module.exports = function(body) {
         <head>
             <meta charset="utf-8">
             <meta http-equiv="x-ua-compatible" content="ie=edge">
-            <title>throwaway email server</title>
+            <title>throwaway email service</title>
             <meta name="description" content="">
             <meta name="theme-color" content="#000000">
             <meta name="viewport" content="width=device-width, initial-scale=1">
