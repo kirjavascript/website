@@ -1,8 +1,5 @@
-//let SMTPServer = require('smtp-server').SMTPServer;
-//let MailParser = require("mailparser").MailParser;
-let database = require('./database');
-
 let mailin = require('mailin');
+let database = require('./database');
 
 database.run('CREATE TABLE IF NOT EXISTS `mail` (id INTEGER PRIMARY KEY AUTOINCREMENT, "from" TEXT, "to" TEXT, subject TEXT, date TEXT, text TEXT, html TEXT, headers TEXT);');
 
@@ -12,38 +9,15 @@ module.exports = function(config) {
 
     mailin.start({
         port,
-        disableWebhook: true // Disable the webhook posting.
+        disableWebhook: true
     });
 
     console.log('smtpd:'+port);
 
     mailin.on('message', function (connection, data, content) {
-        console.log(data);
+        save2db(data);
     });
 
-
-
-    // let mailparser = new MailParser();
-
-    // let server = new SMTPServer({
-
-    //     secure: false,
-    //     disabledCommands: ['AUTH'],
-
-    //     onData (stream, session, callback) {
-    //         stream.pipe(mailparser);
-    //         stream.on('end', callback);
-    //     }
-
-    // });
-
-    // server.listen(port);
-
-    // console.log('smtpd:'+port);
-
-    // mailparser.on("end", obj => {
-    //     save2db(obj);
-    // });
 }
 
 function save2db(obj) {
