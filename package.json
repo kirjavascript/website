@@ -38,6 +38,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "bouncy": "^3.2.2",
+    "compression": "^1.6.2",
     "express": "^4.14.0",
     "mailin": "^3.0.3",
     "serve-favicon": "^2.3.0",

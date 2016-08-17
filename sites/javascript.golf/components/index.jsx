@@ -126,9 +126,14 @@ class App extends React.Component {
 }
 
 render((
-    <Router history={browserHistory}>
-        <Route component={App} path="/">
-            <Route path="/*-*-*-*"/>
-        </Route>
-    </Router>
+    <App/>
 ), document.getElementById('app'));
+// load url?
+
+// <Router history={browserHistory}>
+//     <Route component={App} path="/">
+//         <Route path="/*-*-*-*"/>
+//     </Route>
+// </Router>
+
+// load archive via api & routes

@@ -222,10 +222,7 @@ lint
 fix semicolons, etc
 validate
 
-save indent in state
 public/private
-browse pastes
-.golf logo at bottom.
 
         */}
 

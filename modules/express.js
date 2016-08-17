@@ -1,5 +1,6 @@
 let fs = require('fs');
 let express = require('express');
+let compression = require('compression');
 let vhost = require('vhost');
 let bodyParser = require('body-parser');
 let deploy = require('./deploy');
@@ -13,6 +14,7 @@ module.exports = function(config) {
     let sites = fs.readdirSync('sites');
 
     let server = app
+        .use(compression())
         .use(bodyParser.json())
         .listen(config.port.express, function () {
             console.log('express:'+config.port.express)

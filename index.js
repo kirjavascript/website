@@ -1,6 +1,6 @@
 let config = {
     dev: ~process.argv.indexOf('--dev'),
-    devSite: 'fuk.nu',
+    devSite: 'javascript.golf',
     port: {
         prod: 80,
         dev: 8000,
