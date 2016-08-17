@@ -39,9 +39,8 @@
     "body-parser": "^1.15.2",
     "bouncy": "^3.2.2",
     "express": "^4.14.0",
-    "mailparser": "^0.6.1",
+    "mailin": "^3.0.3",
     "serve-favicon": "^2.3.0",
-    "smtp-server": "^1.14.0",
     "sqlite3": "^3.1.4",
     "vhost": "^3.0.2"
   }

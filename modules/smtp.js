@@ -1,5 +1,5 @@
-let SMTPServer = require('smtp-server').SMTPServer;
-let MailParser = require("mailparser").MailParser;
+//let SMTPServer = require('smtp-server').SMTPServer;
+//let MailParser = require("mailparser").MailParser;
 let database = require('./database');
 
 database.run('CREATE TABLE IF NOT EXISTS `mail` (id INTEGER PRIMARY KEY AUTOINCREMENT, "from" TEXT, "to" TEXT, subject TEXT, date TEXT, text TEXT, html TEXT, headers TEXT);');
@@ -8,27 +8,27 @@ module.exports = function(config) {
 
     let port = config.dev ? config.port.devsmtp : config.port.smtp;
 
-    let mailparser = new MailParser();
+    // let mailparser = new MailParser();
 
-    let server = new SMTPServer({
+    // let server = new SMTPServer({
 
-        secure: false,
-        disabledCommands: ['AUTH'],
+    //     secure: false,
+    //     disabledCommands: ['AUTH'],
 
-        onData (stream, session, callback) {
-            stream.pipe(mailparser);
-            stream.on('end', callback);
-        }
+    //     onData (stream, session, callback) {
+    //         stream.pipe(mailparser);
+    //         stream.on('end', callback);
+    //     }
 
-    });
+    // });
 
-    server.listen(port);
+    // server.listen(port);
 
-    console.log('smtpd:'+port);
+    // console.log('smtpd:'+port);
 
-    mailparser.on("end", obj => {
-        save2db(obj);
-    });
+    // mailparser.on("end", obj => {
+    //     save2db(obj);
+    // });
 }
 
 function save2db(obj) {
