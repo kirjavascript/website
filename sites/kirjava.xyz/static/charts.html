@@ -1,0 +1,446 @@
+<html class="no-js" lang="en"><head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Data Visualisation Plugin Test</title>
+        <meta name="description" content="">
+        <meta name="theme-color" content="#000000">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">/* latin-ext */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Open Sans"), local("OpenSans"), url(https://fonts.gstatic.com/s/opensans/v13/u-WUoqrET9fUeobQW7jkRRJtnKITppOI_IvcXXDNrsc.woff2) format("woff2");
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF; }
+
+/* latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Open Sans"), local("OpenSans"), url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3VtXRa8TVwTICgirnJhmVJw.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000; }
+
+._1cB2HFBb {
+  position: relative;
+  font-family: "Open Sans", sans-serif; }
+
+._2xroIbeg {
+  margin-bottom: 20px; }
+  ._2xroIbeg h2 {
+    font-size: 16px;
+    margin: 5px 0px;
+    font-weight: 700; }
+  ._2xroIbeg h3 {
+    font-size: 13px;
+    font-weight: 500;
+    margin: 5px 0px; }
+
+.ukxlwj5t .axis.y .domain {
+  stroke: none; }
+
+.ukxlwj5t .axis.y .tick line {
+  stroke-width: 2;
+  stroke: #e8e8e8; }
+
+.ukxlwj5t .axis.y .tick text {
+  font-size: 13px;
+  font-weight: 600; }
+
+.ukxlwj5t .axis.x .domain {
+  stroke: none; }
+
+.ukxlwj5t .axis.x .tick line {
+  display: none; }
+
+.ukxlwj5t .axis.x .tick text {
+  font-size: 13px;
+  font-weight: 600; }
+
+.ukxlwj5t .bar {
+  fill: #84b0bf; }
+
+.ukxlwj5t .barlabel {
+  fill: #84b0bf;
+  font-size: 16px;
+  font-weight: 700;
+  text-anchor: middle; }
+
+.ukxlwj5t .line {
+  fill: none;
+  stroke: #84b0bf;
+  stroke-width: 3px; }
+
+.ukxlwj5t .area {
+  fill: #84b0bf; }
+
+.ukxlwj5t .areaLine {
+  fill: none;
+  stroke: #000000;
+  stroke-width: 1px; }
+
+.ukxlwj5t .point {
+  fill: #FFFFFF;
+  stroke-width: 3px;
+  stroke: #84b0bf; }
+
+.ukxlwj5t .arc {
+  stroke-width: 1px;
+  stroke: #000000;
+  shape-rendering: geometricPrecision; }
+
+._2_yNxz1J {
+  position: absolute;
+  border: 1px solid black;
+  background-color: #FFF; }
+  ._2_yNxz1J .entry {
+    padding: 5px; }
+  ._2_yNxz1J .color {
+    width: 15px;
+    height: 15px;
+    float: right;
+    margin-left: 25px;
+    border: 1px solid black; }
+
+._1OGj4yAF {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  pointer-events: none; }
+</style></head>
+    <body>
+       <script>
+       function DataVis(){}; </script>
+
+        <div class="_1cB2HFBb" id="one"><div class="_2xroIbeg">
+    
+        <h2>Some Bars</h2>
+    
+
+    
+        <h3>Information about bars</h3>
+    
+</div>
+<svg height="300" width="500" class="ukxlwj5t"><g transform="translate(25,25)"><g text-anchor="middle" font-family="sans-serif" font-size="10" fill="none" transform="translate(0,225)" class="axis x"><path d="M0.5,6V0.5H345.5V6" stroke="#000" class="domain"></path><g transform="translate(23,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Jan</text></g><g transform="translate(83,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Feb</text></g><g transform="translate(143,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Mar</text></g><g transform="translate(203,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Apr</text></g><g transform="translate(263,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">May</text></g><g transform="translate(323,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Jun</text></g></g><g></g><g><rect y="102.00000000000001" height="122.99999999999999" style="fill: rgb(132, 176, 191);" width="40" x="3" class="bar tipTrigger"></rect><rect y="195" height="30" style="fill: rgb(132, 176, 191);" width="40" x="63" class="bar tipTrigger"></rect><rect y="90" height="135" style="fill: rgb(132, 176, 191);" width="40" x="123" class="bar tipTrigger"></rect><rect y="120" height="105" style="fill: rgb(132, 176, 191);" width="40" x="183" class="bar tipTrigger"></rect><rect y="0" height="225" style="fill: rgb(132, 176, 191);" width="40" x="243" class="bar tipTrigger"></rect><rect y="45" height="180" style="fill: rgb(132, 176, 191);" width="40" x="303" class="bar tipTrigger"></rect><text y="102.00000000000001" dy="-.5em" x="23" fill="#84b0bf" class="barlabel">41</text><text y="195" dy="-.5em" x="83" fill="#84b0bf" class="barlabel">10</text><text y="90" dy="-.5em" x="143" fill="#84b0bf" class="barlabel">45</text><text y="120" dy="-.5em" x="203" fill="#84b0bf" class="barlabel">35</text><text y="0" dy="-.5em" x="263" fill="#84b0bf" class="barlabel">75</text><text y="45" dy="-.5em" x="323" fill="#84b0bf" class="barlabel">60</text></g></g></svg></div>
+        <script>
+
+            DataVis((filter) => ({
+
+                data: {
+                    object: [
+                        {xAxis: 'Jan', yAxis:41},
+                        {xAxis: 'Feb', yAxis:10},
+                        {xAxis: 'Mar', yAxis:45},
+                        {xAxis: 'Apr', yAxis:35},
+                        {xAxis: 'May', yAxis:75},
+                        {xAxis: 'Jun', yAxis:60},
+                    ],
+                    filters:'',
+                },
+                design: {
+                    type: 'bar',
+                    //horizontal: true,
+                    target: '#one',
+                    headers: {
+                        title: 'Some Bars',
+                        subtitle: 'Information about bars'
+                    }
+                }
+
+            }));
+        </script>
+
+
+        <div class="_1cB2HFBb" id="three"><div class="_2xroIbeg">
+    
+        <h2>More Bars</h2>
+    
+
+    
+        <h3>More of them</h3>
+    
+</div>
+<svg height="300" width="900" class="ukxlwj5t"><g transform="translate(25,25)"><g text-anchor="middle" font-family="sans-serif" font-size="10" fill="none" transform="translate(0,225)" class="axis x"><path d="M0.5,6V0.5H711.5V6" stroke="#000" class="domain"></path><g transform="translate(26,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Jan</text></g><g transform="translate(86,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Feb</text></g><g transform="translate(146,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Mar</text></g><g transform="translate(206,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Apr</text></g><g transform="translate(266,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">May</text></g><g transform="translate(326,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Jun</text></g><g transform="translate(386,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">July</text></g><g transform="translate(446,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Aug</text></g><g transform="translate(506,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Sept</text></g><g transform="translate(566,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Oct</text></g><g transform="translate(626,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Nov</text></g><g transform="translate(686,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Dec</text></g></g><g></g><g><rect y="122.5" height="102.5" style="fill: rgb(132, 176, 191);" width="40" x="6" class="bar tipTrigger"></rect><rect y="200" height="25" style="fill: rgb(132, 176, 191);" width="40" x="66" class="bar tipTrigger"></rect><rect y="112.5" height="112.5" style="fill: rgb(132, 176, 191);" width="40" x="126" class="bar tipTrigger"></rect><rect y="137.5" height="87.5" style="fill: rgb(132, 176, 191);" width="40" x="186" class="bar tipTrigger"></rect><rect y="37.5" height="187.5" style="fill: rgb(132, 176, 191);" width="40" x="246" class="bar tipTrigger"></rect><rect y="125" height="100" style="fill: rgb(132, 176, 191);" width="40" x="306" class="bar tipTrigger"></rect><rect y="0" height="225" style="fill: rgb(132, 176, 191);" width="40" x="366" class="bar tipTrigger"></rect><rect y="167.5" height="57.5" style="fill: rgb(132, 176, 191);" width="40" x="426" class="bar tipTrigger"></rect><rect y="200" height="25" style="fill: rgb(132, 176, 191);" width="40" x="486" class="bar tipTrigger"></rect><rect y="60" height="165" style="fill: rgb(132, 176, 191);" width="40" x="546" class="bar tipTrigger"></rect><rect y="42.5" height="182.5" style="fill: rgb(132, 176, 191);" width="40" x="606" class="bar tipTrigger"></rect><rect y="202.5" height="22.5" style="fill: rgb(132, 176, 191);" width="40" x="666" class="bar tipTrigger"></rect><text y="122.5" dy="-.5em" x="26" fill="#84b0bf" class="barlabel">41</text><text y="200" dy="-.5em" x="86" fill="#84b0bf" class="barlabel">10</text><text y="112.5" dy="-.5em" x="146" fill="#84b0bf" class="barlabel">45</text><text y="137.5" dy="-.5em" x="206" fill="#84b0bf" class="barlabel">35</text><text y="37.5" dy="-.5em" x="266" fill="#84b0bf" class="barlabel">75</text><text y="125" dy="-.5em" x="326" fill="#84b0bf" class="barlabel">40</text><text y="0" dy="-.5em" x="386" fill="#84b0bf" class="barlabel">90</text><text y="167.5" dy="-.5em" x="446" fill="#84b0bf" class="barlabel">23</text><text y="200" dy="-.5em" x="506" fill="#84b0bf" class="barlabel">10</text><text y="60" dy="-.5em" x="566" fill="#84b0bf" class="barlabel">66</text><text y="42.5" dy="-.5em" x="626" fill="#84b0bf" class="barlabel">73</text><text y="202.5" dy="-.5em" x="686" fill="#84b0bf" class="barlabel">9</text></g></g></svg></div>
+        <script>
+
+            DataVis((filter) => ({
+
+                data: {
+                    object: [
+                        {xAxis: 'Jan', yAxis:41},
+                        {xAxis: 'Feb', yAxis:10},
+                        {xAxis: 'Mar', yAxis:45},
+                        {xAxis: 'Apr', yAxis:35},
+                        {xAxis: 'May', yAxis:75},
+                        {xAxis: 'Jun', yAxis:40},
+                        {xAxis: 'July', yAxis:90},
+                        {xAxis: 'Aug', yAxis:23},
+                        {xAxis: 'Sept', yAxis:10},
+                        {xAxis: 'Oct', yAxis:66},
+                        {xAxis: 'Nov', yAxis:73},
+                        {xAxis: 'Dec', yAxis:9},
+                    ],
+                    filters:'',
+                },
+                design: {
+                    type: 'bar',
+                    //horizontal: true,
+                    size: {
+                        width: 900,
+                        height: 300,
+                    },
+                    target: '#three',
+                    headers: {
+                        title: 'More Bars',
+                        subtitle: 'More of them'
+                    }
+                }
+
+            }));
+        </script>
+
+
+
+        <div class="_1cB2HFBb" id="four"><div class="_2xroIbeg">
+    
+        <h2>Squashed Stuff</h2>
+    
+
+    
+</div>
+<svg height="300" width="900" class="ukxlwj5t"><g transform="translate(60,25)"><g text-anchor="middle" font-family="sans-serif" font-size="10" fill="none" transform="translate(0,225)" class="axis x"><path d="M0.5,6V0.5H815.5V6" stroke="#000" class="domain"></path><g transform="translate(16.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Jan</text></g><g transform="translate(50.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Feb</text></g><g transform="translate(84.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Mar</text></g><g transform="translate(118.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Apr</text></g><g transform="translate(152.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">May</text></g><g transform="translate(186.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Jun</text></g><g transform="translate(220.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">July</text></g><g transform="translate(254.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Aug</text></g><g transform="translate(288.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Sept</text></g><g transform="translate(322.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Oct</text></g><g transform="translate(356.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Nov</text></g><g transform="translate(390.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Dec</text></g><g transform="translate(424.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">1Jan</text></g><g transform="translate(458.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">1Feb</text></g><g transform="translate(492.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">1Mar</text></g><g transform="translate(526.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">1Apr</text></g><g transform="translate(560.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">1May</text></g><g transform="translate(594.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">1Jun</text></g><g transform="translate(628.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">1July</text></g><g transform="translate(662.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">1Aug</text></g><g transform="translate(696.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">1Sept</text></g><g transform="translate(730.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">1Oct</text></g><g transform="translate(764.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">1Nov</text></g><g transform="translate(798.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">1Dec</text></g></g><g text-anchor="end" font-family="sans-serif" font-size="10" fill="none" class="axis y"><path d="M-6,225.5H0.5V0.5H-6" stroke="#000" class="domain"></path><g transform="translate(0,225)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="815" stroke="#000"></line><text dx="-1em" dy=".32em" y="0.5" x="-3" fill="#000">0</text></g><g transform="translate(0,175)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="815" stroke="#000"></line><text dx="-1em" dy=".32em" y="0.5" x="-3" fill="#000">20</text></g><g transform="translate(0,125)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="815" stroke="#000"></line><text dx="-1em" dy=".32em" y="0.5" x="-3" fill="#000">40</text></g><g transform="translate(0,75)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="815" stroke="#000"></line><text dx="-1em" dy=".32em" y="0.5" x="-3" fill="#000">60</text></g><g transform="translate(0,25)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="815" stroke="#000"></line><text dx="-1em" dy=".32em" y="0.5" x="-3" fill="#000">80</text></g></g><g></g><g><rect y="122.5" height="102.5" style="fill: rgb(132, 176, 191);" width="23" x="5" class="bar tipTrigger"></rect><rect y="200" height="25" style="fill: rgb(132, 176, 191);" width="23" x="39" class="bar tipTrigger"></rect><rect y="112.5" height="112.5" style="fill: rgb(132, 176, 191);" width="23" x="73" class="bar tipTrigger"></rect><rect y="137.5" height="87.5" style="fill: rgb(132, 176, 191);" width="23" x="107" class="bar tipTrigger"></rect><rect y="37.5" height="187.5" style="fill: rgb(132, 176, 191);" width="23" x="141" class="bar tipTrigger"></rect><rect y="125" height="100" style="fill: rgb(132, 176, 191);" width="23" x="175" class="bar tipTrigger"></rect><rect y="0" height="225" style="fill: rgb(132, 176, 191);" width="23" x="209" class="bar tipTrigger"></rect><rect y="167.5" height="57.5" style="fill: rgb(132, 176, 191);" width="23" x="243" class="bar tipTrigger"></rect><rect y="200" height="25" style="fill: rgb(132, 176, 191);" width="23" x="277" class="bar tipTrigger"></rect><rect y="60" height="165" style="fill: rgb(132, 176, 191);" width="23" x="311" class="bar tipTrigger"></rect><rect y="42.5" height="182.5" style="fill: rgb(132, 176, 191);" width="23" x="345" class="bar tipTrigger"></rect><rect y="202.5" height="22.5" style="fill: rgb(132, 176, 191);" width="23" x="379" class="bar tipTrigger"></rect><rect y="122.5" height="102.5" style="fill: rgb(132, 176, 191);" width="23" x="413" class="bar tipTrigger"></rect><rect y="200" height="25" style="fill: rgb(132, 176, 191);" width="23" x="447" class="bar tipTrigger"></rect><rect y="112.5" height="112.5" style="fill: rgb(132, 176, 191);" width="23" x="481" class="bar tipTrigger"></rect><rect y="137.5" height="87.5" style="fill: rgb(132, 176, 191);" width="23" x="515" class="bar tipTrigger"></rect><rect y="37.5" height="187.5" style="fill: rgb(132, 176, 191);" width="23" x="549" class="bar tipTrigger"></rect><rect y="125" height="100" style="fill: rgb(132, 176, 191);" width="23" x="583" class="bar tipTrigger"></rect><rect y="0" height="225" style="fill: rgb(132, 176, 191);" width="23" x="617" class="bar tipTrigger"></rect><rect y="167.5" height="57.5" style="fill: rgb(132, 176, 191);" width="23" x="651" class="bar tipTrigger"></rect><rect y="200" height="25" style="fill: rgb(132, 176, 191);" width="23" x="685" class="bar tipTrigger"></rect><rect y="60" height="165" style="fill: rgb(132, 176, 191);" width="23" x="719" class="bar tipTrigger"></rect><rect y="42.5" height="182.5" style="fill: rgb(132, 176, 191);" width="23" x="753" class="bar tipTrigger"></rect><rect y="202.5" height="22.5" style="fill: rgb(132, 176, 191);" width="23" x="787" class="bar tipTrigger"></rect></g></g></svg></div>
+        <script>
+
+            DataVis((filter) => ({
+
+                data: {
+                    object: [
+                        {xAxis: 'Jan', yAxis:41},
+                        {xAxis: 'Feb', yAxis:10},
+                        {xAxis: 'Mar', yAxis:45},
+                        {xAxis: 'Apr', yAxis:35},
+                        {xAxis: 'May', yAxis:75},
+                        {xAxis: 'Jun', yAxis:40},
+                        {xAxis: 'July', yAxis:90},
+                        {xAxis: 'Aug', yAxis:23},
+                        {xAxis: 'Sept', yAxis:10},
+                        {xAxis: 'Oct', yAxis:66},
+                        {xAxis: 'Nov', yAxis:73},
+                        {xAxis: 'Dec', yAxis:9},
+                        {xAxis: '1Jan', yAxis:41},
+                        {xAxis: '1Feb', yAxis:10},
+                        {xAxis: '1Mar', yAxis:45},
+                        {xAxis: '1Apr', yAxis:35},
+                        {xAxis: '1May', yAxis:75},
+                        {xAxis: '1Jun', yAxis:40},
+                        {xAxis: '1July', yAxis:90},
+                        {xAxis: '1Aug', yAxis:23},
+                        {xAxis: '1Sept', yAxis:10},
+                        {xAxis: '1Oct', yAxis:66},
+                        {xAxis: '1Nov', yAxis:73},
+                        {xAxis: '1Dec', yAxis:9},
+                    ],
+                    filters:'',
+                },
+                design: {
+                    type: 'bar',
+                    //horizontal: true,
+                    size: {
+                        width: 900,
+                        height: 300,
+                    },
+                    margin: {
+                        top: 25, right: 25, bottom: 50, left: 60
+                    },
+                    target: '#four',
+                    headers: {
+                        title: 'Squashed Stuff',
+                    }
+                }
+
+            }));
+        </script>
+
+        <div class="_1cB2HFBb" id="two"><div class="_2xroIbeg">
+    
+        <h2>Negative Values</h2>
+    
+
+    
+</div>
+<svg height="300" width="500" class="ukxlwj5t"><g transform="translate(25,25)"><g text-anchor="middle" font-family="sans-serif" font-size="10" fill="none" transform="translate(0,225)" class="axis x"><path d="M0.5,6V0.5H345.5V6" stroke="#000" class="domain"></path><g transform="translate(23,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="35" x="0.5" y="9" fill="#000">Jan</text></g><g transform="translate(83,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="35" x="0.5" y="9" fill="#000">Feb</text></g><g transform="translate(143,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="35" x="0.5" y="9" fill="#000">Mar</text></g><g transform="translate(203,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="35" x="0.5" y="9" fill="#000">Apr</text></g><g transform="translate(263,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="35" x="0.5" y="9" fill="#000">May</text></g><g transform="translate(323,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="35" x="0.5" y="9" fill="#000">Jun</text></g></g><g></g><g><rect y="31.666666666666657" height="68.33333333333334" style="fill: rgb(95, 190, 122);" width="40" x="3" class="bar tipTrigger"></rect><rect y="100" height="16.66666666666667" style="fill: rgb(190, 76, 76);" width="40" x="63" class="bar tipTrigger"></rect><rect y="100" height="75" style="fill: rgb(190, 76, 76);" width="40" x="123" class="bar tipTrigger"></rect><rect y="41.666666666666686" height="58.333333333333314" style="fill: rgb(95, 190, 122);" width="40" x="183" class="bar tipTrigger"></rect><rect y="100" height="125" style="fill: rgb(190, 76, 76);" width="40" x="243" class="bar tipTrigger"></rect><rect y="0" height="100" style="fill: rgb(95, 190, 122);" width="40" x="303" class="bar tipTrigger"></rect><text style="fill: rgb(95, 190, 122);" y="31.666666666666657" dy="-.5em" x="23" fill="#84b0bf" class="barlabel">41</text><text style="fill: rgb(190, 76, 76);" y="116.66666666666667" dy="1.25em" x="83" fill="#84b0bf" class="barlabel">-10</text><text style="fill: rgb(190, 76, 76);" y="175" dy="1.25em" x="143" fill="#84b0bf" class="barlabel">-45</text><text style="fill: rgb(95, 190, 122);" y="41.666666666666686" dy="-.5em" x="203" fill="#84b0bf" class="barlabel">35</text><text style="fill: rgb(190, 76, 76);" y="225" dy="1.25em" x="263" fill="#84b0bf" class="barlabel">-75</text><text style="fill: rgb(95, 190, 122);" y="0" dy="-.5em" x="323" fill="#84b0bf" class="barlabel">60</text></g></g></svg></div>
+        <script>
+
+            DataVis((filter) => ({
+
+                data: {
+                    object: [
+                        {xAxis: 'Jan', yAxis:41},
+                        {xAxis: 'Feb', yAxis:-10},
+                        {xAxis: 'Mar', yAxis:-45},
+                        {xAxis: 'Apr', yAxis:35},
+                        {xAxis: 'May', yAxis:-75},
+                        {xAxis: 'Jun', yAxis:60},
+                    ],
+                    filters:'',
+                },
+                design: {
+                    type: 'bar',
+                    //horizontal: true,
+                    target: '#two',
+                    headers: {
+                        title: 'Negative Values',
+                    }
+                }
+
+            }));
+        </script>
+
+        <div class="_1cB2HFBb" id="five"><div class="_2xroIbeg">
+    
+        <h2>Rounded Corners</h2>
+    
+
+    
+</div>
+<svg height="300" width="500" class="ukxlwj5t"><g transform="translate(25,25)"><g text-anchor="middle" font-family="sans-serif" font-size="10" fill="none" transform="translate(0,225)" class="axis x"><path d="M0.5,6V0.5H345.5V6" stroke="#000" class="domain"></path><g transform="translate(23,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Jan</text></g><g transform="translate(83,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Feb</text></g><g transform="translate(143,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Mar</text></g><g transform="translate(203,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Apr</text></g><g transform="translate(263,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">May</text></g><g transform="translate(323,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Jun</text></g></g><g></g><g><path d=" M3,225 v-112.99999999999999 a10,10 0 0 1 10,-10 h20 a10,10 0 0 1 10,10 v112.99999999999999 z " class="bar tipTrigger"></path><path d=" M63,225 v-20 a10,10 0 0 1 10,-10 h20 a10,10 0 0 1 10,10 v20 z " class="bar tipTrigger"></path><path d=" M123,225 v-125 a10,10 0 0 1 10,-10 h20 a10,10 0 0 1 10,10 v125 z " class="bar tipTrigger"></path><path d=" M183,225 v-95 a10,10 0 0 1 10,-10 h20 a10,10 0 0 1 10,10 v95 z " class="bar tipTrigger"></path><path d=" M243,225 v-215 a10,10 0 0 1 10,-10 h20 a10,10 0 0 1 10,10 v215 z " class="bar tipTrigger"></path><path d=" M303,225 v-170 a10,10 0 0 1 10,-10 h20 a10,10 0 0 1 10,10 v170 z " class="bar tipTrigger"></path><text y="102.00000000000001" dy="-.5em" x="23" fill="#84b0bf" class="barlabel">41</text><text y="195" dy="-.5em" x="83" fill="#84b0bf" class="barlabel">10</text><text y="90" dy="-.5em" x="143" fill="#84b0bf" class="barlabel">45</text><text y="120" dy="-.5em" x="203" fill="#84b0bf" class="barlabel">35</text><text y="0" dy="-.5em" x="263" fill="#84b0bf" class="barlabel">75</text><text y="45" dy="-.5em" x="323" fill="#84b0bf" class="barlabel">60</text></g></g></svg></div>
+        <script>
+
+            DataVis((filter) => ({
+
+                data: {
+                    object: [
+                        {xAxis: 'Jan', yAxis:41},
+                        {xAxis: 'Feb', yAxis:10},
+                        {xAxis: 'Mar', yAxis:45},
+                        {xAxis: 'Apr', yAxis:35},
+                        {xAxis: 'May', yAxis:75},
+                        {xAxis: 'Jun', yAxis:60},
+                    ],
+                    filters:'',
+                },
+                design: {
+                    type: 'bar',
+                    //horizontal: true,
+                    target: '#five',
+                    headers: {
+                        title: 'Rounded Corners'
+                    },
+                    rounded: true,
+                }
+
+            }));
+        </script>
+        <div class="_1cB2HFBb" id="six"><div class="_2xroIbeg">
+    
+        <h2>Normalised</h2>
+    
+
+    
+</div>
+<svg height="300" width="500" class="ukxlwj5t"><g transform="translate(25,25)"><g text-anchor="middle" font-family="sans-serif" font-size="10" fill="none" transform="translate(0,225)" class="axis x"><path d="M0.5,6V0.5H345.5V6" stroke="#000" class="domain"></path><g transform="translate(23,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Jan</text></g><g transform="translate(83,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Feb</text></g><g transform="translate(143,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Mar</text></g><g transform="translate(203,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Apr</text></g><g transform="translate(263,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">May</text></g><g transform="translate(323,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="25" x="0.5" y="9" fill="#000">Jun</text></g></g><g><rect height="225" y="0" width="40" x="3" fill="#e8e8e8" class="shadow"></rect><rect height="225" y="0" width="40" x="63" fill="#e8e8e8" class="shadow"></rect><rect height="225" y="0" width="40" x="123" fill="#e8e8e8" class="shadow"></rect><rect height="225" y="0" width="40" x="183" fill="#e8e8e8" class="shadow"></rect><rect height="225" y="0" width="40" x="243" fill="#e8e8e8" class="shadow"></rect><rect height="225" y="0" width="40" x="303" fill="#e8e8e8" class="shadow"></rect></g><g><rect y="102.00000000000001" height="122.99999999999999" style="fill: rgb(132, 176, 191);" width="40" x="3" class="bar tipTrigger"></rect><rect y="195" height="30" style="fill: rgb(132, 176, 191);" width="40" x="63" class="bar tipTrigger"></rect><rect y="90" height="135" style="fill: rgb(132, 176, 191);" width="40" x="123" class="bar tipTrigger"></rect><rect y="120" height="105" style="fill: rgb(132, 176, 191);" width="40" x="183" class="bar tipTrigger"></rect><rect y="0" height="225" style="fill: rgb(132, 176, 191);" width="40" x="243" class="bar tipTrigger"></rect><rect y="45" height="180" style="fill: rgb(132, 176, 191);" width="40" x="303" class="bar tipTrigger"></rect><text y="102.00000000000001" dy="-.5em" x="23" fill="#84b0bf" class="barlabel">41</text><text y="195" dy="-.5em" x="83" fill="#84b0bf" class="barlabel">10</text><text y="90" dy="-.5em" x="143" fill="#84b0bf" class="barlabel">45</text><text y="120" dy="-.5em" x="203" fill="#84b0bf" class="barlabel">35</text><text y="0" dy="-.5em" x="263" fill="#84b0bf" class="barlabel">75</text><text y="45" dy="-.5em" x="323" fill="#84b0bf" class="barlabel">60</text></g></g></svg></div>
+        <script>
+
+            DataVis((filter) => ({
+
+                data: {
+                    object: [
+                        {xAxis: 'Jan', yAxis:41},
+                        {xAxis: 'Feb', yAxis:10},
+                        {xAxis: 'Mar', yAxis:45},
+                        {xAxis: 'Apr', yAxis:35},
+                        {xAxis: 'May', yAxis:75},
+                        {xAxis: 'Jun', yAxis:60},
+                    ],
+                    filters:'',
+                },
+                design: {
+                    type: 'bar',
+                    //horizontal: true,
+                    target: '#six',
+                    headers: {
+                        title: 'Normalised'
+                    },
+                    normalised: true,
+                }
+
+            }));
+        </script>
+
+        <div class="_1cB2HFBb" id="seven"><div class="_2xroIbeg">
+    
+        <h2>Previous Year</h2>
+    
+
+    
+</div>
+<svg height="300" width="500" class="ukxlwj5t"><g transform="translate(25,25)"><g text-anchor="middle" font-family="sans-serif" font-size="10" fill="none" transform="translate(0,225)" class="axis x"><path d="M0.5,6V0.5H345.5V6" stroke="#000" class="domain"></path><g transform="translate(23,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="35" x="0.5" y="9" fill="#000">Jan</text></g><g transform="translate(83,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="35" x="0.5" y="9" fill="#000">Feb</text></g><g transform="translate(143,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="35" x="0.5" y="9" fill="#000">Mar</text></g><g transform="translate(203,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="35" x="0.5" y="9" fill="#000">Apr</text></g><g transform="translate(263,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="35" x="0.5" y="9" fill="#000">May</text></g><g transform="translate(323,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy="35" x="0.5" y="9" fill="#000">Jun</text></g></g><g></g><g><rect y="63.75" height="76.875" style="fill: rgb(95, 190, 122);" width="40" x="3" class="bar tipTrigger"></rect><rect y="121.875" height="18.75" style="fill: rgb(95, 190, 122);" width="40" x="63" class="bar tipTrigger"></rect><rect y="140.625" height="84.375" style="fill: rgb(190, 76, 76);" width="40" x="123" class="bar tipTrigger"></rect><rect y="75" height="65.625" style="fill: rgb(95, 190, 122);" width="40" x="183" class="bar tipTrigger"></rect><rect y="0" height="140.625" style="fill: rgb(95, 190, 122);" width="40" x="243" class="bar tipTrigger"></rect><rect y="28.125" height="112.5" style="fill: rgb(95, 190, 122);" width="40" x="303" class="bar tipTrigger"></rect><text style="fill: rgb(95, 190, 122);" y="63.75" dy="-.5em" x="23" fill="#84b0bf" class="barlabel">41</text><text style="fill: rgb(95, 190, 122);" y="121.875" dy="-.5em" x="83" fill="#84b0bf" class="barlabel">10</text><text style="fill: rgb(190, 76, 76);" y="225" dy="1.25em" x="143" fill="#84b0bf" class="barlabel">-45</text><text style="fill: rgb(95, 190, 122);" y="75" dy="-.5em" x="203" fill="#84b0bf" class="barlabel">35</text><text style="fill: rgb(95, 190, 122);" y="0" dy="-.5em" x="263" fill="#84b0bf" class="barlabel">75</text><text style="fill: rgb(95, 190, 122);" y="28.125" dy="-.5em" x="323" fill="#84b0bf" class="barlabel">60</text><g transform="translate(0,97.5)"><path d="M 0,0 0,-4.46 0,-8.919 7.004,-4.46 0,0 z" style="fill:none;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"></path>
+<path d="M 0,0 0,-4.46 0,-8.919 7.004,-4.46 0,0 z" style="fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none"></path></g><g transform="translate(60,56.25)"><path d="M 0,0 0,-4.46 0,-8.919 7.004,-4.46 0,0 z" style="fill:none;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"></path>
+<path d="M 0,0 0,-4.46 0,-8.919 7.004,-4.46 0,0 z" style="fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none"></path></g><g transform="translate(120,225)"><path d="M 0,0 0,-4.46 0,-8.919 7.004,-4.46 0,0 z" style="fill:none;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"></path>
+<path d="M 0,0 0,-4.46 0,-8.919 7.004,-4.46 0,0 z" style="fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none"></path></g><g transform="translate(180,95.625)"><path d="M 0,0 0,-4.46 0,-8.919 7.004,-4.46 0,0 z" style="fill:none;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"></path>
+<path d="M 0,0 0,-4.46 0,-8.919 7.004,-4.46 0,0 z" style="fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none"></path></g><g transform="translate(240,140.625)"><path d="M 0,0 0,-4.46 0,-8.919 7.004,-4.46 0,0 z" style="fill:none;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"></path>
+<path d="M 0,0 0,-4.46 0,-8.919 7.004,-4.46 0,0 z" style="fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none"></path></g><g transform="translate(300,127.5)"><path d="M 0,0 0,-4.46 0,-8.919 7.004,-4.46 0,0 z" style="fill:none;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"></path>
+<path d="M 0,0 0,-4.46 0,-8.919 7.004,-4.46 0,0 z" style="fill:#333333;fill-opacity:1;fill-rule:nonzero;stroke:none"></path></g></g></g></svg></div>
+        <script>
+
+            DataVis((filter) => ({
+
+                data: {
+                    object: [
+                        {xAxis: 'Jan', yAxis:41, yAxisPrev: 23},
+                        {xAxis: 'Feb', yAxis:10, yAxisPrev: 45},
+                        {xAxis: 'Mar', yAxis:-45, yAxisPrev: -45},
+                        {xAxis: 'Apr', yAxis:35, yAxisPrev: 24},
+                        {xAxis: 'May', yAxis:75, yAxisPrev: 0},
+                        {xAxis: 'Jun', yAxis:60, yAxisPrev: 7},
+                    ],
+                    filters:'',
+                },
+                design: {
+                    type: 'bar',
+                    //horizontal: true,
+                    target: '#seven',
+                    headers: {
+                        title: 'Previous Year'
+                    }
+                }
+
+            }));
+        </script>
+
+        <div class="_1cB2HFBb" id="eight"><div class="_2xroIbeg">
+    
+        <h2>Stacked bars</h2>
+    
+
+    
+</div>
+<svg height="300" width="500" class="ukxlwj5t"><g transform="translate(25,25)"><g fill="#393b79" class="serie"><rect width="79" height="12" y="213" x="2"></rect><rect width="79" height="12" y="213" x="90"></rect><rect width="79" height="12" y="213" x="178"></rect><rect width="79" height="12" y="213" x="266"></rect><rect width="79" height="12" y="213" x="354"></rect></g><g fill="#5254a3" class="serie"><rect width="79" height="63" y="150" x="2"></rect><rect width="79" height="50" y="163" x="90"></rect><rect width="79" height="50" y="163" x="178"></rect><rect width="79" height="50" y="163" x="266"></rect><rect width="79" height="50" y="163" x="354"></rect></g><g fill="#6b6ecf" class="serie"><rect width="79" height="37" y="113" x="2"></rect><rect width="79" height="25" y="138" x="90"></rect><rect width="79" height="50" y="113" x="178"></rect><rect width="79" height="13" y="150" x="266"></rect><rect width="79" height="25" y="138" x="354"></rect></g><g fill="#9c9ede" class="serie"><rect width="79" height="63" y="50" x="2"></rect><rect width="79" height="63" y="75" x="90"></rect><rect width="79" height="50" y="63" x="178"></rect><rect width="79" height="37" y="113" x="266"></rect><rect width="79" height="63" y="75" x="354"></rect></g><g fill="#637939" class="serie"><rect width="79" height="50" y="0" x="2"></rect><rect width="79" height="37" y="38" x="90"></rect><rect width="79" height="63" y="0" x="178"></rect><rect width="79" height="13" y="100" x="266"></rect><rect width="79" height="25" y="50" x="354"></rect></g><g text-anchor="middle" font-family="sans-serif" font-size="10" fill="none" transform="translate(0,225)" class="axis axis--x"><path d="M0.5,6V0.5H450.5V6" stroke="#000" class="domain"></path><g transform="translate(41.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy=".71em" x="0.5" y="9" fill="#000">0</text></g><g transform="translate(129.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy=".71em" x="0.5" y="9" fill="#000">1</text></g><g transform="translate(217.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy=".71em" x="0.5" y="9" fill="#000">2</text></g><g transform="translate(305.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy=".71em" x="0.5" y="9" fill="#000">3</text></g><g transform="translate(393.5,0)" opacity="1" class="tick"><line x2="0.5" x1="0.5" y2="6" stroke="#000"></line><text dy=".71em" x="0.5" y="9" fill="#000">4</text></g></g><g text-anchor="end" font-family="sans-serif" font-size="10" fill="none" class="axis axis--y"><path d="M-6,225.5H0.5V0.5H-6" stroke="#000" class="domain"></path><g transform="translate(0,225)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="-6" stroke="#000"></line><text dy=".32em" y="0.5" x="-9" fill="#000">0</text></g><g transform="translate(0,200)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="-6" stroke="#000"></line><text dy=".32em" y="0.5" x="-9" fill="#000">2</text></g><g transform="translate(0,175)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="-6" stroke="#000"></line><text dy=".32em" y="0.5" x="-9" fill="#000">4</text></g><g transform="translate(0,150)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="-6" stroke="#000"></line><text dy=".32em" y="0.5" x="-9" fill="#000">6</text></g><g transform="translate(0,125)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="-6" stroke="#000"></line><text dy=".32em" y="0.5" x="-9" fill="#000">8</text></g><g transform="translate(0,100)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="-6" stroke="#000"></line><text dy=".32em" y="0.5" x="-9" fill="#000">10</text></g><g transform="translate(0,75)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="-6" stroke="#000"></line><text dy=".32em" y="0.5" x="-9" fill="#000">12</text></g><g transform="translate(0,50)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="-6" stroke="#000"></line><text dy=".32em" y="0.5" x="-9" fill="#000">14</text></g><g transform="translate(0,25)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="-6" stroke="#000"></line><text dy=".32em" y="0.5" x="-9" fill="#000">16</text></g><g transform="translate(0,0)" opacity="1" class="tick"><line y2="0.5" y1="0.5" x2="-6" stroke="#000"></line><text dy=".32em" y="0.5" x="-9" fill="#000">18</text></g><text fill="#000" text-anchor="start" dy="0.35em" y="0" x="2">AXIS LABEL</text></g><g style="font: 10px sans-serif;" transform="translate(0,0)" class="legend"><rect fill="#637939" height="18" width="18" x="432"></rect><text text-anchor="end" dy=".35em" y="9" x="426">yAxis4</text></g><g style="font: 10px sans-serif;" transform="translate(0,20)" class="legend"><rect fill="#9c9ede" height="18" width="18" x="432"></rect><text text-anchor="end" dy=".35em" y="9" x="426">yAxis3</text></g><g style="font: 10px sans-serif;" transform="translate(0,40)" class="legend"><rect fill="#6b6ecf" height="18" width="18" x="432"></rect><text text-anchor="end" dy=".35em" y="9" x="426">yAxis2</text></g><g style="font: 10px sans-serif;" transform="translate(0,60)" class="legend"><rect fill="#5254a3" height="18" width="18" x="432"></rect><text text-anchor="end" dy=".35em" y="9" x="426">yAxis1</text></g><g style="font: 10px sans-serif;" transform="translate(0,80)" class="legend"><rect fill="#393b79" height="18" width="18" x="432"></rect><text text-anchor="end" dy=".35em" y="9" x="426">yAxis0</text></g></g></svg></div>
+        <script>
+
+            DataVis((filter) => ({
+
+                data: {
+                    object: [
+    [{xAxis: 1, yAxis:1},{xAxis: 4, yAxis:5},{xAxis: 2, yAxis:3},{xAxis: 5, yAxis:5},{xAxis: 3, yAxis:4}],
+    [{xAxis: 1, yAxis:1},{xAxis: 4, yAxis:4},{xAxis: 2, yAxis:2},{xAxis: 5, yAxis:5},{xAxis: 3, yAxis:3}],
+    [{xAxis: 1, yAxis:1},{xAxis: 4, yAxis:4},{xAxis: 2, yAxis:4},{xAxis: 5, yAxis:4},{xAxis: 3, yAxis:5}],
+    [{xAxis: 1, yAxis:1},{xAxis: 4, yAxis:4},{xAxis: 2, yAxis:1},{xAxis: 5, yAxis:3},{xAxis: 3, yAxis:1}],
+    [{xAxis: 1, yAxis:1},{xAxis: 4, yAxis:4},{xAxis: 2, yAxis:2},{xAxis: 5, yAxis:5},{xAxis: 3, yAxis:2}]
+                    ],
+                    filters:'',
+                },
+                design: {
+                    type: 'bar',
+                    stack: true,
+                    //horizontal: true,
+                    target: '#eight',
+                    headers: {
+                        title: 'Stacked bars'
+                    }
+                }
+
+            }));
+        </script>
+    
+
+</body></html>
