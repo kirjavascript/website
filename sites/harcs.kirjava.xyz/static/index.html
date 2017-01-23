@@ -24,6 +24,8 @@ input {
     width: 480px;
     background-color: black;
     color: white;
+    font-size: 18px;
+    font-family: 'Source Code Pro', monospace;
 }
 span {
     font-size: 18px;
@@ -42,7 +44,7 @@ output.textContent = '';
 input.focus();
 
 
-let worker = new Worker('harcs.js');
+let worker = new Worker('harcs-worker.js');
 
 worker.addEventListener('message', e => {
     output.textContent += e.data + '\n';
