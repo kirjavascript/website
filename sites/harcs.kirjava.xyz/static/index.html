@@ -47,8 +47,13 @@ input.focus();
 let worker = new Worker('harcs-worker.js');
 
 worker.addEventListener('message', e => {
-    output.textContent += e.data + '\n';
-    output.scrollTop = output.scrollHeight;
+    if (~e.data.indexOf('__url_')) {
+        window.open(e.data.slice(6), '_blank');
+    }
+    else {
+        output.textContent += e.data + '\n';
+        output.scrollTop = output.scrollHeight;
+    }
 });
 
 input.addEventListener('keydown', e => {
