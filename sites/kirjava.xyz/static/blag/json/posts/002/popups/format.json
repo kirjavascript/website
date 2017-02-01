@@ -1,0 +1,17 @@
+[
+    {
+        "shape": "foreignObject",
+        "size": [
+            450,
+            "auto"
+        ],
+        "uid": "format",
+        "style": {
+        },
+        "ajax" : "json/posts/002/popups/format.html",
+        "foci": {
+            "x": 500,
+            "y": 200
+        }
+    }
+]
