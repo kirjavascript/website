@@ -7,11 +7,20 @@ module.exports = ({ hostname, url }, { text, header, body }) => {
     let { protocol, host } = urlModule.parse(url);
 
     const prefixURL = (str) => {
-        return `http://${hostname}/${protocol}//${host}${str}`;
+        if (/^(https?:\/\/)/.test(str)) {
+            return `http://${hostname}/${str}`;
+        }
+        else if (str.indexOf('//') == 0) {
+            return `http://${hostname}/${protocol}${str}`;
+        }
+        else {
+            return `http://${hostname}/${protocol}//${host}${str}`;
+        }
+        
     }
 
     const prefixObj = (obj, accessor) => {
-        if (obj && obj[accessor] && !/^(https?:\/\/|\/\/)/.test(obj[accessor])) {
+        if (obj && obj[accessor]) {
             obj[accessor] = prefixURL(obj[accessor]);
         }
     };
