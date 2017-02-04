@@ -33,7 +33,7 @@ module.exports = function(config) {
         let host = req.headers.host.split(':').shift();
 
         if (!config.dev && sites.indexOf(host) == -1) {
-            res.send('error 418');
+            res.status(418).send('error 418');
         }
         else {
             next();
