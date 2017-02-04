@@ -11,7 +11,7 @@ module.exports = ({ hostname, url }, { text, header, body }) => {
     }
 
     const prefixObj = (obj, accessor) => {
-        if (obj && obj[accessor] ) {
+        if (obj && obj[accessor] && !/^(https?:\/\/|\/\/)/.test(obj[accessor])) {
             obj[accessor] = prefixURL(obj[accessor]);
         }
     };
