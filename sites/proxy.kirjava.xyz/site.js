@@ -23,6 +23,7 @@ module.exports = function({app, config, express, site}) {
         request
             .get(url)
             .set('User-Agent', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0')
+            .buffer(true) // for JS
             .end((err, response) => {
                 if (err) {
                     // parse hollow requests
