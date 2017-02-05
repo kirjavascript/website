@@ -43,6 +43,7 @@
     "mailin": "^3.0.3",
     "posthtml-parser": "^0.2.0",
     "posthtml-render": "^1.0.6",
+    "request": "^2.79.0",
     "serve-favicon": "^2.3.0",
     "sqlite3": "^3.1.4",
     "vhost": "^3.0.2"

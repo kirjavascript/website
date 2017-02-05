@@ -2,7 +2,7 @@ let parser = require('posthtml-parser');
 let render = require('posthtml-render');
 let urlModule = require('url');
 
-module.exports = ({ hostname, url }, { text, header, body }) => {
+module.exports = ({ hostname, url }, { headers, body }) => {
 
     let { protocol, host } = urlModule.parse(url);
 
@@ -19,22 +19,34 @@ module.exports = ({ hostname, url }, { text, header, body }) => {
         
     }
 
+    const prefixCSS = (str) => {
+        return str.replace(/url\(("|')?(.*?)("|')?\)/g, (a, b, c, d, e) => {
+            return `url(${prefixURL(c)})`;
+        });
+    }
+
     const prefixObj = (obj, accessor) => {
         if (obj && obj[accessor]) {
             obj[accessor] = prefixURL(obj[accessor]);
         }
     };
 
-    if (~header['content-type'].indexOf('html')) {
-        let AST = parser(text);
+    if (~headers['content-type'].indexOf('html')) {
+        let AST = parser(body.toString());
 
         walkHTML(AST, (element) => {
             let {tag, attrs, content} = element;
             if (tag == 'link' || tag == 'a') {
                 prefixObj(attrs, 'href');
             }
+            else if (tag == 'form') {
+                prefixObj(attrs, 'action');
+            }
             else if (tag == 'script' || tag == 'img') {
                 prefixObj(attrs, 'src');
+            }
+            else if (tag == 'style') {
+                element.content = content.map(prefixCSS);
             }
         });
 
@@ -42,16 +54,11 @@ module.exports = ({ hostname, url }, { text, header, body }) => {
 
         return '<pre>' + JSON.stringify(AST,null,4) + '</pre>';
     }
-    else if (~header['content-type'].indexOf('css')) {
-        return text.replace(/url\(("|')?(.*)("|')?\)/g, (a, b, c, d, e) => {
-            return `url(${prefixURL(c)})`;
-        });
-    }
-    else if (~header['content-type'].indexOf('image')) {
-        return body;
+    else if (~headers['content-type'].indexOf('css')) {
+        return prefixCSS(body.toString());
     }
     else {
-        return text;
+        return body;
     }
 
 };

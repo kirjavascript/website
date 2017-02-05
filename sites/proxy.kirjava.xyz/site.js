@@ -1,5 +1,5 @@
 let vhost = require('vhost');
-let request = require('superagent');
+let request = require('request');
 let parseWeb = require('./parse-web');
 
 module.exports = function({app, config, express, site}) {
@@ -12,7 +12,7 @@ module.exports = function({app, config, express, site}) {
 
         let url = req.url.slice(1);
 
-        if (!url) res.send(`
+        if (!url) return res.send(`
             <a href="/http://www.google.com">
                 plz specify a URL
             </a>
@@ -20,22 +20,33 @@ module.exports = function({app, config, express, site}) {
 
         let hostname = req.headers.host;
 
-        request
-            .get(url)
-            .set('User-Agent', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0')
-            .buffer(true) // for JS
-            .end((err, response) => {
-                if (err) {
-                    // parse hollow requests
-                    return res.status(418).send(err);
-                }
+    // form action for TPB
+    // ajax
+    // magnet
 
-                let { status, header } = response;
+        let options = { 
+            url,
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0'
+            },
+            method: 'GET',
+            encoding: null,
+            gzip: true
+        }
 
-                res.status(status)
-                    .set('Content-Type', header['content-type'])
-                    .send(parseWeb({ hostname, url }, response));
-            });
+        request(options, (err, response, body) => {
+
+            if (err) {
+                // parse hollow requests
+                return res.status(418).send(err);
+            }
+
+            let { statusCode, headers } = response;
+
+            res.status(statusCode)
+                .set('Content-Type', headers['content-type'])
+                .send(parseWeb({ hostname, url }, response));
+        })
 
     });
 
