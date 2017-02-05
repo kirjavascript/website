@@ -21,7 +21,6 @@ module.exports = function({app, config, express, site}) {
         let hostname = req.headers.host;
 
     // form action for TPB
-    // ajax
     // magnet
 
         let options = { 

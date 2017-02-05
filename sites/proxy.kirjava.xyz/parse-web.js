@@ -7,8 +7,12 @@ module.exports = ({ hostname, url }, { headers, body }) => {
     let { protocol, host } = urlModule.parse(url);
 
     const prefixURL = (str) => {
+        // return [protocol, url].join` `
         if (/^(https?:\/\/)/.test(str)) {
             return `http://${hostname}/${str}`;
+        }
+        else if (/^magnet:/.test(str)) {
+            return str;
         }
         else if (str.indexOf('//') == 0) {
             return `http://${hostname}/${protocol}${str}`;
