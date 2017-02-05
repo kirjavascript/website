@@ -16,8 +16,11 @@ module.exports = ({ hostname, url }, { headers, body }) => {
         else if (str.indexOf('//') == 0) {
             return `http://${hostname}/${protocol}${str}`;
         }
-        else {
+        else if (str[0] == '/') {
             return `http://${hostname}/${protocol}//${host}${str}`;
+        }
+        else {
+            return `http://${hostname}/${protocol}//${host}/${str}`;
         }
         
     }
