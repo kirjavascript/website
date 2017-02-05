@@ -20,9 +20,6 @@ module.exports = function({app, config, express, site}) {
 
         let hostname = req.headers.host;
 
-    // form action for TPB
-    // magnet
-
         let options = { 
             url,
             headers: {
@@ -34,7 +31,7 @@ module.exports = function({app, config, express, site}) {
         }
 
         request(options, (err, response, body) => {
-
+            
             if (err) {
                 // parse hollow requests
                 return res.status(418).send(err);
