@@ -14,7 +14,7 @@ module.exports = function({app, config, express, site}) {
 
         if (!url) return res.send(`
             <a href="/http://www.google.com">
-                plz specify a URL
+                specify a URL
             </a>
         `);
 

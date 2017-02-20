@@ -1,1 +1,4 @@
-android.permission.READ_PHONE_STATE
+Privacy Policy
+==============
+
+android.permission.READ_PHONE_STATE is being triggered somehow and I have no idea. this is a react native app with no external dependencies no data is collected about users.</p>
