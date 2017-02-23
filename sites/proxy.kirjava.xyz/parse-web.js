@@ -51,8 +51,7 @@ module.exports = ({ hostname, url }, { headers, body }) => {
             else if (tag == 'script' || tag == 'img') {
                 prefixObj(attrs, 'src');
             }
-            else if (tag == 'style') {
-                content &&
+            else if (tag == 'style' && content) {
                 element.content = content.map(prefixCSS);
             }
         });
