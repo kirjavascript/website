@@ -22,6 +22,8 @@ module.exports = function(config) {
 
 function save2db(obj) {
 
+    if (!obj.from || !obj.to || !obj.date) return;
+
     let query = `
         INSERT INTO mail("from", "to", subject, date, text, html, headers)
         VALUES (?,?,?,?,?,?,?)

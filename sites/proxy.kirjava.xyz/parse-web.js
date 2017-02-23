@@ -52,6 +52,7 @@ module.exports = ({ hostname, url }, { headers, body }) => {
                 prefixObj(attrs, 'src');
             }
             else if (tag == 'style') {
+                content &&
                 element.content = content.map(prefixCSS);
             }
         });
