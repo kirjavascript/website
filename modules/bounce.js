@@ -11,9 +11,7 @@ module.exports = function(config) {
 
     let bouncer = bouncy(function (req, res, bounce) {
 
-        if (!req.headers.host) {
-            res.status(418).send('418 bounce error');
-        }
+        if (!req.headers.host) return;
 
         let host = req.headers.host.split(':').shift();
 
