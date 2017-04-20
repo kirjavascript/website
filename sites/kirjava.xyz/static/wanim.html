@@ -67,13 +67,13 @@ At the time of writing, this functionality is experimental and not generally ava
 <p>
     <div class="debris" data-index="2"></div>
     <pre>
-        element.animate({
-            marginLeft: ['0px', '500px'],
-        }, {
-            duration: 1000,
-            iterations: Infinity,
-            easing: 'cubic-bezier(.42,1.52,.98,.05)',
-        });
+    element.animate({
+        marginLeft: ['0px', '500px'],
+    }, {
+        duration: 1000,
+        iterations: Infinity,
+        easing: 'cubic-bezier(.42,1.52,.98,.05)',
+    });
     </pre>
     The easing option allows you to specify a CSS style easing like 'linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out', etc. This feature is somewhat limited because you are not able to provide an arbitrary JavaScript function for easing. However, CSS provides quite powerful easings with stuff like <a href="http://cubic-bezier.com">cubic-bezier()</a>. 
 </p>
@@ -113,13 +113,13 @@ Combining transforms seems to just work! Very useful. It even seems to support 3
 <p>
     <div class="debris" data-index="3"></div>
     <pre>
-            element.animate({
-                backgroundColor: ['#405','#298','#fe3'],
-            }, {
-                duration: 1000,
-                iterations: Infinity,
-                direction: 'alternate-reverse',
-            });
+    element.animate({
+        backgroundColor: ['#405','#298','#fe3'],
+    }, {
+        duration: 1000,
+        iterations: Infinity,
+        direction: 'alternate-reverse',
+    });
     </pre>
     It seems it's very easy to create sequential colour scales. 
 </p>
