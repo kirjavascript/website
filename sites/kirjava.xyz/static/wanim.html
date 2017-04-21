@@ -42,7 +42,7 @@ At the time of writing, this functionality is experimental and not generally ava
 <p>
     The basic syntax for animating an element looks like this;
     <pre>element.animate(keyframes, options);</pre>
-    'keyframes' is a description of the states to tween and can come in <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats">multiple formats</a>, options is an object with properties that control things like duration, delay etc. I feel like it has a similar syntax to things like jQuery and velocity.js.
+    'keyframes' is a description of the states to tween, and can come in <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats">multiple formats</a>. 'options' is an object with properties that control things like duration, delay etc. It feels like a similar syntax to things like jQuery and velocity.js.
 </p>
 
 
@@ -121,7 +121,7 @@ Combining transforms seems to just work! Very useful. It even seems to support 3
                 direction: 'alternate-reverse',
             });
     </pre>
-    It seems it's very easy to create sequential colour scales. 
+    It seems it's very easy to create smooth colour transforms.
 </p>
     Of course you can bind animations to events and do other 
     <button type="button" class="stupid-button">
