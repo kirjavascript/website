@@ -42,7 +42,7 @@ At the time of writing, this functionality is experimental and not generally ava
 <p>
     The basic syntax for animating an element looks like this;
     <pre>element.animate(keyframes, options);</pre>
-    Keyframes can come in <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats">multiple formats</a>, and options is an object with keys to control things like duration, delay etc. This is a similar syntax to jQuery or velocity.js.
+    'keyframes' is a description of the states to tween and can come in <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats">multiple formats</a>, options is an object with properties that control things like duration, delay etc. I feel like it has a similar syntax to things like jQuery and velocity.js.
 </p>
 
 
@@ -50,14 +50,14 @@ At the time of writing, this functionality is experimental and not generally ava
 <p>
     <div class="debris" data-index="1"></div>
     <pre>
-    element.animate([
-        {opacity: 0},
-        {opacity: 1},
-    ], {
-        duration: 1000,
-        iterations: Infinity,
-        direction: 'alternate',
-    });
+        element.animate([
+            {opacity: 0},
+            {opacity: 1},
+        ], {
+            duration: 1000,
+            iterations: Infinity,
+            direction: 'alternate',
+        });
     </pre>
 
     Schedule a 1 second long animation. 'iterations' has been set to Infinity to keep it repeating and the 'direction' has been set to 'alternate' to have the animation wrap correctly.
@@ -67,13 +67,13 @@ At the time of writing, this functionality is experimental and not generally ava
 <p>
     <div class="debris" data-index="2"></div>
     <pre>
-    element.animate({
-        marginLeft: ['0px', '500px'],
-    }, {
-        duration: 1000,
-        iterations: Infinity,
-        easing: 'cubic-bezier(.42,1.52,.98,.05)',
-    });
+        element.animate({
+            marginLeft: ['0px', '500px'],
+        }, {
+            duration: 1000,
+            iterations: Infinity,
+            easing: 'cubic-bezier(.42,1.52,.98,.05)',
+        });
     </pre>
     The easing option allows you to specify a CSS style easing like 'linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out', etc. This feature is somewhat limited because you are not able to provide an arbitrary JavaScript function for easing. However, CSS provides quite powerful easings with stuff like <a href="http://cubic-bezier.com">cubic-bezier()</a>. 
 </p>
@@ -105,7 +105,7 @@ Combining transforms seems to just work! Very useful. It even seems to support 3
     <pre>
         element.animate({strokeWidth:[1, 5]}, {duration: 1000, iterations: Infinity});
     </pre>
-    The animate method only interpolates style values, therefore SVG support is extremely limited as most drawing values in SVG are element attributes. Consider using another solution.
+    The animate method only interpolates style values, therefore SVG support is extremely limited as most drawing values in SVG are element attributes. Consider using something else to do this.
 </p>
 
 <h2>Colours</h2>
@@ -113,18 +113,23 @@ Combining transforms seems to just work! Very useful. It even seems to support 3
 <p>
     <div class="debris" data-index="3"></div>
     <pre>
-    element.animate({
-        backgroundColor: ['#405','#298','#fe3'],
-    }, {
-        duration: 1000,
-        iterations: Infinity,
-        direction: 'alternate-reverse',
-    });
+            element.animate({
+                backgroundColor: ['#405','#298','#fe3'],
+            }, {
+                duration: 1000,
+                iterations: Infinity,
+                direction: 'alternate-reverse',
+            });
     </pre>
     It seems it's very easy to create sequential colour scales. 
 </p>
-
-
+    Of course you can bind animations to events and do other 
+    <button type="button" class="stupid-button">
+        stupid things
+    </button>
+<p>
+    The base web API is quite primitive, but often that is all you need. For something more complicated, there is a large array of different animation libraries available depending on what you're doing.
+</p>
 <p>
 Further information on Element.animate() can be found <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/animate">here</a>.
 </p>
@@ -147,7 +152,7 @@ For information on what else the Web Animations API can do, look <a href="https:
             },{
                 duration: 1000,
                 iterations: Infinity,
-                easing: 'cubic-bezier(.42,1.52,.98,.05)',
+                easing: 'cubic-bezier(.42,1,.98,0)',
             });
         document.querySelector('.sq')
             .animate({
@@ -171,6 +176,18 @@ For information on what else the Web Animations API can do, look <a href="https:
                 duration: 1000,
                 iterations: Infinity,
                 direction: 'alternate-reverse',
+            });
+        document.querySelector('.stupid-button')
+            .addEventListener('click', function(e) {
+                e.target
+                    .animate({
+                        backgroundColor: ['transparent','red','blue','green', 'purple', 'yellow', 'orange', 'transparent'],
+                        transform: [
+                            'rotate(0deg) scale(1) translate(0, 0)',
+                            'rotate(420deg) scale(5) translate(-50px, -50px)',
+                            'rotate(360deg) scale(1) translate(0, 0)'
+                        ],
+                    },{duration: 1000, easing: 'cubic-bezier(.43,1,.71,0)' });
             });
     })()
 </script>
