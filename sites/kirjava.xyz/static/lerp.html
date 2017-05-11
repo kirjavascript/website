@@ -14,13 +14,13 @@
             }
             h1, h2 {
                 font-size: 18rem;
-                margin: 0;
+                margin: 0 auto;
             }
             header, section {
+                overflow: hidden;
+                text-align: center;
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                overflow: hidden;
             }
             header {
                 height: 100%;
@@ -83,8 +83,6 @@
                 });
             });
 
-            wrapper.style.height = (window.innerHeight * sections.length) + 'px';
-
             // define colours used for each section
 
             var colourList = [
@@ -108,7 +106,7 @@
 
                 // get Y offset diff from top
 
-                var diff = -bbox.y;
+                var diff = -bbox.top;
 
                 // calculate screen order to interpolate colour
 
@@ -120,7 +118,7 @@
                     return 0|lerp(d, colourList[(screenOrder + 1) % colourQty][i], screenFactor - screenOrder);
                 });
 
-                wrapper.style.backgroundColor = 'rgb(' + colour + ')';
+                document.body.style.backgroundColor = 'rgb(' + colour + ')';
 
                 // adjust offset of each section from the top
 
@@ -130,7 +128,7 @@
 
                     var nodeYOffset = index * window.innerHeight;
 
-                    if (diff > nodeYOffset) {
+                    if (diff > nodeYOffset && screenOrder < sections.length - 1) {
                         node.style.top = diff + 'px';
 
                         // calculate opacity from offset deviation
