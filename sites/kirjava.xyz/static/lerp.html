@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>lerp</title>
+        <meta name="description" content="">
+        <meta name="theme-color" content="#000000">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body, html {
+                margin: 0;
+                height: 100%;
+            }
+            h1, h2 {
+                font-size: 18rem;
+                margin: 0;
+            }
+            header, section {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            header {
+                height: 100%;
+                background-color: black;
+                color: white;
+            }
+            section {
+                position: absolute;
+                left: 0;
+                right: 0;
+            }
+            .wrapper {
+                position: relative;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>header</h2>
+        </header>
+        <div class="wrapper">
+            <section>
+                <h2>🙂</h2>
+            </section>
+            <section>
+                <h2>🤢</h2>
+            </section>
+            <section>
+                <h2>🙀</h2>
+            </section>
+            <section>
+                <h2>☂️</h2>
+            </section>
+            <section>
+                <h2>🎨</h2>
+            </section>
+            <section>
+                <h2>☢️</h2>
+            </section>
+            <section>
+                <h2>🎵</h2>
+            </section>
+        </div>
+    </body>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <script>
+        ~function() {
+
+            // get list of nodes
+
+            var sections = Array.from(document.querySelectorAll('section'));
+            var wrapper = document.querySelector('.wrapper');
+
+            // fix height of sections to screen height
+
+            sections.forEach(function (node, index) {
+                Object.assign(node.style, {
+                    minHeight: window.innerHeight + 'px',
+                    top: (index * window.innerHeight) + 'px'
+                });
+            });
+
+            wrapper.style.height = (window.innerHeight * sections.length) + 'px';
+
+            // define colours used for each section
+
+            var colourList = [
+                [255, 0, 0],
+                [255, 255, 0],
+                [128, 0, 255],
+                [0, 0, 255],
+            ];
+
+            // linear interpolation
+
+            function lerp(start, end, i) {
+                return start + (end - start) * i;
+            }
+
+            // onScroll...
+
+            document.addEventListener('scroll', function (e) {
+
+                var bbox = wrapper.getBoundingClientRect();
+
+                // get Y offset diff from top
+
+                var diff = -bbox.y;
+
+                // calculate screen order to interpolate colour
+
+                var screenFactor = Math.max(0, diff / window.innerHeight);
+                var screenOrder = screenFactor|0;
+                var colourQty = colourList.length;
+
+                var colour = colourList[(screenOrder) % colourQty].map(function(d, i) {
+                    return 0|lerp(d, colourList[(screenOrder + 1) % colourQty][i], screenFactor - screenOrder);
+                });
+
+                wrapper.style.backgroundColor = 'rgb(' + colour + ')';
+
+                // adjust offset of each section from the top
+
+                sections.forEach(function (node, index) {
+
+                    // calculate offset from wrapper
+
+                    var nodeYOffset = index * window.innerHeight;
+
+                    if (diff > nodeYOffset) {
+                        node.style.top = diff + 'px';
+
+                        // calculate opacity from offset deviation
+                        var scrollFactor = Math.min(
+                            1,
+                            (diff - nodeYOffset) / window.innerHeight
+                        );
+
+                        node.style.opacity = 1 - scrollFactor;
+                    }
+
+                    // reset stuff
+
+                    else {
+                        node.style.top = nodeYOffset + 'px';
+                        node.style.opacity = 1;
+                    }
+
+                });
+
+            });
+
+        } ()
+    </script>
+</html>
