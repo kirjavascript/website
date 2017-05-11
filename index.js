@@ -1,6 +1,6 @@
 let config = {
     dev: ~process.argv.indexOf('--dev'),
-    devSite: 'proxy.kirjava.xyz',
+    devSite: 'kirjava.xyz',
     port: {
         prod: 80,
         dev: 8000,
