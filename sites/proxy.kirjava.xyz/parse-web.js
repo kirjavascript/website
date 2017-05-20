@@ -37,7 +37,7 @@ module.exports = ({ hostname, url }, { headers, body }) => {
         }
     };
 
-    if (~headers['content-type'].indexOf('html')) {
+    if (headers['content-type'] && ~headers['content-type'].indexOf('html')) {
         let AST = parser(body.toString());
 
         walkHTML(AST, (element) => {

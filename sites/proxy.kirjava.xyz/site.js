@@ -40,7 +40,7 @@ module.exports = function({app, config, express, site}) {
             let { statusCode, headers } = response;
 
             res.status(statusCode)
-                .set('Content-Type', headers['content-type'])
+                .set('Content-Type', headers['content-type'] || 'text/html')
                 .send(parseWeb({ hostname, url }, response));
         })
 
