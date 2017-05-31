@@ -1,0 +1,158 @@
+Received: from smtp.telstra.com ([10.10.24.4])
+          by nsstlfep26p-svc.bpe.nexus.telstra.com.au with ESMTP
+          id <20170202054233.NNPI1849.nsstlfep26p-svc.bpe.nexus.telstra.com.au@smtp.telstra.com>;
+          Thu, 2 Feb 2017 16:42:33 +1100
+X-RG-Spam: Suspect
+X-Junkmail-Premium-Raw: score=69/50,refid=2.7.2:2017.2.2.45416:17:69.709,ip=95.211.211.173,rules=__PHISH_SPEAR_HTTP_RECEIVED,
+ __HAS_MSGID, __SANE_MSGID, __SUBJ_ALPHA_END, __MIME_VERSION, __CT,
+ __CTYPE_MULTIPART_ALT, __CTYPE_HAS_BOUNDARY, __CTYPE_MULTIPART, __USER_AGENT,
+ WEBMAIL_XOIP, __HAS_XOIP, __HAS_FROM, FROM_NAME_PHRASE, __FRAUD_WEBMAIL_FROM,
+ MISSING_HEADERS, WEBMAIL_X_IP_HDR, __MIME_TEXT_P2, __MIME_TEXT_H2,
+ __FRAUD_INTRO, __FRAUD_PROPOSE, __FRAUD_LOC, __STOCK_PHRASE_7,
+ __STOCK_PHRASE_8, __FRAUD_MONEY_BIG_COIN_DIG, __OEM_PRICE,
+ __FRAUD_MONEY_CURRENCY_DOLLAR, ECARD_GREETING_WORD, __MULTIPLE_URI_TEXT,
+ __URI_IN_BODY, __HAS_HTML, __HTML_TAG_DIV, BODY_SIZE_1500_1599,
+ BODYTEXTP_SIZE_3000_LESS, BODYTEXTH_SIZE_10000_LESS, __MIME_TEXT_H1,
+ __MIME_TEXT_P1, __MIME_HTML, __TAG_EXISTS_HTML, RDNS_NXDOMAIN,
+ __FRAUD_MONEY_CURRENCY, __FRAUD_MONEY_BIG_COIN, __FRAUD_MONEY_VALUE,
+ __PHISH_SPEAR_GREETING, __FRAUD_MONEY, FRAUD_X4, FRAUD_X3,
+ BODY_SIZE_5000_LESS, RDNS_SUSP_GENERIC, __FRAUD_WEBMAIL, FRAUD_X5, FRAUD_X6,
+ WEBMAIL_SOURCE, __FRAUD_COMMON, NO_URI_FOUND, NO_CTA_URI_FOUND,
+ __PHISH_SPEAR_STRUCTURE_1, __URI_NO_PATH, BODY_SIZE_2000_LESS, RDNS_SUSP,
+ __PHISH_SPEAR_STRUCTURE_2, __MIME_TEXT_H, __MIME_TEXT_P, BODY_SIZE_7000_LESS,
+ TO_MALFORMED, NO_URI_HTTPS
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+X-RG-Spam: Suspect
+Received: from [10.10.24.4] (10.10.24.4) by smtp.telstra.com (9.0.019.11-1)
+        id 5820AC3E0CA1B0E3; Thu, 2 Feb 2017 16:42:33 +1100
+Received: from [95.211.211.173]
+	by email.telstra.com with HTTP; Thu, 2 Feb 2017 16:42:30 +1100
+Message-ID: <4af5a1f3.2d009.159fd5875f0.Webtop.93@bigpond.com>
+Subject: Greeting ! I Am Mrs Monat Adama From Aleppo- Syria
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_420199_720915791.1486014150117"
+User-Agent: OWM Mail 3
+X-SID: 93
+X-Originating-IP: [95.211.211.173]
+From: Mrs Monat Adama <infos01@bigpond.com>
+Date: Thu, 2 Feb 2017 16:42:30 +1100 (AEDT)
+
+------=_Part_420199_720915791.1486014150117
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+
+
+Greeting !
+  How are you? My name is Mrs Monat Adama, a Citizen of Syria lived
+in Aleppo- Syria., I'm one of the former senior inspector for Syria
+National Petroleum Company(Kawkab Oil Company). I have Business
+investment transaction worth $8.2 Million. =C2=A0I will like to relocate
+out from Syria, Because here in Syria is serious war here. I wait to
+hear from you as soon as you see this message
+regards,
+Mrs Monat Adama
+
+------=_Part_420199_720915791.1486014150117
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> <html xmlns="http://www.w3.org/1999/xhtml"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> </head> <body><br><br><div class="signature" id="7529028322679048358">Greeting !<br><br> How are you? My name is Mrs Monat Adama, a Citizen of Syria lived<br>in Aleppo- Syria., I'm one of the former senior inspector for Syria<br>National Petroleum Company(Kawkab Oil Company). I have Business<br>investment transaction worth $8.2 Million. &nbsp;I will like to relocate<br>out from Syria, Because here in Syria is serious war here. I wait to<br>hear from you as soon as you see this message<br><br>regards,<br><br>Mrs Monat Adama<br></div></body></html>
+------=_Part_420199_720915791.1486014150117--
