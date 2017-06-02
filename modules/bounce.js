@@ -18,6 +18,9 @@ module.exports = function(config) {
         if (host === 'nibblr.pw') {
             bounce(8888);
         }
+        else if (host == 'mspaint.us') {
+            bounce(8889);
+        }
         else {
             bounce(config.port.express);
         }
