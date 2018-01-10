@@ -9,7 +9,7 @@
     "dev": "nodemon index.js --dev",
     "push": "git add . --all && git commit -m \"`date`\" && git push origin master",
     "pull": "git pull origin master",
-    "update": "git pull origin master && npm install && forever restart index.js"
+    "update": "git pull origin master && npm install && pm2 restart webserver"
   },
   "author": "",
   "license": "ISC",
