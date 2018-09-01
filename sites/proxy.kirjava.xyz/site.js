@@ -11,7 +11,7 @@ module.exports = function({app, config, express, site}) {
     local.use((req, res) => {
 
         // TODO: remove this line once namecheap issue is resolved
-        return res.send('censored by namecheap.com');
+        return res.send('censored by namecheap.com (for now)');
 
         let url = req.url.slice(1);
 
