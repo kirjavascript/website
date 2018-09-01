@@ -10,10 +10,12 @@ module.exports = function({app, config, express, site}) {
 
     local.use((req, res) => {
 
+        res.send(req.url.slice(1));
         // TODO: remove this line once namecheap issue is resolved
-        return res.send('censored by namecheap.com (for now)');
+        return res.send('censored by namecheap.com / efirstbank.com (for now)');
 
         let url = req.url.slice(1);
+
 
         if (!url) return res.send(`
             <a href="/http://www.google.com">
