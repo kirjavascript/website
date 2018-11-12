@@ -18,5 +18,3 @@ module.exports = function({app, config, express, site}) {
     app.use(vhost(hostname, local));
 
 }
-
-
