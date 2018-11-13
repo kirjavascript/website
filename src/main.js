@@ -6,7 +6,7 @@ const dev = ~process.argv.indexOf('--dev');
 
 const config = {
     dev,
-    devHost: 'kirjava.xyz',
+    devHost: 'proxy.kirjava.xyz',
     port: {
         bouncy: dev ? 8000 : 80,
         express: 9000,
@@ -55,15 +55,6 @@ const server = app
         console.info(`express: ${config.port.express}`)
     });
 
-// deployment
-
-app.post('/github-deploy', (req,res) => {
-    res.json({});
-    if (req.body.ref === 'refs/heads/master') {
-        require('child_process').exec('npm run update');
-    }
-})
-
 // get everything except bouncers
 const vhosts = sites.filter(site => site.type !== type.BOUNCE);
 // const hasVhost = which => vhost.some(site => site.hostname === which);
@@ -78,32 +69,45 @@ if (config.dev) {
 
 function loadSite(site) {
     console.info(`vhost: ${site.hostname}`);
-    const hostname = config.dev ? 'localhost' : site.hostname;
+    const getStatic = (path = 'static') => express.static(
+        `${__dirname}/sites/${site.hostname}/${path || 'static'}`,
+        { extensions: ['html', 'htm'] },
+    );
+    const hostname = config.dev ? '*' : site.hostname;
     if (site.type === type.STATIC) {
-        const path = `${__dirname}/sites/${site.hostname}/${site.path || 'static'}`;
-        app.use(vhost(hostname, express.static(path)));
+        app.use(vhost(hostname, getStatic(site.path)));
     } else {
         const localApp = express();
-        site.init({ app: localApp, express });
+        site.init({ app: localApp, getStatic });
         app.use(vhost(hostname, localApp));
     }
 }
 
+// deployment
+
+app.post('/github-deploy', (req,res) => {
+    res.json({});
+    if (req.body.ref === 'refs/heads/master') {
+        require('child_process').exec('npm run update');
+        console.info('updating')
+    }
+})
+
 // catch all unknow vhosts
 app.use((req,res,next) => {
-    // const host = req.headers.host.split(':').shift();
-    // if (!config.dev && sites.indexOf(host) == -1) {
-    res.status(418).send('nope');
-    // }
-    // else {
-    //     next();
-    // }
+    res.status(418).send(`
+        <span style="color:#060">
+            &gt ${req.get('host') + req.originalUrl}
+            <br />
+            &gt trying fake url
+        </span>
+    `);
 });
 
-// useStatic() // ext
+// click on a link, open iframe in background -refresh title, url
+//
 // better-lsqlite
-// update mail site
-// koa
+// update mail site / golf
 // useTween
 // generate README
 

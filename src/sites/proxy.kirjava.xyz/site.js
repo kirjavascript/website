@@ -18,9 +18,7 @@ module.exports = function({app, config, express, site}) {
         }
 
         if (!url) return res.send(`
-            <a href="/http://www.google.com">
-                specify a URL
-            </a>
+            <a href="/http://www.google.com">browse the web</a>
         `);
 
         let hostname = req.headers.host;
