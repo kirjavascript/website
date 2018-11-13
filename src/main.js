@@ -22,7 +22,7 @@ const type = {
 
 const sites = fs.readdirSync(`${__dirname}/sites`)
     .map((name) => {
-        const site = require(`${__dirname}/sites/${name}/index.js`)({ type })
+        const site = require(`${__dirname}/sites/${name}/index.js`)({ type, config })
         site.hostname = name;
         return site;
     });
@@ -82,6 +82,10 @@ function loadSite(site) {
     if (site.type === type.STATIC) {
         const path = `${__dirname}/sites/${site.hostname}/${site.path || 'static'}`;
         app.use(vhost(hostname, express.static(path)));
+    } else {
+        const localApp = express();
+        site.init({ app: localApp, express });
+        app.use(vhost(hostname, localApp));
     }
 }
 
@@ -96,18 +100,16 @@ app.use((req,res,next) => {
     // }
 });
 
-// compression
-// homebrew dev server
-// better bouncy integration
-// redirect .htm in kirajva.xyz / type.REDIRECT
+// useStatic() // ext
 // better-lsqlite
+// update mail site
 // koa
 // useTween
 // generate README
 
 // module.exports = ({type}) => ({
 //     type: type.VHOST,
-//     site: app => {
+//     inti: app => {
 //         // app is 'local'
 //     },
 // });
