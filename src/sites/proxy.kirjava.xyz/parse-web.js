@@ -58,7 +58,7 @@ module.exports = ({ hostname, url, contentType, body }) => {
 
         return render(AST);
 
-        return '<pre>' + JSON.stringify(AST,null,4) + '</pre>';
+        return '<pre>' + JSON.stringify(AST,0,4) + '</pre>';
     }
     else if (~contentType.indexOf('css')) {
         return prefixCSS(body.toString());

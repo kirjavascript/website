@@ -1,3 +1,4 @@
+const SQLite = require('better-sqlite3');
 const express = require('express');
 const vhost = require('vhost');
 const fs = require('fs');
@@ -6,7 +7,7 @@ const dev = ~process.argv.indexOf('--dev');
 
 const config = {
     dev,
-    devHost: 'proxy.kirjava.xyz',
+    devHost: 'golf.kirjava.xyz',
     port: {
         bouncy: dev ? 8000 : 80,
         express: 9000,
@@ -73,12 +74,19 @@ function loadSite(site) {
         `${__dirname}/sites/${site.hostname}/${path || 'static'}`,
         { extensions: ['html', 'htm'] },
     );
+    const getDatabase = ({0: schema} = []) => {
+        const filename = `${__dirname}/sites/${site.hostname}/storage.db`;
+        fs.openSync(filename, 'a');
+        const db = new SQLite(filename);
+        schema && db.exec(schema);
+        return db;
+    };
     const hostname = config.dev ? '*' : site.hostname;
     if (site.type === type.STATIC) {
         app.use(vhost(hostname, getStatic(site.path)));
     } else {
         const localApp = express();
-        site.init({ app: localApp, getStatic });
+        site.init({ app: localApp, getStatic, getDatabase });
         app.use(vhost(hostname, localApp));
     }
 }
