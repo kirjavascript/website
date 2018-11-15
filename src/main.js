@@ -7,11 +7,10 @@ const dev = ~process.argv.indexOf('--dev');
 
 const config = {
     dev,
-    devHost: 'golf.kirjava.xyz',
+    devHost: 'mail.kirjava.xyz',
     port: {
         bouncy: dev ? 8000 : 80,
         express: 9000,
-        smtp: dev ? 8025 : 25,
     }
 };
 
@@ -78,7 +77,7 @@ function loadSite(site) {
         app.use(vhost(hostname, getStatic(site.path)));
     } else {
         const localApp = express();
-        site.init({ app: localApp, getStatic, getDatabase });
+        site.init({ dev, app: localApp, getStatic, getDatabase });
         app.use(vhost(hostname, localApp));
     }
 }
@@ -119,6 +118,7 @@ app.use((req,res,next) => {
 // better-lsqlite
 // update mail site / golf
 // useTween
+// hits.kirjava.xyz
 // generate README
 
 // module.exports = ({type}) => ({
