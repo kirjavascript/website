@@ -1,4 +1,5 @@
 const fs = require('fs');
+const bodyParser = require('body-parser');
 // var favicon = require('serve-favicon');
 // let initdb = require('./initdb');
 // let api = require('./api');
@@ -9,13 +10,54 @@ module.exports = ({type}) => ({
 
         app.use('/', getStatic());
 
-        const db = getDatabase`
+        const db = getDatabase('paste-snippets', `
             CREATE TABLE IF NOT EXISTS snippets (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 route TEXT UNIQUE,
                 code TEXT
             );
-        `;
+        `);
+
+        app.use(bodyParser.json());
+
+        const insert = db.prepare(`
+            INSERT OR REPLACE INTO snippets(route,code)
+            VALUES (?,?)
+        `);
+
+        app.use('/api/save', (req, res) => {
+
+            const {hash, value} = req.body;
+
+            insert.run(hash, value)
+
+            database.run(query, [hash, value, true],
+                (err,data) => {
+                    if (err) res.json({err});
+                    else res.json({});
+                }
+            )
+        })
+
+        app.use('/api/load', (req, res) => {
+
+            let {hash} = req.body;
+
+            let query = `
+                SELECT code FROM snippets WHERE route = ?
+            `;
+
+            database.get(query, [hash],
+                (err,data) => {
+                    if (err) {
+                        res.json({err});
+                    }
+                    else if (data && data.code) {
+                        res.json({code:data.code});
+                    }
+                }
+            )
+        })
 
         // app.use(favicon(__dirname + '/static/favicon.ico'))
 

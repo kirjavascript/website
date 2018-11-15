@@ -1,13 +1,14 @@
 {
   "scripts": {
-    "start": "pm2 start --name  \"websites\" index.js",
+    "start": "pm2 start --name  \"website\" src/main.js",
     "stop": "pm2 stop index.js",
-    "dev": "nodemon index.js --dev",
     "push": "git add . --all && git commit -m \"`date`\" && git push origin master",
     "pull": "git pull origin master",
-    "update": "git pull origin master && npm install && pm2 restart webserver"
+    "update": "git pull origin master && npm install && pm2 restart website"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chokidar": "^2.0.4"
+  },
   "dependencies": {
     "better-sqlite3": "^5.0.1",
     "body-parser": "^1.18.3",

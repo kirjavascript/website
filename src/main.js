@@ -56,17 +56,9 @@ const server = app
         console.info(`express: ${config.port.express}`)
     });
 
-// get everything except bouncers
-const vhosts = sites.filter(site => site.type !== type.BOUNCE);
-// const hasVhost = which => vhost.some(site => site.hostname === which);
-
-// load vhosts
-
-if (config.dev) {
-    loadSite(vhosts.find(site => site.hostname === config.devHost));
-} else {
-    vhosts.forEach(loadSite);
-}
+// ensure storage folder exists
+const storageDir = __dirname + '/../storage/';
+!fs.existsSync(storageDir) && fs.mkdirSync(storageDir);
 
 function loadSite(site) {
     console.info(`vhost: ${site.hostname}`);
@@ -74,8 +66,8 @@ function loadSite(site) {
         `${__dirname}/sites/${site.hostname}/${path || 'static'}`,
         { extensions: ['html', 'htm'] },
     );
-    const getDatabase = ({0: schema} = []) => {
-        const filename = `${__dirname}/sites/${site.hostname}/storage.db`;
+    const getDatabase = (name, schema) => {
+        const filename = `${__dirname}/../storage/${name}`;
         fs.openSync(filename, 'a');
         const db = new SQLite(filename);
         schema && db.exec(schema);
@@ -91,6 +83,16 @@ function loadSite(site) {
     }
 }
 
+// load vhosts
+
+const vhosts = sites.filter(site => site.type !== type.BOUNCE);
+
+if (config.dev) {
+    loadSite(vhosts.find(site => site.hostname === config.devHost));
+} else {
+    vhosts.forEach(loadSite);
+}
+
 // deployment
 
 app.post('/github-deploy', (req,res) => {
@@ -101,7 +103,7 @@ app.post('/github-deploy', (req,res) => {
     }
 })
 
-// catch all unknow vhosts
+// catch all unknown vhosts
 app.use((req,res,next) => {
     res.status(418).send(`
         <span style="color:#060">
