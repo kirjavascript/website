@@ -9,6 +9,8 @@ module.exports = ({type}) => ({
 
         app.use('/', getStatic());
 
+        // TODO: namespace
+
         const db = getDatabase`
             CREATE TABLE IF NOT EXISTS snippets (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
