@@ -4,7 +4,7 @@
     "stop": "pm2 stop index.js",
     "push": "git add . --all && git commit -m \"`date`\" && git push origin master",
     "pull": "git pull origin master",
-    "update": "git pull origin master && npm install && pm2 restart website"
+    "update": "git pull origin master && yarn && pm2 restart website"
   },
   "devDependencies": {
     "chokidar": "^2.0.4"
