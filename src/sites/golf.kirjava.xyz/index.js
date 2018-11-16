@@ -5,8 +5,8 @@ const favicon = require('serve-favicon');
 module.exports = ({type}) => ({
     type: type.VHOST,
     init: ({ app, getStatic, getDatabase, hostname }) => {
-
         app.use('/', getStatic());
+        app.use(bodyParser.json()); // TODO: remove?
 
         const db = getDatabase('paste-snippets', `
             CREATE TABLE IF NOT EXISTS snippets (
@@ -15,8 +15,6 @@ module.exports = ({type}) => ({
                 code TEXT
             );
         `);
-
-        app.use(bodyParser.json());
 
         const insert = db.prepare(`
             INSERT OR REPLACE INTO snippets(route,code)
