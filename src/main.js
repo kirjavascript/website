@@ -114,16 +114,6 @@ app.use((req,res,next) => {
 });
 
 // click on a link, open iframe in background -refresh title, url
-//
-// better-lsqlite
-// update mail site / golf
+// golf better hash and have hash change instantly
 // useTween
-// hits.kirjava.xyz
-// generate README
-
-// module.exports = ({type}) => ({
-//     type: type.VHOST,
-//     inti: app => {
-//         // app is 'local'
-//     },
-// });
+// lets encrypt

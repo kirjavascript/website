@@ -44,7 +44,7 @@ module.exports = ({type}) => ({
             disableWebhook: true
         });
 
-        console.info('smtpd:'+port);
+        console.info('smtpd: '+port);
 
         mailin.on('message', (connection, obj, content) => {
             if (!obj.from || !obj.to || !obj.date) return;
