@@ -114,6 +114,8 @@ app.use((req,res,next) => {
 });
 
 // click on a link, open iframe in background -refresh title, url
-// golf better hash and have hash change instantly
+//
 // useTween
-// lets encrypt
+// golf better hash and have hash change instantly
+// paste - list character count
+// fix nibblr.pw
