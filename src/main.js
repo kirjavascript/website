@@ -34,7 +34,7 @@ bouncers.forEach(site => {
     console.info(`${site.hostname}: ${site.port}`)
 });
 // key-value of host-port
-const bounceKV = bouncers.reduce((acc, cur) => (acc[cur.hostname]=cur.port), {});
+const bounceKV = bouncers.reduce((acc, cur) => (acc[cur.hostname]=cur.port,acc), {});
 
 require('bouncy')((req, res, bounce) => {
     const host = req.headers.host.split(':').shift();
@@ -118,4 +118,3 @@ app.use((req,res,next) => {
 // useTween
 // golf better hash and have hash change instantly
 // paste - list character count
-// fix nibblr.pw
