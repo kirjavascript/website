@@ -34,7 +34,7 @@ bouncers.forEach(site => {
     console.info(`${site.hostname}: ${site.port}`)
 });
 // key-value of host-port
-const bounceKV = bouncers.reduce((acc, cur) => (acc[cur.hostname]=cur.port), {});
+const bounceKV = bouncers.reduce((acc, cur) => (acc[cur.hostname]=cur.port,acc), {});
 
 require('bouncy')((req, res, bounce) => {
     const host = req.headers.host.split(':').shift();
