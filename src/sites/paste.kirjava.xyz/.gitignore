@@ -1,5 +1,4 @@
 node_modules
-bundles
 npm-debug.log
-artefact.tar.gz
 package-lock.json
+yarn-error.log

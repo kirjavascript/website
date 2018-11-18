@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./styles/main.scss"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA,4BAA4B","file":"styles.css","sourcesContent":["/* responsive utilities*/\n/* only*/\n/* arbitrary*/\n/* dpi*/\n/* browser specific*/\nhtml {\n  background-color: #ffb6c1; }\n"],"sourceRoot":""}

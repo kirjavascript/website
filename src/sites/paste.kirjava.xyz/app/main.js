@@ -6,9 +6,9 @@ import 'brace/theme/tomorrow';
 import React, { Component, useState, useEffect, useRef } from 'react';
 import { render } from 'react-dom';
 
-import { hash } from './hash';
+import hash from './hash';
 
-function Editor() {
+function Editor({ value, onChange }) {
     // const editor = useRef();
     useEffect(() => {
         const editor = ace.edit('editor');
@@ -28,23 +28,48 @@ function Editor() {
         });
 
         editor.getSession().on('change', (e) => {
-
-            window.history.replaceState({}, '', '/' + hash(editor.getValue()));
+            const value = editor.getValue();
+            onChange({ value, hash: hash(value) });
         });
     }, []);
+
+    // useEffect(() => {
+    //     console.log(value);
+    // }, [value]);
 
     return (
         <div id="editor" />
     );
 }
 
+const data = do {
+    try {
+        JSON.stringify(document.getElementById('data').textContent);
+    } catch (e) {
+        {};
+    }
+};
 
 render(
-    <Editor />,
+    <Editor
+        onChange={({ hash, value }) => {
+            window.history.replaceState({}, '', '/' + hash);
+            fetch(`/save/${hash}`, {
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({value}),
+            })
+                .then(res => res.json())
+                .then(console.log)
+                .catch(console.error);
+        }}
+    />,
     document.body.appendChild(document.createElement('div')),
 );
 
-// ctrl c copy
-//
-// golf better hash and have hash change instantly
+// clipboard
+// /raw
 // useTween
