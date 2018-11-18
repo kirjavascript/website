@@ -27,6 +27,10 @@ function Editor({ value, onChange }) {
             wrap: true,
         });
 
+        if (value) {
+            editor.setValue(value, -1);
+        }
+
         editor.getSession().on('change', (e) => {
             const value = editor.getValue();
             onChange({ value, hash: hash(value) });
@@ -44,14 +48,19 @@ function Editor({ value, onChange }) {
 
 const data = do {
     try {
-        JSON.stringify(document.getElementById('data').textContent);
+        JSON.parse(document.getElementById('data').textContent);
     } catch (e) {
-        {};
+        ({});
     }
 };
 
+if (data.hash) {
+    window.history.replaceState({}, '', '/' + data.hash);
+}
+
 render(
     <Editor
+        value={data.code}
         onChange={({ hash, value }) => {
             window.history.replaceState({}, '', '/' + hash);
             fetch(`/save/${hash}`, {
@@ -63,7 +72,9 @@ render(
                 body: JSON.stringify({value}),
             })
                 .then(res => res.json())
-                .then(console.log)
+                .then(() => {
+
+                })
                 .catch(console.error);
         }}
     />,

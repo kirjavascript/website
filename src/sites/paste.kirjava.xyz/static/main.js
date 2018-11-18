@@ -158,6 +158,11 @@ function Editor(_ref) {
       maxLines: Infinity,
       wrap: true
     });
+
+    if (value) {
+      editor.setValue(value, -1);
+    }
+
     editor.getSession().on('change', function (e) {
       var value = editor.getValue();
       onChange({
@@ -176,14 +181,18 @@ function Editor(_ref) {
 
 var data = function () {
   try {
-    return JSON.stringify(document.getElementById('data').textContent);
+    return JSON.parse(document.getElementById('data').textContent);
   } catch (e) {
-    {}
-    ;
+    return {};
   }
 }();
 
+if (data.hash) {
+  window.history.replaceState({}, '', '/' + data.hash);
+}
+
 Object(react_dom__WEBPACK_IMPORTED_MODULE_5__["render"])(react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement(Editor, {
+  value: data.code,
   onChange: function onChange(_ref2) {
     var hash = _ref2.hash,
         value = _ref2.value;
@@ -199,7 +208,7 @@ Object(react_dom__WEBPACK_IMPORTED_MODULE_5__["render"])(react__WEBPACK_IMPORTED
       })
     }).then(function (res) {
       return res.json();
-    }).then(console.log).catch(console.error);
+    }).then(function () {}).catch(console.error);
   }
 }), document.body.appendChild(document.createElement('div'))); // clipboard
 // /raw

@@ -45,6 +45,7 @@
         "no-unused-vars": "off",
         "max-len": "off",
         "no-shadow": "off",
+        "no-unused-expressions": "off",
         "smells/no-switch": "error",
     },
     "settings": {

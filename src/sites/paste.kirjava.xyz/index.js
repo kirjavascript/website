@@ -36,9 +36,10 @@ module.exports = ({type}) => ({
         })
 
         app.get('/archive', (req, res) => {
-            res.send(routes.all().map(datum=> (
-                `<a href="/${datum.route}">${datum.route}</a><br/>`
-            )).join(''));
+            res.send(routes.all().map(datum=> `
+                <a href="/${datum.route}">${datum.route}</a>
+                <br/>
+            `).join(''));
         });
 
         const html = fs.readFileSync(__dirname + '/templates/index.html', 'utf-8');
@@ -50,7 +51,7 @@ module.exports = ({type}) => ({
 
             res.send(html.replace(/<inject-scripts\s*\/>/, `
                 <script
-                    id="code"
+                    id="data"
                     type="text/code"
                 >
                     ${JSON.stringify({hash, ...data})}
