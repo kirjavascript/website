@@ -131,6 +131,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _hash__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./hash */ "./app/hash.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./store */ "./app/store.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -140,7 +150,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Editor(_ref) {
-  var value = _ref.value,
+  var initialValue = _ref.initialValue,
       onChange = _ref.onChange;
   // const editor = useRef();
   Object(react__WEBPACK_IMPORTED_MODULE_4__["useEffect"])(function () {
@@ -159,15 +169,15 @@ function Editor(_ref) {
       wrap: true
     });
 
-    if (value) {
-      editor.setValue(value, -1);
+    if (initialValue) {
+      editor.setValue(initialValue, -1);
     }
 
     editor.getSession().on('change', function (e) {
-      var value = editor.getValue();
+      var code = editor.getValue();
       onChange({
-        value: value,
-        hash: Object(_hash__WEBPACK_IMPORTED_MODULE_6__["default"])(value)
+        code: code,
+        hash: Object(_hash__WEBPACK_IMPORTED_MODULE_6__["default"])(code)
       });
     });
   }, []); // useEffect(() => {
@@ -179,7 +189,86 @@ function Editor(_ref) {
   });
 }
 
-var data = function () {
+function App() {
+  var _useStore = Object(_store__WEBPACK_IMPORTED_MODULE_7__["useStore"])(),
+      _useStore2 = _slicedToArray(_useStore, 2),
+      store = _useStore2[0],
+      setStore = _useStore2[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_4__["useEffect"])(function () {
+    if (store.hash) {
+      window.history.replaceState({}, '', '/' + store.hash);
+    }
+  }, []);
+  return react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_4__["Fragment"], null, react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement(Editor, {
+    initialValue: store.code,
+    onChange: function onChange(_ref2) {
+      var hash = _ref2.hash,
+          code = _ref2.code;
+      window.history.replaceState({}, '', '/' + hash);
+      setStore({
+        hash: hash,
+        code: code,
+        saved: false
+      });
+      fetch("/save/".concat(hash), {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          code: code
+        })
+      }).then(function (res) {
+        return res.json();
+      }).then(function () {
+        setStore({
+          saved: true
+        });
+      }).catch(console.error);
+    }
+  }), react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement("pre", null, JSON.stringify(store, 0, 4)));
+}
+
+Object(react_dom__WEBPACK_IMPORTED_MODULE_5__["render"])(react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement(_store__WEBPACK_IMPORTED_MODULE_7__["Store"], null, react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement(App, null)), document.body.appendChild(document.createElement('div'))); // clipboard
+// /raw
+// useTween
+// jscrush jsfuck regpack uglify v2, v3
+
+/***/ }),
+
+/***/ "./app/store.js":
+/*!**********************!*\
+  !*** ./app/store.js ***!
+  \**********************/
+/*! exports provided: Store, useStore */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useStore", function() { return useStore; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+var pageData = function () {
   try {
     return JSON.parse(document.getElementById('data').textContent);
   } catch (e) {
@@ -187,32 +276,40 @@ var data = function () {
   }
 }();
 
-if (data.hash) {
-  window.history.replaceState({}, '', '/' + data.hash);
-}
+var initialState = _objectSpread({
+  saved: true
+}, pageData);
 
-Object(react_dom__WEBPACK_IMPORTED_MODULE_5__["render"])(react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement(Editor, {
-  value: data.code,
-  onChange: function onChange(_ref2) {
-    var hash = _ref2.hash,
-        value = _ref2.value;
-    window.history.replaceState({}, '', '/' + hash);
-    fetch("/save/".concat(hash), {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify({
-        value: value
-      })
-    }).then(function (res) {
-      return res.json();
-    }).then(function () {}).catch(console.error);
+var ctx = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])();
+var Store = function Store(_ref) {
+  var children = _ref.children;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(initialState),
+      _useState2 = _slicedToArray(_useState, 2),
+      state = _useState2[0],
+      setState = _useState2[1];
+
+  function mergeState(obj) {
+    setState(function (state) {
+      return _objectSpread({}, state, obj);
+    });
   }
-}), document.body.appendChild(document.createElement('div'))); // clipboard
-// /raw
-// useTween
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ctx.Provider, {
+    value: {
+      store: state,
+      setStore: mergeState
+    },
+    children: children
+  });
+};
+var useStore = function useStore() {
+  var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(ctx),
+      store = _useContext.store,
+      setStore = _useContext.setStore;
+
+  return [store, setStore];
+};
 
 /***/ }),
 

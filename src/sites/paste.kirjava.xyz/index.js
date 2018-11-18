@@ -31,7 +31,7 @@ module.exports = ({type}) => ({
         app.use('/', getStatic());
 
         app.post('/save/:hash', (req, res) => {
-            const result = insert.run(req.params.hash, req.body.value);
+            const result = insert.run(req.params.hash, req.body.code);
             res.json({ result });
         })
 

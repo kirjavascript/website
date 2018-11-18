@@ -3,12 +3,14 @@ import 'brace/keybinding/vim';
 import 'brace/mode/javascript';
 import 'brace/theme/tomorrow';
 
-import React, { Component, useState, useEffect, useRef } from 'react';
+import React, { Component, useState, useEffect, useRef, Fragment } from 'react';
 import { render } from 'react-dom';
 
 import hash from './hash';
+import { Store, useStore } from './store';
 
-function Editor({ value, onChange }) {
+function Editor({ initialValue, onChange }) {
+
     // const editor = useRef();
     useEffect(() => {
         const editor = ace.edit('editor');
@@ -27,13 +29,13 @@ function Editor({ value, onChange }) {
             wrap: true,
         });
 
-        if (value) {
-            editor.setValue(value, -1);
+        if (initialValue) {
+            editor.setValue(initialValue, -1);
         }
 
         editor.getSession().on('change', (e) => {
-            const value = editor.getValue();
-            onChange({ value, hash: hash(value) });
+            const code = editor.getValue();
+            onChange({ code, hash: hash(code) });
         });
     }, []);
 
@@ -46,41 +48,52 @@ function Editor({ value, onChange }) {
     );
 }
 
-const data = do {
-    try {
-        JSON.parse(document.getElementById('data').textContent);
-    } catch (e) {
-        ({});
-    }
-};
+function App() {
+    const [store, setStore] = useStore();
 
-if (data.hash) {
-    window.history.replaceState({}, '', '/' + data.hash);
+    useEffect(() => {
+        if (store.hash) {
+            window.history.replaceState({}, '', '/' + store.hash);
+        }
+    }, []);
+
+    return (
+        <Fragment>
+            <Editor
+                initialValue={store.code}
+                onChange={({ hash, code }) => {
+                    window.history.replaceState({}, '', '/' + hash);
+                    setStore({ hash, code, saved: false });
+
+                    fetch(`/save/${hash}`, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        method: 'POST',
+                        body: JSON.stringify({code}),
+                    })
+                        .then(res => res.json())
+                        .then(() => {
+                            setStore({ saved: true });
+                        })
+                        .catch(console.error);
+                }}
+            />
+            <pre>
+                {JSON.stringify(store,0,4)}
+            </pre>
+        </Fragment>
+    );
 }
 
-render(
-    <Editor
-        value={data.code}
-        onChange={({ hash, value }) => {
-            window.history.replaceState({}, '', '/' + hash);
-            fetch(`/save/${hash}`, {
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
-                },
-                method: 'POST',
-                body: JSON.stringify({value}),
-            })
-                .then(res => res.json())
-                .then(() => {
-
-                })
-                .catch(console.error);
-        }}
-    />,
-    document.body.appendChild(document.createElement('div')),
-);
+render((
+    <Store>
+        <App />
+    </Store>
+), document.body.appendChild(document.createElement('div')));
 
 // clipboard
 // /raw
 // useTween
+// jscrush jsfuck regpack uglify v2, v3
