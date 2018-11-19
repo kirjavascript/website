@@ -10,7 +10,6 @@ import hash from './hash';
 import { Store, useStore } from './store';
 
 function Editor({ initialValue, onChange }) {
-
     // const editor = useRef();
     useEffect(() => {
         const editor = ace.edit('editor');
