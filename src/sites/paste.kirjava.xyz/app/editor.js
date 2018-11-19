@@ -12,6 +12,7 @@ export default function Editor({ value, onChange }) {
             value: value,
             mode:  'javascript',
             theme: 'monokai',
+            autofocus: true,
             // keyMap: 'vim',
         });
 

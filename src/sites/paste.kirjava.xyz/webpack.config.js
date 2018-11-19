@@ -31,6 +31,7 @@ module.exports = (env={}, args={}) => {
                                 plugins: [
                                     'transform-class-properties',
                                     'transform-do-expressions',
+                                    '@babel/plugin-syntax-dynamic-import',
                                 ],
                             }
                         }

@@ -6,6 +6,8 @@ import { Store, useStore } from './store';
 import Editor from './editor';
 import getHash from './hash';
 
+document.title = 'pastestuff';
+
 function App() {
     const [store, setStore] = useStore();
 
@@ -16,7 +18,6 @@ function App() {
     }, []);
 
     const saveCode = useCallback(debounce(({hash, code}) => {
-
         fetch(`/save/${hash}`, {
             headers: {
                 'Accept': 'application/json',
@@ -30,32 +31,40 @@ function App() {
                 setStore({ saved: true });
             })
             .catch(console.error);
+    }, 500), []);
 
-    }, 300), []);
+    const handleChange = useCallback((code) => {
+        const hash = getHash(code);
+        window.history.replaceState({}, '', '/' + hash);
+        setStore({ hash, code, saved: false });
+        saveCode({ hash, code });
+    }, []);
 
     return (
         <Fragment>
             <Editor
                 value={store.code}
-                onChange={(code) => {
-                    const hash = getHash(code);
-                    window.history.replaceState({}, '', '/' + hash);
-                    setStore({ hash, code, saved: false });
-                    saveCode({ hash, code });
-                }}
+                onChange={handleChange}
             />
             <hr />
             <pre>
                 {JSON.stringify(store,0,4)}
             </pre>
+
             <button onClick={() => {
-                setStore({code: 'function() {}'});
-            }}>bzzt</button>
-            {store.code && !!store.code.length &&
+                // setStore({code: 'function() {}' });
+
+                import(/* webpackChunkName: "jsfuck" */ './transforms/jsfuck')
+                    .then((obj) => {
+                        setStore({code: obj.default(store.code) });
+                    })
+            }}>jsfuck</button>
+
+            {store.code && !!store.code.length && (
                 <Fragment>
                     {store.code.length} bytes
                 </Fragment>
-            }
+            )}
         </Fragment>
     );
 }

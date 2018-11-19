@@ -4,16 +4,16 @@ const pageData = do {
     try {
         JSON.parse(document.getElementById('data').textContent);
     } catch (e) {
-        ({ code: '' });
+        ({ hash: 'aaaa', code: '' });
     }
 };
 
 const initialState = {
     saved: true,
     hash: pageData.hash,
-    code: pageData.code &&
+    code: (pageData.code &&
         // undo XSS block
-        pageData.code.replace(/<\\\/script/ig, '</script'),
+        pageData.code.replace(/<\\\/script/ig, '</script')) || '',
 };
 
 // custom hook: useStore
