@@ -11,8 +11,13 @@ const pageData = do {
 
 const initialState = {
     saved: true,
-    ...pageData,
+    hash: pageData.hash,
+    code: pageData.code &&
+        // undo XSS block
+        pageData.code.replace(/<\\\/script/ig, '</script'),
 };
+
+// custom hook: useStore
 
 const ctx = createContext()
 

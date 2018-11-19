@@ -52,7 +52,7 @@ function App() {
     const [store, setStore] = useStore();
 
     useEffect(() => {
-        if (store.hash) {
+        if (store.hash) { // set initial URL if it's wrong
             window.history.replaceState({}, '', '/' + store.hash);
         }
     }, []);

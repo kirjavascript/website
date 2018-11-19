@@ -7,22 +7,20 @@ module.exports = ({type}) => ({
             CREATE TABLE IF NOT EXISTS pastes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 route TEXT UNIQUE,
-                code TEXT
+                source TEXT
             );
         `);
 
         const insert = db.prepare(`
-            INSERT OR REPLACE INTO pastes(route,code)
+            INSERT OR REPLACE INTO pastes(route,source)
             VALUES (?,?)
         `);
-        const code = db.prepare(`
-            SELECT code FROM pastes WHERE route = ?
+        const source = db.prepare(`
+            SELECT source FROM pastes WHERE route = ?
         `);
         const routes = db.prepare(`
             SELECT route FROM pastes
         `);
-
-        app.use(require('body-parser').json());
 
         app.get('/', (req, res) => {
             res.redirect('/aaaa');
@@ -46,15 +44,18 @@ module.exports = ({type}) => ({
 
         app.use((req, res) => {
             const hash = req.url.slice(1);
-            const data = code.get(hash);
-            // todo: fix closing script tag
+            const data = source.get(hash);
+            const code = data
+                && data.source
+                // block XSS
+                && data.source.replace(/<\/script/ig, '<\\/script');
 
             res.send(html.replace(/<inject-scripts\s*\/>/, `
                 <script
                     id="data"
                     type="text/code"
                 >
-                    ${JSON.stringify({hash, ...data})}
+                    ${JSON.stringify({hash, code})}
                 </script>
             `));
         });
