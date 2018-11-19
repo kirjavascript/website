@@ -1,5 +1,14 @@
 const fs = require('fs');
 
+// clipboard
+// /raw
+// useTween
+// strip types
+// jscrush jsfuck regpack uglify v2, v3
+// gzip size
+// run code
+// UNDO
+
 module.exports = ({type}) => ({
     type: type.VHOST,
     init: ({ app, getStatic, getDatabase, hostname }) => {

@@ -1,11 +1,10 @@
-import React, { useState, useContext, createContext } from 'react'
-import {render} from 'react-dom'
+import React, { useState, useContext, createContext, useCallback } from 'react'
 
 const pageData = do {
     try {
         JSON.parse(document.getElementById('data').textContent);
     } catch (e) {
-        ({});
+        ({ code: '' });
     }
 };
 
@@ -19,14 +18,14 @@ const initialState = {
 
 // custom hook: useStore
 
-const ctx = createContext()
+const ctx = createContext();
 
 export const Store = ({  children }) => {
     const [state, setState] = useState(initialState);
 
-    function mergeState(obj) {
+    const mergeState = useCallback((obj) => {
         setState(state => ({ ...state, ...obj }));
-    }
+    }, []);
 
     return <ctx.Provider
         value={{ store: state, setStore: mergeState }}
