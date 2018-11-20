@@ -301,8 +301,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var crc32__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! crc32 */ "./node_modules/crc32/lib/crc32.js");
 /* harmony import */ var crc32__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(crc32__WEBPACK_IMPORTED_MODULE_0__);
 
-var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~()'!*:@,;"; // ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐĐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿˢᵀᵁⱽᵂˣʸᶻᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷˣʸᶻ⁰¹²³⁴⁵⁶⁷⁸⁹⁰ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ０１２３４５６７８９$-_.+!*'(),€½¾łŧ¶←↓→øþĸŋđðßæµ¢»«·º’‘©Æ§ÐªŊĦ&ŁΩŁE®Ŧ¥↑ıØÞ¡⅛£¼⅜⅝⅞™±°`;
-
+var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~()'!*:@,;";
 function hash(str) {
   return crc32__WEBPACK_IMPORTED_MODULE_0___default()(str).padStart(8, 0).match(/../g).map(function (hex) {
     return chars[parseInt(hex, 16) % chars.length];
