@@ -1,2 +1,2 @@
 import { JSFuck } from 'jsfuck';
-export default JSFuck.encode;
+export default (str) => JSFuck.encode(str, true);
