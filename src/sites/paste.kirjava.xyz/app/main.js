@@ -1,12 +1,30 @@
-import React, { Component, useEffect, useCallback, Fragment } from 'react';
+import React, { useEffect, useCallback, Fragment } from 'react';
 import { render } from 'react-dom';
 import debounce from 'lodash/debounce';
 
 import { Store, useStore } from './store';
 import Editor from './editor';
+import Menu from './menu/container';
 import getHash from './hash';
+import bytes from './bytes';
 
-document.title = 'pastestuff';
+// limit length
+
+// useCode codestore
+// clipboard
+// /raw
+// useTween
+// gzip size
+// run code
+// UNDO
+// editor bar with settings
+// workers for transpilers
+// limit fe size / increase be size
+// highlight colour
+
+// 19:00 <nibblrjr> Kirjava: https://vgdensetsu.tumblr.com/post/179656817318/designing-2d-graphics-in-the-japanese-industry (4 hours ago)
+
+document.title = 'transpiler explorer';
 
 function App() {
     const [store, setStore] = useStore();
@@ -29,40 +47,28 @@ function App() {
             .then(res => res.json())
             .then(() => {
                 setStore({ saved: true });
+                window.history.replaceState({}, '', '/' + hash);
             })
             .catch(console.error);
     }, 500), []);
 
     const handleChange = useCallback((code) => {
         const hash = getHash(code);
-        window.history.replaceState({}, '', '/' + hash);
+        window.history.replaceState({}, '', '/????');
         setStore({ hash, code, saved: false });
         saveCode({ hash, code });
     }, []);
 
     return (
         <Fragment>
+            <Menu />
             <Editor
                 value={store.code}
                 onChange={handleChange}
             />
-            <hr />
-            <pre>
-                {JSON.stringify(store,0,4)}
-            </pre>
-
-            <button onClick={() => {
-                // setStore({code: 'function() {}' });
-
-                import(/* webpackChunkName: "jsfuck" */ './transforms/jsfuck')
-                    .then((obj) => {
-                        setStore({code: obj.default(store.code) });
-                    })
-            }}>jsfuck</button>
-
             {store.code && !!store.code.length && (
                 <Fragment>
-                    {store.code.length} bytes
+                    {bytes(store.code.length)}
                 </Fragment>
             )}
         </Fragment>

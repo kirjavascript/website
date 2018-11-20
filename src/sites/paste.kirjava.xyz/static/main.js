@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"jsfuck":"jsfuck"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"jscrush":"jscrush","jsfuck":"jsfuck"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -199,6 +199,27 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./app/bytes.js":
+/*!**********************!*\
+  !*** ./app/bytes.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return formatBytes; });
+function formatBytes(input) {
+  var sizes = ["", "K", "M", "G", "T", "P", "E", "Z", "Y"];
+  var LEN = sizes.length;
+  var index = Math.floor(Math.log(input) / Math.log(1024));
+  var val = input / Math.pow(1024, index);
+  var suffix = index < LEN ? sizes[index] : "?";
+  return "".concat(index === 0 ? val : val.toFixed(3)).concat(suffix, "B");
+}
+
+/***/ }),
+
 /***/ "./app/editor.js":
 /*!***********************!*\
   !*** ./app/editor.js ***!
@@ -217,6 +238,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var codemirror_mode_javascript_javascript__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(codemirror_mode_javascript_javascript__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var codemirror_keymap_vim__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! codemirror/keymap/vim */ "./node_modules/codemirror/keymap/vim.js");
 /* harmony import */ var codemirror_keymap_vim__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(codemirror_keymap_vim__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _bytes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./bytes */ "./app/bytes.js");
+
 
 
 
@@ -231,7 +254,9 @@ function Editor(_ref) {
       value: value,
       mode: 'javascript',
       theme: 'monokai',
-      autofocus: true // keyMap: 'vim',
+      autofocus: true,
+      lineWrapping: true,
+      inputStyle: 'contenteditable' // keyMap: 'vim',
 
     });
     editor.on('changes', function () {
@@ -239,12 +264,21 @@ function Editor(_ref) {
       onChange(code);
       valueRef.current = code;
     });
+    editor.on('blur', function () {
+      requestAnimationFrame(function () {
+        editor.focus();
+      });
+    });
     valueRef.current = value;
     editorRef.current = editor;
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (valueRef.current !== value) {
-      editorRef.current.setValue(value);
+      if (value.length > 1000000) {
+        editorRef.current.setValue("resulting payload is ".concat(Object(_bytes__WEBPACK_IMPORTED_MODULE_4__["default"])(value.length)));
+      } else {
+        editorRef.current.setValue(value);
+      }
     }
   }, [value]);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -294,7 +328,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store */ "./app/store.js");
 /* harmony import */ var _editor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor */ "./app/editor.js");
-/* harmony import */ var _hash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./hash */ "./app/hash.js");
+/* harmony import */ var _menu_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./menu/container */ "./app/menu/container.js");
+/* harmony import */ var _hash__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./hash */ "./app/hash.js");
+/* harmony import */ var _bytes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./bytes */ "./app/bytes.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -309,7 +345,22 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-document.title = 'pastestuff';
+
+ // limit length
+// useCode codestore
+// clipboard
+// /raw
+// useTween
+// gzip size
+// run code
+// UNDO
+// editor bar with settings
+// workers for transpilers
+// limit fe size / increase be size
+// highlight colour
+// 19:00 <nibblrjr> Kirjava: https://vgdensetsu.tumblr.com/post/179656817318/designing-2d-graphics-in-the-japanese-industry (4 hours ago)
+
+document.title = 'transpiler explorer';
 
 function App() {
   var _useStore = Object(_store__WEBPACK_IMPORTED_MODULE_3__["useStore"])(),
@@ -341,11 +392,12 @@ function App() {
       setStore({
         saved: true
       });
+      window.history.replaceState({}, '', '/' + hash);
     }).catch(console.error);
   }, 500), []);
   var handleChange = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function (code) {
-    var hash = Object(_hash__WEBPACK_IMPORTED_MODULE_5__["default"])(code);
-    window.history.replaceState({}, '', '/' + hash);
+    var hash = Object(_hash__WEBPACK_IMPORTED_MODULE_6__["default"])(code);
+    window.history.replaceState({}, '', '/????');
     setStore({
       hash: hash,
       code: code,
@@ -356,22 +408,132 @@ function App() {
       code: code
     });
   }, []);
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_editor__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_menu_container__WEBPACK_IMPORTED_MODULE_5__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_editor__WEBPACK_IMPORTED_MODULE_4__["default"], {
     value: store.code,
     onChange: handleChange
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("pre", null, JSON.stringify(store, 0, 4)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    onClick: function onClick() {
-      // setStore({code: 'function() {}' });
-      __webpack_require__.e(/*! import() | jsfuck */ "jsfuck").then(__webpack_require__.bind(null, /*! ./transforms/jsfuck */ "./app/transforms/jsfuck.js")).then(function (obj) {
-        setStore({
-          code: obj.default(store.code)
-        });
-      });
-    }
-  }, "jsfuck"), store.code && !!store.code.length && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, store.code.length, " bytes"));
+  }), store.code && !!store.code.length && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_bytes__WEBPACK_IMPORTED_MODULE_7__["default"])(store.code.length)));
 }
 
 Object(react_dom__WEBPACK_IMPORTED_MODULE_1__["render"])(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_store__WEBPACK_IMPORTED_MODULE_3__["Store"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(App, null)), document.body.appendChild(document.createElement('div')));
+
+/***/ }),
+
+/***/ "./app/menu/container.js":
+/*!*******************************!*\
+  !*** ./app/menu/container.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Container; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store */ "./app/store.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+function Container() {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(JSFuck, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(JSCrush, null));
+}
+
+function JSFuck() {
+  var _useStore = Object(_store__WEBPACK_IMPORTED_MODULE_1__["useStore"])(),
+      _useStore2 = _slicedToArray(_useStore, 2),
+      store = _useStore2[0],
+      setStore = _useStore2[1];
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      loading = _useState2[0],
+      setLoad = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      shouldEval = _useState4[0],
+      setShouldEval = _useState4[1];
+
+  var handleClick = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function () {
+    if (!loading) {
+      setLoad(true);
+      __webpack_require__.e(/*! import() | jsfuck */ "jsfuck").then(__webpack_require__.t.bind(null, /*! worker-loader?inline!../transforms/jsfuck */ "./node_modules/worker-loader/dist/cjs.js?inline!./app/transforms/jsfuck.js", 7)).then(function (_ref) {
+        var Worker = _ref.default;
+        var worker = new Worker();
+        worker.addEventListener('message', function (_ref2) {
+          var code = _ref2.data.code;
+          setStore({
+            code: code
+          });
+          worker.terminate();
+          setLoad(false);
+        });
+        worker.postMessage({
+          code: store.code,
+          shouldEval: shouldEval
+        });
+      }).catch(function () {
+        return setLoad(false);
+      });
+    }
+  }, [store.code, loading, shouldEval]);
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    checked: shouldEval,
+    onChange: function onChange() {
+      setShouldEval(function (val) {
+        return !val;
+      });
+    }
+  }), "(eval)", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: handleClick
+  }, loading ? 'fucking...' : 'jsfuck'));
+}
+
+function JSCrush() {
+  var _useStore3 = Object(_store__WEBPACK_IMPORTED_MODULE_1__["useStore"])(),
+      _useStore4 = _slicedToArray(_useStore3, 2),
+      store = _useStore4[0],
+      setStore = _useStore4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState6 = _slicedToArray(_useState5, 2),
+      loading = _useState6[0],
+      setLoad = _useState6[1];
+
+  var handleClick = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function () {
+    if (!loading) {
+      setLoad(true);
+      __webpack_require__.e(/*! import() | jscrush */ "jscrush").then(__webpack_require__.t.bind(null, /*! worker-loader?inline!../transforms/jscrush */ "./node_modules/worker-loader/dist/cjs.js?inline!./app/transforms/jscrush.js", 7)).then(function (_ref3) {
+        var Worker = _ref3.default;
+        var worker = new Worker();
+        worker.addEventListener('message', function (_ref4) {
+          var code = _ref4.data.code;
+          setStore({
+            code: code
+          });
+          worker.terminate();
+          setLoad(false);
+        });
+        worker.postMessage({
+          code: store.code
+        });
+      }).catch(function () {
+        return setLoad(false);
+      });
+    }
+  }, [store.code, loading]);
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: handleClick
+  }, loading ? 'crushing...' : 'jscrush');
+}
 
 /***/ }),
 
@@ -416,8 +578,7 @@ var pageData = function () {
 var initialState = {
   saved: true,
   hash: pageData.hash,
-  code: pageData.code && // undo XSS block
-  pageData.code.replace(/<\\\/script/ig, '</script') || ''
+  code: pageData.code && decodeURIComponent(pageData.code) || ''
 }; // custom hook: useStore
 
 var ctx = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])();

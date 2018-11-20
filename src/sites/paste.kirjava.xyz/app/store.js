@@ -11,9 +11,7 @@ const pageData = do {
 const initialState = {
     saved: true,
     hash: pageData.hash,
-    code: (pageData.code &&
-        // undo XSS block
-        pageData.code.replace(/<\\\/script/ig, '</script')) || '',
+    code: (pageData.code && decodeURIComponent(pageData.code)) || '',
 };
 
 // custom hook: useStore

@@ -46,6 +46,7 @@
         "max-len": "off",
         "no-shadow": "off",
         "no-unused-expressions": "off",
+        "no-restricted-globals": "off",
         "smells/no-switch": "error",
     },
     "settings": {

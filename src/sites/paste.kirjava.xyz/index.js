@@ -1,14 +1,5 @@
 const fs = require('fs');
 
-// clipboard
-// /raw
-// useTween
-// strip types
-// jscrush jsfuck regpack uglify v2, v3
-// gzip size
-// run code
-// UNDO
-
 module.exports = ({type}) => ({
     type: type.VHOST,
     init: ({ app, getStatic, getDatabase, hostname }) => {
@@ -56,8 +47,7 @@ module.exports = ({type}) => ({
             const data = source.get(hash);
             const code = data
                 && data.source
-                // block XSS
-                && data.source.replace(/<\/script/ig, '<\\/script');
+                && encodeURIComponent(data.source);
 
             res.send(html.replace(/<inject-scripts\s*\/>/, `
                 <script

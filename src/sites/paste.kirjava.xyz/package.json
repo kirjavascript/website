@@ -1,7 +1,7 @@
 {
   "scripts": {
     "watch": "webpack -w --env.dev",
-    "deploy": "webpack -p"
+    "deploy": "rm -rf ./static && webpack -p"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.49",
@@ -37,9 +37,12 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "codemirror": "^5.41.0",
     "crc32": "^0.2.2",
+    "javascript-packer": "^0.0.5",
+    "jscrush": "^0.0.0",
     "jsfuck": "^0.4.0",
     "lodash": "^4.17.11",
     "react": "^16.7.0-alpha.2",
-    "react-dom": "^16.7.0-alpha.2"
+    "react-dom": "^16.7.0-alpha.2",
+    "worker-loader": "^2.0.0"
   }
 }

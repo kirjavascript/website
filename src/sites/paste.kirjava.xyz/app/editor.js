@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import CM from 'codemirror';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/keymap/vim';
+import bytes from './bytes';
 
 export default function Editor({ value, onChange }) {
     const valueRef = useRef();
@@ -13,6 +14,8 @@ export default function Editor({ value, onChange }) {
             mode:  'javascript',
             theme: 'monokai',
             autofocus: true,
+            lineWrapping: true,
+            inputStyle: 'contenteditable',
             // keyMap: 'vim',
         });
 
@@ -22,6 +25,12 @@ export default function Editor({ value, onChange }) {
             valueRef.current = code;
         });
 
+        editor.on('blur', () => {
+            requestAnimationFrame(() => {
+                editor.focus();
+            });
+        });
+
         valueRef.current = value;
         editorRef.current = editor;
 
@@ -29,7 +38,13 @@ export default function Editor({ value, onChange }) {
 
     useEffect(() => {
         if (valueRef.current !== value) {
-            editorRef.current.setValue(value);
+            if (value.length > 1000000) {
+                editorRef.current.setValue(
+                    `resulting payload is ${bytes(value.length)}`
+                );
+            } else {
+                editorRef.current.setValue(value);
+            }
         }
     }, [value]);
 
