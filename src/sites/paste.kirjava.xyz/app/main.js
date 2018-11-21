@@ -21,6 +21,7 @@ import bytes from './bytes';
 // workers for transpilers
 // limit fe size / increase be size
 // highlight colour
+// polyfill padStart
 
 // 19:00 <nibblrjr> Kirjava: https://vgdensetsu.tumblr.com/post/179656817318/designing-2d-graphics-in-the-japanese-industry (4 hours ago)
 
