@@ -37,7 +37,6 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "codemirror": "^5.41.0",
     "crc32": "^0.2.2",
-    "javascript-packer": "^0.0.5",
     "jscrush": "^0.0.0",
     "jsfuck": "^0.4.0",
     "lodash": "^4.17.11",

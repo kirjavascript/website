@@ -290,7 +290,6 @@
 "@babel/plugin-syntax-dynamic-import@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-dynamic-import/-/plugin-syntax-dynamic-import-7.0.0.tgz#6dfb7d8b6c3be14ce952962f658f3b7eb54c33ee"
-  integrity sha512-Gt9xNyRrCHCiyX/ZxDGOcBnlJl0I3IWicpZRC4CdC0P5a/I07Ya2OAMEBU+J7GmRFVmIetqEYRko6QYRuKOESw==
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
@@ -1632,7 +1631,6 @@ code-point-at@^1.0.0:
 codemirror@^5.41.0:
   version "5.41.0"
   resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.41.0.tgz#57e245be197643c39440d2840236d3edc4bb1162"
-  integrity sha512-mkCwbneCx2WHg1MNCYrI+8Zuq0KMMaZ5yTFpQlAZazy3yxME8bHcuSc9WUFzgPZ114WqWu1FIHlx8CavLzBDIg==
 
 collection-visit@^1.0.0:
   version "1.0.0"
@@ -3651,11 +3649,6 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
-javascript-packer@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/javascript-packer/-/javascript-packer-0.0.5.tgz#af76c092cecbada60fb7d24332e56116b59f76ae"
-  integrity sha1-r3bAks7LraYPt9JDMuVhFrWfdq4=
-
 js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.4.9"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.9.tgz#748911fb04f48a60c4771b375cac45a80df11c03"
@@ -3693,7 +3686,6 @@ jsbn@~0.1.0:
 jscrush@^0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/jscrush/-/jscrush-0.0.0.tgz#adbf5ca0cb8c085bcd7e69c2287b2b975c89d030"
-  integrity sha1-rb9coMuMCFvNfmnCKHsrl1yJ0DA=
 
 jsesc@^2.5.1:
   version "2.5.2"
@@ -3706,7 +3698,6 @@ jsesc@~0.5.0:
 jsfuck@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/jsfuck/-/jsfuck-0.4.0.tgz#aa2a7901d083da631d304742d0b37a1ca45bb0f2"
-  integrity sha1-qip5AdCD2mMdMEdC0LN6HKRbsPI=
 
 json-parse-better-errors@^1.0.2:
   version "1.0.2"
@@ -6774,7 +6765,6 @@ worker-farm@^1.5.2:
 worker-loader@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-2.0.0.tgz#45fda3ef76aca815771a89107399ee4119b430ac"
-  integrity sha512-tnvNp4K3KQOpfRnD20m8xltE3eWh89Ye+5oj7wXEEHKac1P4oZ6p9oTj8/8ExqoSBnk9nu5Pr4nKfQ1hn2APJw==
   dependencies:
     loader-utils "^1.0.0"
     schema-utils "^0.4.0"
