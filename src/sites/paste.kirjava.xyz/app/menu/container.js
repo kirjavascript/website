@@ -31,13 +31,12 @@ http://dean.edwards.name/packer/
 
 function JSFuck() {
     const [store, setStore] = useStore();
-
-    const [loading, setLoad] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [shouldEval, setShouldEval] = useState(false);
 
     const handleClick = useCallback(() => {
         if (!loading) {
-            setLoad(true);
+            setLoading(true);
             import(/* webpackChunkName: "jsfuck" */
                 'worker-loader?inline!../transforms/jsfuck')
                 .then(({ default: Worker }) => {
@@ -45,11 +44,11 @@ function JSFuck() {
                     worker.addEventListener('message', ({ data: { code } }) => {
                         setStore({ code });
                         worker.terminate();
-                        setLoad(false);
+                        setLoading(false);
                     });
                     worker.postMessage({ code: store.code, shouldEval });
                 })
-                .catch(() => setLoad(false));
+                .catch(() => setLoading(false));
         }
     }, [store.code, loading, shouldEval]);
 
@@ -72,11 +71,11 @@ function JSFuck() {
 
 function JSCrush() {
     const [store, setStore] = useStore();
-    const [loading, setLoad] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleClick = useCallback(() => {
         if (!loading) {
-            setLoad(true);
+            setLoading(true);
             import(/* webpackChunkName: "jscrush" */
                 'worker-loader?inline!../transforms/jscrush')
                 .then(({ default: Worker }) => {
@@ -84,11 +83,11 @@ function JSCrush() {
                     worker.addEventListener('message', ({ data: { code } }) => {
                         setStore({ code });
                         worker.terminate();
-                        setLoad(false);
+                        setLoading(false);
                     });
                     worker.postMessage({ code: store.code });
                 })
-                .catch(() => setLoad(false));
+                .catch(() => setLoading(false));
         }
     }, [store.code, loading]);
 
