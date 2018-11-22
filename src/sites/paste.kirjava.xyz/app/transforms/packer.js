@@ -1,6 +1,6 @@
-self.onmessage = ({ data: { code, shouldEval } }) => {
-    // self.postMessage({ code: JSFuck.encode(code, shouldEval) });
-    console.log(packer);
+self.onmessage = ({ data: { code } }) => {
+    const packer = new Packer();
+    self.postMessage({ code: packer.pack(code, true, true) });
     // code, base62, shrink
 };
 
@@ -10,6 +10,7 @@ self.onmessage = ({ data: { code, shouldEval } }) => {
 
         ~modified for Web Worker usage~
 */
+
 var base2 = {
     name: "base2",
     version: "1.0.1(pre)",
@@ -2702,39 +2703,3 @@ var Words = Collection.extend({
 		index: -1
 	}
 });
-
-const pack = new Packer();
-
-const demo = ` var base2 = {
-    name: "base2",
-    version: "1.0.1(pre)",
-    exports: "Base, Package, Abstract, Module, Enumerable, Map, Collection, RegGrp, " + "assert, assertArity, assertType, " + "assignID, copy, counter, detect, extend, forEach, format, instanceOf, match, rescape, slice, trim, " + "I, K, Undefined, Null, True, False, bind, delegate, flip, not, partial, unbind",
-    global: this,
-    namespace: "var global=base2.global;function base(o,a){return o.base.apply(o,a)};",
-    detect: new function(_) {
-        var global = _;
-        var jscript /*@cc_on=@_jscript_version@*/ ;
-        if (_.navigator) {
-            var element = document.createElement("span");
-            var userAgent = navigator.platform + " " + navigator.userAgent;
-            if (!jscript) userAgent = userAgent.replace(/MSIE\s[\d.]+/, "");
-            userAgent = userAgent.replace(/([a-z])[\s\/](\d)/gi, "$1$2");
-        }
-        return function(a) {
-            var r = false;
-            var b = a.charAt(0) == "!";
-            if (b) a = a.slice(1);
-            if (a.charAt(0) == "(") {
-                try {
-                    eval("r=!!" + a)
-                } catch (error) {}
-            } else {
-                r = new RegExp("(" + a + ")", "i").test(userAgent)
-            }
-            return !!(b ^ r)
-        }
-    }(this)
-};`;
-
-// console.log(('function test() {}', true, true));
-console.log(pack.pack(demo, true, true));

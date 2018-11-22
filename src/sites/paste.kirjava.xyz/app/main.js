@@ -22,6 +22,7 @@ import bytes from './bytes';
 // limit fe size / increase be size
 // highlight colour
 // polyfill padStart
+// flex-layouter - pane for transpiled result (toggle to transpile target / same target)
 
 // 19:00 <nibblrjr> Kirjava: https://vgdensetsu.tumblr.com/post/179656817318/designing-2d-graphics-in-the-japanese-industry (4 hours ago)
 

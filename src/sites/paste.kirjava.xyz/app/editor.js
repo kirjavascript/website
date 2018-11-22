@@ -38,9 +38,9 @@ export default function Editor({ value, onChange }) {
 
     useEffect(() => {
         if (valueRef.current !== value) {
-            if (value.length > 1000000) {
+            if (value.length > 2000000) {
                 editorRef.current.setValue(
-                    `resulting payload is ${bytes(value.length)}`
+                    `resulting payload would be ${bytes(value.length)}`
                 );
             } else {
                 editorRef.current.setValue(value);

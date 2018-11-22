@@ -8,22 +8,24 @@ export default function Container() {
             <JSFuck />
             <JSCrush />
             {/*
-
-
-            js unfuck
-https://github.com/google/closure-compiler-js
-https://siorki.github.io/regPack.html
-http://compressorrater.thruhere.net/
-http://dean.edwards.name/packer/
-            regpack
-            uglify v2, v3
-            minifiers
-            babel
-            lebab
-            typescript
-            flow
-            coffeescript /decaffinate
-*/}
+    https://github.com/google/closure-compiler-js
+    https://siorki.github.io/regPack.html
+    http://compressorrater.thruhere.net/
+    http://dean.edwards.name/packer/
+http://www.brainjar.com/js/crunch/demo.html
+http://refresh-sf.com/
+                dojo
+                regpack
+                uglify v2, v3
+                obfuscators
+                babel
+                lebab
+                typescript
+                flow
+                coffeescript /decaffinate
+                opal
+                js unfuck
+            */}
 
         </div>
     );
