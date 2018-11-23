@@ -25,6 +25,7 @@ import bytes from './bytes';
 // flex-layouter - pane for transpiled result (toggle to transpile target / same target)
 //https://github.com/FarhadG/code-mirror-themes
 //https://github.com/Aerobird98/codemirror-one-dark-theme
+// test all minifiers on a piece of code
 
 // 19:00 <nibblrjr> Kirjava: https://vgdensetsu.tumblr.com/post/179656817318/designing-2d-graphics-in-the-japanese-industry (4 hours ago)
 
