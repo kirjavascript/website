@@ -1,16 +1,15 @@
+/* eslint-disable */
 self.onmessage = ({ data: { code } }) => {
     const packer = new Packer();
     self.postMessage({ code: packer.pack(code, true, true) });
     // code, base62, shrink
 };
-
 /*
-	Packer version 3.0 (final) - copyright 2004-2007, Dean Edwards
-	http://www.opensource.org/licenses/mit-license
+    Packer version 3.0 (final) - copyright 2004-2007, Dean Edwards
+    http://www.opensource.org/licenses/mit-license
 
-        ~modified for Web Worker usage~
+    ~modified for Web Worker usage~
 */
-
 var base2 = {
     name: "base2",
     version: "1.0.1(pre)",
@@ -2335,73 +2334,73 @@ var Colorizer = RegGrp.extend({
 });
 base2.addPackage("code");
 base2.code.addName("Colorizer", Colorizer);
-with(base2.code.Colorizer) addScheme("xml", {
-    attribute: /(\w+)=("[^"]*"|'[^']*')/,
-    cdata: /<!\[CDATA\[([^\]]|\][^\]]|\]\][^>])*\]\]>/,
-    comment: /<!\s*(--([^-]|[\r\n]|-[^-])*--\s*)>/,
-    entity: /&#?\w+;/,
-    "processing-instruction": /<\?[\w-]+[^>]+>/,
-    tag: /(<\/?)([\w:-]+)/,
-    text: /[>;][^<>&]*/
-}, {
-    cdata: IGNORE,
-    tag: "$1@2",
-    attribute: '@1=<span class="attribute value">$2</span>',
-    text: IGNORE
-}, {
-    tabStop: 1
-});
-with(base2) code.Colorizer.addScheme("html", {
-    conditional: /<!(--)?\[[^\]]*\]>|<!\[endif\](--)?>/,
-    doctype: /<!(DOCTYPE|doctype)[^>]+>/,
-    inline: /<(script|style)([^>]*)>((\\.|[^\\])*)<\/\1>/
-}, {
-    inline: function(a, b, c, d) {
-        return format(this.INLINE, b, this.exec(c, true), d)
-    }
-}, {
-    INLINE: '&lt;<span class="tag">%1</span>%2&gt;%3&lt;/<span class="tag">%1</span>&gt;',
-    tabStop: 1
-});
-with(base2.code.Colorizer) html.merge(xml);
-with(base2.code.Colorizer) addScheme("css", {
-    at_rule: /@[\w\s]+/,
-    bracketed: /\([^'\x22)]*\)/,
-    comment: patterns.block_comment,
-    property: /(\w[\w-]*\s*):([^;}]+)/,
-    special: /(\-[\w-]*\s*):/,
-    selector: /([\w-:\[.#][^{};]*)\{/
-}, {
-    bracketed: IGNORE,
-    selector: "@1{",
-    special: "@1:",
-    property: '@1:<span class="property value">$2</span>'
-});
-with(base2.code.Colorizer) addScheme("javascript", {
-    conditional: /\/\*@if\s*\([^\)]*\)|\/\*@[\s\w]*|@\*\/|\/\/@\w+|@else[\s\w]*/,
-    global: /\b(clearInterval|clearTimeout|constructor|document|escape|hasOwnProperty|Infinity|isNaN|NaN|parseFloat|parseInt|prototype|setInterval|setTimeout|toString|unescape|valueOf|window)\b/,
-    keyword: /\b(&&|\|\||arguments|break|case|continue|default|delete|do|else|false|for|function|if|in|instanceof|new|null|return|switch|this|true|typeof|var|void|while|with|undefined)\b/,
-    regexp: /([\[(\^=,{}:;&|!*?]\s*)(\/(\\\/|[^\/*])(\\.|[^\/\n\\])*\/[mgi]*)/,
-    special: /\b(assert\w*|alert|catch|confirm|console|debug|debugger|eval|finally|prompt|throw|try)\b/
-}, {
-    comment: DEFAULT,
-    string: DEFAULT,
-    regexp: "$1@2",
-    number: DEFAULT
-});
-with(base2) with(code) Colorizer["html-multi"] = Colorizer.html.union({
-    inline: function(a, b, c, d) {
-        var e = b == "style" ? "css" : "javascript";
-        d = Colorizer[e].exec(d, true);
-        d = format('<span class="%1">%2</span>', e, d);
-        return format(this.INLINE, b, this.exec(c, true), d)
-    }
-});
-with(base2.code.Colorizer.javascript) {
-    add("\\b(" + (base2.exports + ",base,base2,merge,union,implement,Array2,Date2,String2").match(/[^\s,]+/g).join("|") + ")\\b", '<span class="base2">$0</span>');
-    insertAt(0, /("@[^"]+"):/, '<span class="special">$1</span>:');
-    tabStop = 2
-}
+// with(base2.code.Colorizer) addScheme("xml", {
+//     attribute: /(\w+)=("[^"]*"|'[^']*')/,
+//     cdata: /<!\[CDATA\[([^\]]|\][^\]]|\]\][^>])*\]\]>/,
+//     comment: /<!\s*(--([^-]|[\r\n]|-[^-])*--\s*)>/,
+//     entity: /&#?\w+;/,
+//     "processing-instruction": /<\?[\w-]+[^>]+>/,
+//     tag: /(<\/?)([\w:-]+)/,
+//     text: /[>;][^<>&]*/
+// }, {
+//     cdata: IGNORE,
+//     tag: "$1@2",
+//     attribute: '@1=<span class="attribute value">$2</span>',
+//     text: IGNORE
+// }, {
+//     tabStop: 1
+// });
+// with(base2) code.Colorizer.addScheme("html", {
+//     conditional: /<!(--)?\[[^\]]*\]>|<!\[endif\](--)?>/,
+//     doctype: /<!(DOCTYPE|doctype)[^>]+>/,
+//     inline: /<(script|style)([^>]*)>((\\.|[^\\])*)<\/\1>/
+// }, {
+//     inline: function(a, b, c, d) {
+//         return format(this.INLINE, b, this.exec(c, true), d)
+//     }
+// }, {
+//     INLINE: '&lt;<span class="tag">%1</span>%2&gt;%3&lt;/<span class="tag">%1</span>&gt;',
+//     tabStop: 1
+// });
+// with(base2.code.Colorizer) html.merge(xml);
+// with(base2.code.Colorizer) addScheme("css", {
+//     at_rule: /@[\w\s]+/,
+//     bracketed: /\([^'\x22)]*\)/,
+//     comment: patterns.block_comment,
+//     property: /(\w[\w-]*\s*):([^;}]+)/,
+//     special: /(\-[\w-]*\s*):/,
+//     selector: /([\w-:\[.#][^{};]*)\{/
+// }, {
+//     bracketed: IGNORE,
+//     selector: "@1{",
+//     special: "@1:",
+//     property: '@1:<span class="property value">$2</span>'
+// });
+// with(base2.code.Colorizer) addScheme("javascript", {
+//     conditional: /\/\*@if\s*\([^\)]*\)|\/\*@[\s\w]*|@\*\/|\/\/@\w+|@else[\s\w]*/,
+//     global: /\b(clearInterval|clearTimeout|constructor|document|escape|hasOwnProperty|Infinity|isNaN|NaN|parseFloat|parseInt|prototype|setInterval|setTimeout|toString|unescape|valueOf|window)\b/,
+//     keyword: /\b(&&|\|\||arguments|break|case|continue|default|delete|do|else|false|for|function|if|in|instanceof|new|null|return|switch|this|true|typeof|var|void|while|with|undefined)\b/,
+//     regexp: /([\[(\^=,{}:;&|!*?]\s*)(\/(\\\/|[^\/*])(\\.|[^\/\n\\])*\/[mgi]*)/,
+//     special: /\b(assert\w*|alert|catch|confirm|console|debug|debugger|eval|finally|prompt|throw|try)\b/
+// }, {
+//     comment: DEFAULT,
+//     string: DEFAULT,
+//     regexp: "$1@2",
+//     number: DEFAULT
+// });
+// with(base2) with(code) Colorizer["html-multi"] = Colorizer.html.union({
+//     inline: function(a, b, c, d) {
+//         var e = b == "style" ? "css" : "javascript";
+//         d = Colorizer[e].exec(d, true);
+//         d = format('<span class="%1">%2</span>', e, d);
+//         return format(this.INLINE, b, this.exec(c, true), d)
+//     }
+// });
+// with(base2.code.Colorizer.javascript) {
+//     add("\\b(" + (base2.exports + ",base,base2,merge,union,implement,Array2,Date2,String2").match(/[^\s,]+/g).join("|") + ")\\b", '<span class="base2">$0</span>');
+//     insertAt(0, /("@[^"]+"):/, '<span class="special">$1</span>:');
+//     tabStop = 2
+// }
 eval(base2.namespace);
 eval(DOM.namespace);
 eval(JSB.namespace);

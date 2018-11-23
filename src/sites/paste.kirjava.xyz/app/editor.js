@@ -16,6 +16,8 @@ export default function Editor({ value, onChange }) {
             autofocus: true,
             lineWrapping: true,
             inputStyle: 'contenteditable',
+            lineNumbers: true,
+            gutters: ["CodeMirror-linenumbers", "breakpoints"],
             // keyMap: 'vim',
         });
 
