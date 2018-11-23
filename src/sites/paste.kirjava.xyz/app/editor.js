@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CM from 'codemirror';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/keymap/vim';
+import 'codemirror/mode/jsx/jsx';
+import 'codemirror/keymap/vim'; // load async
 import bytes from './bytes';
 
 export default function Editor({ value, onChange }) {
@@ -11,7 +11,7 @@ export default function Editor({ value, onChange }) {
 
         const editor = CM(document.getElementById('editor'), {
             value: value,
-            mode:  'javascript',
+            mode:  'jsx',
             theme: 'monokai',
             autofocus: true,
             lineWrapping: true,

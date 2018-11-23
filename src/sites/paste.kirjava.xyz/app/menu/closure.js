@@ -1,7 +1,5 @@
 import React, { useState, useCallback, Fragment } from 'react';
 import { useStore } from '../store';
-import obj from './lib';
-console.log(lib);
 // const ClosureCompiler = require('google-closure-compiler-js'); //
 
 // console.log(ClosureCompiler.CONTRIB_PATH); // absolute path to the contrib folder which contains externs
