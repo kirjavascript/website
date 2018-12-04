@@ -21,7 +21,7 @@ import bytes from './bytes';
 // workers for transpilers
 // limit fe size / increase be size
 // highlight colour
-// polyfill padStart
+// polyfill padStart / URLSearchParams
 // flex-layouter - pane for transpiled result (toggle to transpile target / same target)
 //https://github.com/FarhadG/code-mirror-themes
 //https://github.com/Aerobird98/codemirror-one-dark-theme

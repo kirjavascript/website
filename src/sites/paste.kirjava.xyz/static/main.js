@@ -242,6 +242,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // load async
 
 
 function Editor(_ref) {
@@ -359,10 +360,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 // workers for transpilers
 // limit fe size / increase be size
 // highlight colour
-// polyfill padStart
+// polyfill padStart / URLSearchParams
 // flex-layouter - pane for transpiled result (toggle to transpile target / same target)
 //https://github.com/FarhadG/code-mirror-themes
 //https://github.com/Aerobird98/codemirror-one-dark-theme
+// test all minifiers on a piece of code
 // 19:00 <nibblrjr> Kirjava: https://vgdensetsu.tumblr.com/post/179656817318/designing-2d-graphics-in-the-japanese-industry (4 hours ago)
 
 document.title = 'transpiler explorer';
@@ -445,18 +447,7 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
- // const ClosureCompiler = require('google-closure-compiler-js'); //
-// console.log(ClosureCompiler.CONTRIB_PATH); // absolute path to the contrib folder which contains externs
-// const closureCompiler = new ClosureCompiler({
-//   compilation_level: 'ADVANCED_OPTIMIZATIONS'
-// });
-// const compilerProcess = closureCompiler.run([{
-//  path: 'file-one.js',
-//  src: 'alert("hello world")',
-//  sourceMap: null // optional input source map
-// }], (...args) => {
-//     console.log(...args)
-// });
+ //https://developers.google.com/closure/compiler/docs/gettingstarted_api
 
 function Closure() {
   var _useStore = Object(_store__WEBPACK_IMPORTED_MODULE_1__["useStore"])(),
@@ -470,7 +461,21 @@ function Closure() {
       setLoading = _useState2[1];
 
   var handleClick = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function () {
-    if (!loading) {// setLoading(true);
+    if (!loading) {
+      var body = new URLSearchParams();
+      body.append('output_format', 'json');
+      body.append('output_info', 'compiled_code');
+      body.append('compilation_level', 'ADVANCED_OPTIMIZATIONS');
+      body.append('js_code', store.code);
+      fetch('https://closure-compiler.appspot.com/compile', {
+        method: 'POST',
+        body: body,
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(console.log).catch(console.error); // setLoading(true);
       // import(/* webpackChunkName: "jscrush" */ 'worker-loader?inline!../transforms/jscrush')
       //     .then(({ default: Worker }) => {
       //         const worker = new Worker();
