@@ -7,7 +7,7 @@ const dev = ~process.argv.indexOf('--dev');
 
 const config = {
     dev,
-    devHost: 'paste.kirjava.xyz',
+    devHost: 'kirjava.xyz',
     port: {
         bouncy: dev ? 8000 : 80,
         express: 9000,
@@ -17,6 +17,7 @@ const config = {
 const type = {
     STATIC: 'STATIC',
     VHOST: 'VHOST',
+    SPA: 'SPA',
     BOUNCE: 'BOUNCE',
 };
 
@@ -61,8 +62,8 @@ const storageDir = __dirname + '/../storage/';
 
 function loadSite(site) {
     console.info(`vhost: ${site.hostname}`);
-    const getStatic = (path = 'static') => express.static(
-        `${__dirname}/sites/${site.hostname}/${path || 'static'}`,
+    const getStatic = () => express.static(
+        `${__dirname}/sites/${site.hostname}/static`,
         { extensions: ['html', 'htm'] },
     );
     const getDatabase = (name, schema) => {
@@ -74,8 +75,15 @@ function loadSite(site) {
     };
     const hostname = config.dev ? '*' : site.hostname;
     if (site.type === type.STATIC) {
-        app.use(vhost(hostname, getStatic(site.path)));
-    } else {
+        app.use(vhost(hostname, getStatic()));
+    } else if (site.type === type.SPA) {
+        app.use(vhost(hostname, getStatic()));
+        app.use(vhost(hostname, (req, res) => {
+            res.sendFile(
+                `${__dirname}/sites/${site.hostname}/static/index.html`
+            );
+        }));
+    } else { // VHOST
         const localApp = express();
         site.init({ dev, app: localApp, getStatic, getDatabase });
         app.use(vhost(hostname, localApp));
