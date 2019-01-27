@@ -7,7 +7,7 @@ const dev = ~process.argv.indexOf('--dev');
 
 const config = {
     dev,
-    devHost: 'paste.kirjava.xyz',
+    devHost: 'duplex.kirjava.xyz',
     port: {
         bouncy: dev ? 8000 : 80,
         express: 9000,
