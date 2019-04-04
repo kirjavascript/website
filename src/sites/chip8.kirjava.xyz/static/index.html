@@ -1,14 +1,8 @@
 !<script>
-
-// closure -> beautify  for ideas
-// regpack for packing
-// set UTF-8 in kirjava.xyz
-// add to main kirjava.xyz page when golf'd
-//
-// (new TextEncoder).encode('abcd') (RIP edge)
+// load from URL
 rom=[...atob(location.search.slice(1))].map(d => d.charCodeAt(0))
 
-font=[ // TODO: String.fromCharCode(...
+font=[
 0xF0,0x90,0x90,0x90,0xF0,
 0x20,0x60,0x20,0x20,0x70,
 0xF0,0x10,0xF0,0x80,0xF0,
@@ -28,8 +22,6 @@ font=[ // TODO: String.fromCharCode(...
 ]
 
 // memory
-
-// TODO: slice from RAM to create other arrays
 
 ram=[...Array(4096)].fill(0)
 V=[...Array(16)].fill(0) // 8 bit
@@ -71,11 +63,11 @@ onkeyup=e=>{
 onkeydown=e=>keys[keymap.indexOf(e.key)]=1
 
 function cycle() {
-    if (pause) return; // TODO
+    if (pause) return;
 
     // get opcode (2 bytes)
     opcode = ram[PC] << 8 | ram[PC + 1]
-    x = (opcode & 0x0F00) >> 8 // TODO: divide
+    x = (opcode & 0x0F00) >> 8
     y = (opcode & 0x00F0) >> 4
     z = opcode & 0x000F
     kk = opcode & 0x00FF
@@ -179,39 +171,13 @@ function cycle() {
             break;
         case 0xD000:
             V[0xF] = 0;
-
-            for (i = 0; i < z; i++) {
-                sprite = ram[I + i];
-                for (j = 0; j < 8; j++) {
-                    // TODO: optimize
-                    if ((sprite & 0x80) > 0) {
-                        x0 = V[x] + j
-                        y0 = V[y] + i
-
-                        if (x0 < 0) {
-                            x0 += 64;
-                        } else {
-                            x0 %= 64
-                        }
-
-                        if (y0 < 0) {
-                            y0 += 32;
-                        } else {
-                            y0 %= 32
-                        }
-
-                        loc = x0 + (y0 * 64);
-
-                        gfx[loc] ^= 1;
-
-                        if (!gfx[loc]) {
-                            V[0xF] = 1
-                        }
-                    }
-                    sprite <<= 1;
+            for (i = 0, py = V[y] % 32; i < z; i++, py = (py+1) % 32) {
+                for (j = 0, px = V[x] % 64; j < 8; j++, px = (px+1) % 64) {
+                    loc = px + (py * 64)
+                    gfx[loc] ^= ram[I+i] & 1<< 7-j;
+                    !gfx[loc]&&(V[0xF]=1)
                 }
             }
-
             break;
         case 0xE000:
             switch (kk) {
@@ -276,8 +242,8 @@ function cycle() {
     requestAnimationFrame(loop)
     for(i=0;i< 10;i++) cycle()
 
-    // TODO: change map with for of
-    // &block;
+    // render
+
     c=a=>a+a&&[a.splice(0,64).map(d=>d?'  ':'██').join``,...c(a)]
     document.body.innerHTML='<pre>'+c([...gfx]).join`\n`
 
@@ -289,7 +255,6 @@ function cycle() {
         if (!o) {
             ac = new AudioContext()
             o = ac.createOscillator()
-            // o.type = "sine"
             o.connect(ac.destination)
             o.start()
         }
