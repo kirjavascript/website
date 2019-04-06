@@ -171,8 +171,7 @@ function cycle() {
             break;
         case 0xD000:
             V[0xF] = 0;
-            for (i = 0; i < z; i++) {
-                sprite = ram[I + i];
+            ram.slice(I, z + I).map((sprite, i) => {
                 for (j = 0; j < 8; j++) {
                     if ((sprite & 0x80) > 0) {
                         x0 = V[x] + j
@@ -200,7 +199,7 @@ function cycle() {
                     }
                     sprite <<= 1;
                 }
-            }
+            })
             break;
         case 0xE000:
             switch (kk) {
@@ -263,11 +262,13 @@ function cycle() {
 
 ~function loop() {
     requestAnimationFrame(loop)
-    for(i=0;i< 10;i++) cycle()
+    for(i=0;i< 9;i++) cycle()
 
     // render
 
-    c=a=>a+a&&[a.splice(0,64).map(d=>d?'  ':'██').join``,...c(a)]
+    // not using space here because it renders incorrectly in chrome
+
+    c=a=>a+a&&[a.splice(0,64).map(d=>d?'░░':'██').join``,...c(a)]
     document.body.innerHTML='<pre>'+c([...gfx]).join`\n`
 
     // handle timers
