@@ -1,289 +1,1 @@
-!<script>
-// load from URL
-rom=[...atob(location.search.slice(1))].map(d => d.charCodeAt(0))
-
-font=[
-0xF0,0x90,0x90,0x90,0xF0,
-0x20,0x60,0x20,0x20,0x70,
-0xF0,0x10,0xF0,0x80,0xF0,
-0xF0,0x10,0xF0,0x10,0xF0,
-0x90,0x90,0xF0,0x10,0x10,
-0xF0,0x80,0xF0,0x10,0xF0,
-0xF0,0x80,0xF0,0x90,0xF0,
-0xF0,0x10,0x20,0x40,0x40,
-0xF0,0x90,0xF0,0x90,0xF0,
-0xF0,0x90,0xF0,0x10,0xF0,
-0xF0,0x90,0xF0,0x90,0x90,
-0xE0,0x90,0xE0,0x90,0xE0,
-0xF0,0x80,0x80,0x80,0xF0,
-0xE0,0x90,0x90,0x90,0xE0,
-0xF0,0x80,0xF0,0x80,0xF0,
-0xF0,0x80,0xF0,0x80,0x80
-]
-
-// memory
-
-ram=[...Array(4096)].fill(0)
-V=[...Array(16)].fill(0) // 8 bit
-I=0 // 12bit used
-DT=0 // delay timer
-ST=0 // sound timer
-PC=0x200 // 16 bit
-SP=0 // 8 bit
-stack=[...Array(16)].fill(0) // 16 bit
-pause=0
-
-o=0 // sound
-gfx=[...Array(64*32)].fill(0) // graphics
-keys=[...Array(16)].fill(0) // input
-
-// load font
-
-ram.splice(0, 0, ...font);
-
-// load program into memory
-
-ram.splice(0x200, 0, ...rom);
-
-// truncate memory (probably not needed)
-
-ram = ram.slice(0, 4096)
-
-// handle input
-
-keymap=[...'x123qweasdzc4rfv']
-onkeyup=e=>{
-    index=keymap.indexOf(e.key)
-    keys[index]=0
-    if (pause) {
-        V[x] = index
-        pause=0
-    }
-}
-onkeydown=e=>keys[keymap.indexOf(e.key)]=1
-
-function cycle() {
-    if (pause) return;
-
-    // get opcode (2 bytes)
-    opcode = ram[PC] << 8 | ram[PC + 1]
-    x = (opcode & 0x0F00) >> 8
-    y = (opcode & 0x00F0) >> 4
-    z = opcode & 0x000F
-    kk = opcode & 0x00FF
-    kkk = opcode & 0x0FFF
-
-    // inc program counter
-    PC += 2
-
-    switch (opcode & 0xF000) {
-        case 0:
-            if (opcode == 0x00E0) { // CLS
-                gfx = [...Array(64*32)].fill(0)
-            } else if (opcode == 0x00EE) { // RET
-                PC = stack[--SP]
-            }
-            break;
-        case 0x1000: // JUMP
-            PC = kkk
-            break;
-        case 0x2000: // CALL
-            stack[SP] = PC
-            SP++
-            PC = kkk
-        case 0x3000:
-            if (V[x] == kk) {
-                PC += 2
-            }
-            break;
-        case 0x4000:
-            if (V[x] != kk) {
-                PC += 2
-            }
-            break;
-        case 0x5000:
-            if (V[x] == V[y]) {
-                PC += 2
-            }
-            break;
-        case 0x6000:
-            V[x] = kk;
-            break;
-        case 0x7000:
-            V[x] = (kk + V[x]) % 256
-            break;
-        case 0x8000:
-            switch (z) {
-                case 0x0000:
-                    V[x] = V[y];
-                    break;
-                case 0x0001:
-                    V[x] |= V[y];
-                    break;
-                case 0x0002:
-                    V[x] &= V[y];
-                    break;
-                case 0x0003:
-                    V[x] ^= V[y];
-                    break;
-                case 0x0004:
-                    V[x] += V[y];
-                    V[0xF] = +(V[x] > 255);
-                    V[x] %= 256;
-                    break;
-                case 0x0005:
-                    V[0xF] = +(V[x] > V[y]);
-                    V[x] -= V[y];
-                    if (V[x] < 0) {
-                        V[x] += 256;
-                    }
-                    break;
-                case 0x0006:
-                    V[0xF] = V[x] & 0x1;
-                    V[x] >>= 1;
-                    break;
-                case 0x0007:
-                    V[0xF] = +(V[y] > V[x]);
-                    V[x] = V[y] - V[x];
-                    if (V[x] < 0) {
-                        V[x] += 256;
-                    }
-                    break;
-                case 0x000E:
-                    V[0xF] = +(V[x] & 0x80);
-                    V[x] *= 2;
-                    V[x] %= 256;
-            }
-            break;
-        case 0x9000:
-            if (V[x] != V[y]) {
-                PC += 2
-            }
-            break;
-        case 0xA000: // ADDR
-            I = kkk
-            break;
-        case 0xB000:
-            PC = kkk + V[0];
-            break;
-        case 0xC000:
-            V[x] = (0|Math.random() * 0xFF) & kk
-            break;
-        case 0xD000:
-            V[0xF] = 0;
-            ram.slice(I, z + I).map((sprite, i) => {
-                for (j = 0; j < 8; j++) {
-                    if ((sprite & 0x80) > 0) {
-                        x0 = V[x] + j
-                        y0 = V[y] + i
-
-                        if (x0 < 0) {
-                            x0 += 64;
-                        } else {
-                            x0 %= 64
-                        }
-
-                        if (y0 < 0) {
-                            y0 += 32;
-                        } else {
-                            y0 %= 32
-                        }
-
-                        loc = x0 + (y0 * 64);
-
-                        gfx[loc] ^= 1;
-
-                        if (!gfx[loc]) {
-                            V[0xF] = 1
-                        }
-                    }
-                    sprite <<= 1;
-                }
-            })
-            break;
-        case 0xE000:
-            switch (kk) {
-                case 0x009E:
-                    if (keys[V[x]]) {
-                        PC += 2;
-                    }
-                    break;
-                case 0x00A1:
-                    if (!keys[V[x]]) {
-                        PC += 2;
-                    }
-            }
-            break;
-        case 0xF000:
-            switch (kk) {
-                case 0x0007:
-                    V[x] = DT;
-                    break;
-                case 0x000A:
-                    pause=1
-                    return;
-                case 0x0015:
-                    DT = V[x]
-                    break;
-                case 0x0018:
-                    ST = V[x]
-                    break;
-                case 0x001E:
-                    I += V[x]
-                    break;
-                case 0x0029:
-                    I = V[x] * 5
-                    break;
-                case 0x0033:
-                    ram[I] = parseInt(V[x] / 100)
-                    ram[I+1] = parseInt(V[x] % 100 / 10)
-                    ram[I+ 2] = V[x] % 10
-                    break;
-                case 0x0055:
-                    for (i = 0; i <= x; i++) {
-                        ram[I+ i] = V[i];
-                    }
-                    break;
-                case 0x0065:
-                    for (i = 0; i <= x; i++) {
-                        V[i] = ram[I + i];
-                    }
-                    break;
-
-            }
-
-            break;
-        default:
-            throw new Error(`unimplemented opcode: 0x${opcode.toString(16)}`)
-    }
-
-
-}
-
-~function loop() {
-    requestAnimationFrame(loop)
-    for(i=0;i< 9;i++) cycle()
-
-    // render
-
-    // not using space here because it renders incorrectly in chrome
-
-    c=a=>a+a&&[a.splice(0,64).map(d=>d?'░░':'██').join``,...c(a)]
-    document.body.innerHTML='<pre>'+c([...gfx]).join`\n`
-
-    // handle timers
-
-    if (DT) DT--
-    if (ST) {
-        ST--
-        if (!o) {
-            ac = new AudioContext()
-            o = ac.createOscillator()
-            o.connect(ac.destination)
-            o.start()
-        }
-    } else {
-        if (o) o.stop(),o=0
-    }
-} ()
-</script>
+!<script>for(r="key/),@reB=1G=oN(0_,1gm[k+i]~q[$$x]#:#EE=DO&K){J=>IatRonQ).join`PH+=2Z$15]=YY+(Xor(WlocV))U40,2g6642512,832.slice(N0RiQ);=0;&&(,224g44...case bBak;	;	;0>##+=6).map(dIl.indexOf(e./):fWii<=x;i++Jswitch(Z)=$y]l=['x3qweasdzc4rfv'];o=[Array(16)].fill_m=[2,,96,,gg6,,,,8,8,8].cQcR(oqg6M,2048mp5,0,[Rob(Vearch1U]d.charCodeAt_Uk=C=T=n=f=SF=h=[];H=5;Q/up=eI{i=;h[i]n#=i,n=0)};Q/down=eIh[]G;L=rI{BquestAnimFrame(LfWi9>i;i++Jif(!nJO=m[H]<< 8|m[H+1],x=(K38)>>8,y=(K2)>>4,z=K15,p=K5,o=K95,Z,K614J0:224==O?M):238==OH=F[--f])96:HN8192:F[f]=H,f++,HN;288D=p16384E!=p20480D24576Dp28672D(p+#)%6768:z) {0E1E|2E&3E^4E+;X5 < ##%=65:X#>$y]#-6:Y#&1;#>>G7:X$y]>##-#14:X#&8@#*=2,#%=6;}	368E!960:kN45056:HN+$0]49152D_|5*MRh.random(U&p548:$15]mk,z+k).map((a,b)I{fWj8>j;j++) {0< (a&8)x0=#+j,y0+b,V=_>x0?x0+:x0%)+*_>y0?y0+:y0%@M[V]^G,M[V]||(Y1U,a<<G;}})57344:pJ158:h[#]161:h[#]||(Z}	614:pJ7DC10:nG;Bturn;21:C=#24:T=#30:k+=#41:k=5*#51:mpk,3,(''+#).padStart(3,0)plit``+dU85~=$i]}	101$i]=~}}}}}c=aIa+a&&[ap0,)d?'░░':'██'P`,c(a)];document.body.innerHTML='<pB>'+c([M]P\\n`;C&&C--;T?(T--,S||(A=new AudioCQtext,S=A.cBReOscillRW@S.cQnect(A.destin@Start(U):SStop(@S=0)};L()";G=/[-U-ZP-RI-KDE#$~g_NGB@/]/.exec(r);)with(r.split(G))r=join(shift());eval(r)</script>
