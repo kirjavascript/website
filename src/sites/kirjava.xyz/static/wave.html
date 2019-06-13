@@ -1,0 +1,46 @@
+<!doctype html>
+
+    кιяנανα
+
+<script>
+document.title = document.body.innerText;
+document.body.textContent = '';
+let i = 0;
+let j = 0;
+let width = 50;
+setInterval(() => {
+        if (++i % 18 === 0) {
+                    j += 1;
+                }
+        const f = x => Math.sin((x+i)/5)*Math.cos((x+j)/3);
+
+        let miny = maxy = f(0);
+
+        for(x=-width;x<=width;x++) {
+                    const value = f(x);
+                    miny = Math.min(miny, value);
+                    maxy = Math.max(maxy, value);
+                }
+
+        const scale = 7/(maxy-miny);
+        const offset = (maxy-miny)/2;
+
+        const output = [];
+
+        for(x=-width;x<=width;x++) {
+                    let value = (f(x)-miny)*scale;
+                    output.push(value+.5|0);
+                }
+
+        history.replaceState({}, '', output.map(x=>String.fromCharCode(9601+x)).join(''));
+}, 15);
+const iframe = Object.assign(document.createElement('iframe'), { src: 'http://kirjava.xyz' });
+Object.assign(iframe.style, {
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        width: '100vw',
+        height: '100vh',
+});
+document.body.appendChild(iframe);
+</script>
