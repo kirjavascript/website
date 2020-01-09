@@ -39,7 +39,7 @@
     "crc32": "^0.2.2",
     "jscrush": "^0.0.0",
     "jsfuck": "^0.4.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",
     "worker-loader": "^2.0.0"
