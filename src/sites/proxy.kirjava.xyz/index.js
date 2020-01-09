@@ -8,10 +8,16 @@ module.exports = ({type}) => ({
 
             const url = req.url.slice(1);
 
-            // efirstbank.com and namecheap think we're phishing...?
-            if (/https:\/\/www\.efirstbank.com/.test(url)) {
+            if (
+                // efirstbank.com and namecheap think we're phishing
+                /https:\/\/www\.efirstbank.com/.test(url)
+                // MGA entertainment thinks we're committing copyright infringement
+                || /https:\/\/www\.labirint.ru/.test(url)
+                || /https:\/\/lol-surprise-pedia.fandom.com/.test(url)
+            ) {
                 res.status(451).send('unavailable for legal reasons');
             }
+            //
 
             if (!url) return res.send(`
                 <a href="/http://www.google.com">browse the web</a>
