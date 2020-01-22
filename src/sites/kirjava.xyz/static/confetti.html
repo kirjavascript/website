@@ -11,7 +11,7 @@
         </style>
     </head>
     <body>
-        works best in mozilla firefox
+        works best in mozilla firefox™
         <script>
             const colours = [
                 '#a864fd',
@@ -61,8 +61,7 @@
                 let rotation = lerp(0, 360, random());
 
                 return (i) => {
-                    // rectangle, circle quare
-                    // transparency
+                    // TODO: rectangle, circle square, transparency
                     y += yVel;
                     x += xVel;
                     yVel += gravity;
@@ -78,19 +77,13 @@
 
             const confetti = (x, y) => {
                 const particles = Array.from({ length: 20 }, () => getParticle(x, y));
-                tween(i => {
-                    particles.forEach(particle => particle(i));
-                }, 600);
+                tween(i => particles.forEach(particle => particle(i)), 600);
             };
 
-            let x, y, down;
-            document.onmousedown = () => {down=true}
-            document.onmouseup = () => {down=false}
-            document.onmousemove = e => {
-                x = e.pageX;
-                y = e.pageY;
-                down && confetti(x, y);
-            };
+            let down;
+            document.onmousedown = e => {down=true}
+            document.onmouseup = e => {down=false}
+            document.onmousemove = e => down && confetti(e.pageX, e.pageY);
             document.onclick = e => confetti(x, y);
         </script>
     </body>
