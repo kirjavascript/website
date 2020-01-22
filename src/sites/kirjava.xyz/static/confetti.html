@@ -81,10 +81,10 @@
             };
 
             let down;
-            document.onmousedown = e => {down=true}
-            document.onmouseup = e => {down=false}
+            document.onmousedown = () => {down=true}
+            document.onmouseup = () => {down=false}
             document.onmousemove = e => down && confetti(e.pageX, e.pageY);
-            document.onclick = e => confetti(x, y);
+            document.onclick = e => confetti(e.pageX, e.pageY);
         </script>
     </body>
 </html>
