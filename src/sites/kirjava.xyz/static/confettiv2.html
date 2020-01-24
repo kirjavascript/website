@@ -18,7 +18,6 @@
         </style>
     </head>
     <body>
-        works best in netscape navigator 2
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.2.0/pixi.min.js"></script>
         <script>
             const { view, renderer } = new PIXI.Application({
@@ -29,7 +28,6 @@
                 resolution: 1,
             });
             document.body.appendChild(view);
-            <!-- renderer.backgroundColor = 0x101010; -->
             Object.assign(renderer.view.style, {
                 position: 'absolute',
                 display: 'block',
@@ -69,7 +67,6 @@
                     () => gfx.drawStar(0, 0, 4, 15),
                     () => gfx.drawStar(0, 0, 6, 15),
                 ][0 | (Math.random() * 6)]();
-                // different stars 4, 6, rectangles
                 stage.addChild(gfx);
                 let yVel = lerp(-25, -15, random());
                 let xVel = lerp(-5, 5, random());
@@ -82,7 +79,6 @@
                     yVel += g;
                     rotation += 0.1;
                     gfx.rotation = rotation;
-                    <!-- gfx.skew.x = rotation; -->
                     gfx.skew.y = rotation;
                     if (gfx.y > window.innerHeight) {
                         yVel = lerp(-25, -15, random());
@@ -106,15 +102,19 @@
             let x,
                 y,
                 down = false;
-            document.onmousedown = () => {
+            document.onmousedown = document.ontouchstart  = () => {
                 down = true;
             };
-            document.onmouseup = () => {
+            document.onmouseup = document.ontouchend = () => {
                 down = false;
             };
             document.onmousemove = e => {
                 x = e.pageX;
                 y = e.pageY;
+            };
+            document.ontouchmove = e => {
+                x = e.touches[0].pageX;
+                y = e.touches[0].pageY;
             };
 
             void (function loop() {
