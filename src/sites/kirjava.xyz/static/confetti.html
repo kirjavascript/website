@@ -3,88 +3,255 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
-        <title>click / drag</title>
+        <title>CONFETTI SIMULATOR 2020</title>
         <style>
-            * {
+            html {
+                overflow: hidden;
+            }
+            body {
                 user-select: none;
+            }
+            * {
+                padding: 0;
+                margin: 0;
             }
         </style>
     </head>
     <body>
-        works best in netscape navigator 2
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.2.0/pixi.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
         <script>
-            const colours = [
-                '#a864fd',
-                '#29cdff',
-                '#78ff44',
-                '#ff718d',
-                '#fdff6a',
-            ];
+            const { random } = Math;
+            const { view, renderer } = new PIXI.Application({
+                width: 256,
+                height: 256,
+                antialias: true,
+                transparent: true,
+                resolution: 1,
+            });
+            document.body.appendChild(view);
+            Object.assign(renderer.view.style, {
+                position: 'absolute',
+                display: 'block',
+                top: 0,
+                left: 0,
+            });
+            renderer.autoDensity = true;
 
-            function tween(callback, ticks) {
-                let timer = performance.now();
-                (function frame() {
-                    let diff = performance.now() - timer;
-                    if (diff < ticks) {
-                        requestAnimationFrame(frame);
-                        callback(diff / ticks);
-                    } else {
-                        callback(1);
-                    }
-                })();
+            const stage = new PIXI.Container();
+
+            const debug = new PIXI.Text('', {
+                fontFamily: 'monospace',
+                fontSize: 12,
+                align: 'center',
+            });
+            debug.anchor.set(0, 1);
+            stage.addChild(debug);
+
+            const colours = [];
+
+            const config = {
+                colour0: '#a864fd',
+                colour1: '#29cdff',
+                colour2: '#78ff44',
+                colour3: '#ff718d',
+                colour4: '#fdff6a',
+                xVel: 5,
+                yVel: 20,
+                rotation: 0.1,
+                skewX: 0,
+                skewY: 0.1,
+                gravity: 1.25,
+                terminalVel: 50,
+                quantity: 20,
+                scale: 1,
+                opacity: 1,
+                lifetime: 800,
+                fadeOut: 200,
+                bounce: false,
+                addCircles: false,
+                fuzzOrigin: false,
+                bounciness: 10,
+                egg: false,
+                text: false,
+                auto: false,
+            };
+
+            const gui = new dat.GUI();
+            const colourF = gui.addFolder('colours');
+            const addColour = (index) => {
+                colours[index] = parseInt(config[`colour${index}`].slice(1), 16);
+                colourF.addColor(config, `colour${index}`)
+                    .onChange(c => { colours[index] = parseInt(c.slice(1), 16) });
+            };
+            for (let i = 0; i < 5; i++) addColour(i);
+
+            gui.add(config, 'xVel', 0, 40);
+            gui.add(config, 'yVel', 0, 40);
+            gui.add(config, 'gravity', 0, 5);
+            gui.add(config, 'terminalVel', 0, 100);
+            gui.add(config, 'rotation', 0, 1);
+            gui.add(config, 'skewX', 0, 1);
+            gui.add(config, 'skewY', 0, 1);
+            gui.add(config, 'opacity', 0.1, 1);
+            gui.add(config, 'scale', 0.1, 10);
+            gui.add(config, 'quantity', 1, 75);
+            gui.add(config, 'lifetime', 0, 5000);
+            gui.add(config, 'fadeOut', 0, 1000);
+            gui.add(config, 'bounce');
+            gui.add(config, 'bounciness', 0, 60);
+            gui.add(config, 'fuzzOrigin');
+            gui.add(config, 'addCircles');
+            gui.add(config, 'egg');
+            gui.add(config, 'auto');
+            const textCtrl = gui.add(config, 'text')
+                .onChange(() => {
+                    gui.remove(textCtrl);
+                    config.text = '♠,♦,♣,♥'
+                    const setText = value => {
+                        const list = value.split(',');
+                        config.getText = () => list[0|list.length * random()];
+                    };
+                    setText(config.text);
+                    gui.add(config, 'text').onChange(setText)
+                });
+
+            window.addEventListener('resize', setSize);
+            function setSize() {
+                renderer.resize(window.innerWidth, window.innerHeight);
+                debug.position.set(0, window.innerHeight);
             }
+            setSize();
+
 
             function lerp(start, end, i) {
                 return start + (end - start) * i;
             }
 
-            function getParticle(xOrigin, yOrigin) {
-                const { random } = Math;
-                const node = Object.assign(
-                    document.body.appendChild(document.createElement('div')),
-                    { innerHTML: '■' },
-                );
-
-                Object.assign(node.style, {
-                    position: 'absolute',
-                    top: yOrigin + 'px',
-                    left: xOrigin + 'px',
-                    color: colours[0 | (colours.length * random())],
-                });
-
-                let x = 0;
-                let y = 0;
-                let yVel = lerp(-25, -15, random());
-                let xVel = lerp(-5, 5, random());
-                let gravity = 1.5;
-
-                let rotation = lerp(0, 360, random());
-
-                return (i) => {
-                    // TODO: rectangle, circle square, transparency
-                    y += yVel;
-                    x += xVel;
-                    yVel += gravity;
-                    rotation += 3;
-                    node.style.transform = `translate(${x}px,${y}px) rotate3d(1, 1, 1, ${rotation}deg)`;
-                    if (i > 0.5) {
-                        node.style.opacity = lerp(1, 0, (i - 0.5) * 2);
-                    }
-                    // delete
-                    i === 1 && node.remove();
-                };
+            function fuzz(value, fuzziness) {
+                return value < fuzziness ? value : lerp(value-fuzziness, value+fuzziness, random());
             }
 
-            const confetti = (x, y) => {
-                const particles = Array.from({ length: 20 }, () => getParticle(x, y));
-                tween(i => particles.forEach(particle => particle(i)), 600);
+            const items = new Map([]);
+
+            function particle(x, y) {
+                const key = Symbol('particle');
+                const epoch = performance.now();
+                const colour = colours[0 | (colours.length * random())];
+
+                let {
+                    gravity,
+                    terminalVel,
+                    xVel,
+                    yVel,
+                    bounce,
+                    bounciness,
+                    lifetime,
+                    scale,
+                    opacity,
+                    text,
+                    getText,
+                    fadeOut,
+                    rotation,
+                    skewX,
+                    skewY,
+                    fuzzOrigin,
+                    addCircles,
+                    egg,
+                } = config;
+
+                const hasText = text || egg;
+
+                const gfx = hasText ? new PIXI.Text(egg ? '🥚' : getText(), { fill: colour, fontSize: 40 * scale }) : new PIXI.Graphics();
+                stage.addChild(gfx);
+
+                yVel = fuzz(-yVel, 5);
+                xVel = lerp(-xVel, xVel, random());
+                gravity = fuzz(gravity, 0.25);
+                gfx.rotation = lerp(0, 360, random());
+                gfx.skew.x = lerp(0, 360, random());
+                gfx.skew.y = lerp(0, 360, random());
+                gfx.alpha = opacity;
+
+                if (fuzzOrigin) {
+                    gfx.position.set(fuzz(x, 100), fuzz(y, 100));
+                } else {
+                    gfx.position.set(x, y);
+                }
+                if (!hasText) {
+                    gfx.beginFill(colour);
+                    [
+                        () => gfx.drawRect(0, 0, 17 * scale, 17 * scale),
+                        () => gfx.drawRect(0, 0, 17 * scale, 17 * scale),
+                        () => gfx.drawRect(0, 0, 5 * scale, 15 * scale),
+                        () => gfx.drawRect(0, 0, 15 * scale, 5 * scale),
+                        () => gfx.drawStar(0, 0, 4, 15 * scale),
+                        () => gfx.drawStar(0, 0, 5, 15 * scale),
+                        () => gfx.drawCircle(0, 0, 5 * scale),
+                    ][0 | (random() * (addCircles ? 7 : 6))]();
+                }
+
+                const remove = () => {
+                    stage.removeChild(gfx);
+                    gfx.destroy();
+                    items.delete(key);
+                };
+
+                const render = now => {
+                    const ms = now - epoch;
+                    gfx.y += Math.min(yVel, terminalVel);
+                    gfx.x += xVel;
+                    yVel += gravity;
+                    gfx.rotation += rotation;
+                    gfx.skew.x += skewX;
+                    gfx.skew.y += skewY;
+                    if (bounce && gfx.y > window.innerHeight) {
+                        yVel = fuzz(-bounciness, 5);
+                    }
+                    if (gfx.y - 200 > window.innerHeight) {
+                        return remove();
+                    }
+                    if (ms > lifetime) {
+                        gfx.alpha = lerp(opacity, 0, (ms - lifetime) / fadeOut);
+                    }
+                    if (ms > lifetime + fadeOut) {
+                        remove();
+                    }
+                };
+                items.set(key, render);
+            }
+
+            function particles(x, y) {
+                Array.from({ length: fuzz(config.quantity, 5) }, () => particle(x, y));
+            }
+
+            let x, y, down = false;
+            document.onmousedown = document.ontouchstart = () => {
+                down = true;
+            };
+            document.onmouseup = document.ontouchend = () => {
+                down = false;
+            };
+            document.onmousemove = e => {
+                x = e.pageX;
+                y = e.pageY;
+            };
+            document.ontouchmove = e => {
+                x = e.touches[0].pageX;
+                y = e.touches[0].pageY;
             };
 
-            let down;
-            document.onmousedown = () => {down=true}
-            document.onmouseup = () => {down=false}
-            document.onmousemove = e => down && confetti(e.pageX, e.pageY);
-            document.onclick = e => confetti(e.pageX, e.pageY);
+            void function loop() {
+                requestAnimationFrame(loop);
+                down && particles(x, y);
+                if (config.auto) {
+                    particles(lerp(0, window.innerWidth, random()), lerp(0, window.innerHeight, random()));
+                }
+                const now = performance.now();
+                debug.text = `particles: ${items.size}`
+                for ([_, render] of items) render(now);
+                renderer.render(stage);
+            }();
         </script>
     </body>
 </html>
