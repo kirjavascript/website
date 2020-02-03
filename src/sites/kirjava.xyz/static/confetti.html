@@ -21,6 +21,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.2.0/pixi.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
         <script>
+            PIXI.settings.SPRITE_MAX_TEXTURES = Math.min(PIXI.settings.SPRITE_MAX_TEXTURES , 16);
             const { random } = Math;
             const { view, renderer } = new PIXI.Application({
                 width: 256,
@@ -116,6 +117,10 @@
                     gui.add(config, 'text').onChange(setText)
                 });
 
+            if (window.innerWidth < 800) {
+                gui.close();
+            }
+
             window.addEventListener('resize', setSize);
             function setSize() {
                 renderer.resize(window.innerWidth, window.innerHeight);
@@ -174,7 +179,7 @@
                 gfx.alpha = opacity;
 
                 if (fuzzOrigin) {
-                    gfx.position.set(fuzz(x, 100), fuzz(y, 100));
+                    gfx.position.set(fuzz(x, 100 + (scale * 20)), fuzz(y, 100 + (scale * 20)));
                 } else {
                     gfx.position.set(x, y);
                 }
