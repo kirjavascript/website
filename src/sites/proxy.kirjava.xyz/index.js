@@ -6,6 +6,7 @@ module.exports = ({type}) => ({
     init: ({ app }) => {
         app.use(async (req, res) => {
 
+            res.status(451).send('unavailable for legal reasons');
             const url = req.url.slice(1);
 
             if (
