@@ -120,6 +120,3 @@ app.use((req,res,next) => {
         </span>
     `);
 });
-
-// click on a link, open iframe in background -refresh title, url
-// lets encrypt
