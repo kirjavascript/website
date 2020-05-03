@@ -1,0 +1,26 @@
+{
+  "scripts": {
+    "start": "pm2 start --name  \"website\" src/main.js",
+    "stop": "pm2 stop index.js",
+    "push": "git add . --all && git commit -m \"`date`\" && git push origin master",
+    "pull": "git pull origin master",
+    "update": "git pull origin master && yarn && pm2 restart website"
+  },
+  "devDependencies": {
+    "chokidar": "^2.0.4",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "better-sqlite3": "^5.0.1",
+    "body-parser": "^1.18.3",
+    "bouncy": "^3.2.2",
+    "compression": "^1.7.3",
+    "express": "^4.16.4",
+    "mailin": "^3.0.4",
+    "node-fetch": "^2.3.0",
+    "posthtml-parser": "^0.4.1",
+    "posthtml-render": "^1.1.4",
+    "serve-favicon": "^2.5.0",
+    "vhost": "^3.0.2"
+  }
+}

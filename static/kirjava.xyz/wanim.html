@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Web Animations</title>
+        <meta name="theme-color" content="#000000">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <style>
+            html{background-color: #d4d0c8;}
+        </style>
+    </head>
+    <body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.2.5/web-animations-next.min.js"></script>
+<style>
+.debris {
+    width: 40px;
+    height: 40px;
+    background-color: #FA0;
+    border-radius: 20px;
+}
+.sq {
+    width: 40px;
+    height: 40px;
+    background-color: #00F;
+}
+</style>
+
+<h1>
+    Intro to the Web Animations API
+</h1>
+
+<p>
+Recently I came across the Web Animations API, a modern browser feature for creating animations that you'd traditionally use CSS or a JavaScript library for. While you will likely want to use a more powerful tool for complex animations, creating simple fades and motions can be done with the base web API.
+</p>
+
+<p>
+At the time of writing, this functionality is experimental and not generally available in all browsers. To have support in IE10 and up, you can use the <a href="https://github.com/web-animations/web-animations-js">polyfill</a>. When the API is already available, the polyfill will fallback to the native features for better performance.
+</p>
+
+<p>
+    The basic syntax for animating an element looks like this;
+    <pre>element.animate(keyframes, options);</pre>
+    'keyframes' is a description of the states to tween, and can come in <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats">multiple formats</a>. 'options' is an object with properties that control things like duration, delay etc. It feels like a similar syntax to things like jQuery and velocity.js.
+</p>
+
+
+<h2>Fading In/Out</h2>
+<p>
+    <div class="debris" data-index="1"></div>
+    <pre>
+        element.animate([
+            {opacity: 0},
+            {opacity: 1},
+        ], {
+            duration: 1000,
+            iterations: Infinity,
+            direction: 'alternate',
+        });
+    </pre>
+
+    Schedule a 1 second long animation. 'iterations' has been set to Infinity to keep it repeating and the 'direction' has been set to 'alternate' to have the animation wrap correctly.
+</p>
+
+<h2>Easing</h2>
+<p>
+    <div class="debris" data-index="2"></div>
+    <pre>
+        element.animate({
+            marginLeft: ['0px', '500px'],
+        }, {
+            duration: 1000,
+            iterations: Infinity,
+            easing: 'cubic-bezier(.42,1.52,.98,.05)',
+        });
+    </pre>
+    The easing option allows you to specify a CSS style easing like 'linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out', etc. This feature is somewhat limited because you are not able to provide an arbitrary JavaScript function for easing. However, CSS provides quite powerful easings with stuff like <a href="http://cubic-bezier.com">cubic-bezier()</a>. 
+</p>
+
+<h2>Transforms</h2>
+<p>
+    <div class="sq"></div>
+<pre>
+    element.animate({
+        transform: [
+            'scale(1) translate(0, 0) rotate(0deg)',
+            'scale(2) translate(100px, 0) rotate(90deg)'
+        ],
+    },{
+        duration: 500,
+        iterations: Infinity,
+        direction: 'alternate',
+    });
+</pre>
+Combining transforms seems to just work! Very useful. It even seems to support 3D transforms.
+</p>
+
+<h2>SVG</h2>
+
+<p>
+    <svg class="svg-sq" width="60" height="60">
+        <rect x="10" y="10" fill="red" width="40" height="40" stroke="#000"/>
+    </svg>
+    <pre>
+        element.animate({strokeWidth:[1, 5]}, {duration: 1000, iterations: Infinity});
+    </pre>
+    The animate method only interpolates style values, therefore SVG support is extremely limited as most drawing values in SVG are element attributes. Consider using something else to do this.
+</p>
+
+<h2>Colours</h2>
+
+<p>
+    <div class="debris" data-index="3"></div>
+    <pre>
+            element.animate({
+                backgroundColor: ['#405','#298','#fe3'],
+            }, {
+                duration: 1000,
+                iterations: Infinity,
+                direction: 'alternate-reverse',
+            });
+    </pre>
+    It seems it's very easy to create smooth colour transforms.
+</p>
+    Of course you can bind animations to events and do other 
+    <button type="button" class="stupid-button">
+        stupid things
+    </button>
+<p>
+The base web API is quite primitive, but often that is all you need. For working with SVG, I recommend using d3 instead. For anything more complicated; high performing graphics are available with PIXI.js, while react-motion provides useful declarative animations. There are many other options depending on what you want to do. One particularly interesting library I have used is mojs, which provides excellent developer tools.
+</p>
+<p>
+Further information on Element.animate() can be found <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/animate">here</a>.
+</p>
+<p>
+For information on what else the Web Animations API can do, look <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API">here</a>.
+</p>
+
+
+<script>
+    (function(){
+        document.querySelector('.debris[data-index="1"]')
+            .animate([{opacity: 0}, {opacity: 1}], {
+                duration: 1000,
+                iterations: Infinity,
+                direction: 'alternate',
+            });
+        document.querySelector('.debris[data-index="2"]')
+            .animate({
+                marginLeft: ['0px', '500px'],
+            },{
+                duration: 1000,
+                iterations: Infinity,
+                easing: 'cubic-bezier(.42,1,.98,0)',
+            });
+        document.querySelector('.sq')
+            .animate({
+                transform: ['scale(1) translate(0, 0) rotate(0deg)', 'scale(2) translate(100px, 0) rotate(90deg)'],
+            },{
+                duration: 500,
+                iterations: Infinity,
+                direction: 'alternate',
+            });
+        document.querySelector('.svg-sq > rect')
+            .animate({
+                strokeWidth: [1, 5],
+            },{
+                duration: 1000,
+                iterations: Infinity,
+            });
+        document.querySelector('.debris[data-index="3"]')
+            .animate({
+                backgroundColor: ['#405','#298','#fe3'],
+            }, {
+                duration: 1000,
+                iterations: Infinity,
+                direction: 'alternate-reverse',
+            });
+        document.querySelector('.stupid-button')
+            .addEventListener('click', function(e) {
+                e.target
+                    .animate({
+                        backgroundColor: ['transparent','red','blue','green', 'purple', 'yellow', 'orange', 'transparent'],
+                        transform: [
+                            'rotate(0deg) scale(1) translate(0, 0)',
+                            'rotate(420deg) scale(5) translate(-50px, -50px)',
+                            'rotate(360deg) scale(1) translate(0, 0)'
+                        ],
+                    },{duration: 1000, easing: 'cubic-bezier(.43,1,.71,0)' });
+            });
+    })()
+</script>
+    </body>
+</html>

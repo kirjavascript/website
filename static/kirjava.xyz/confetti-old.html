@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>confetti</title>
+        <style>
+            html {
+                overflow: hidden;
+            }
+            body {
+                user-select: none;
+            }
+            * {
+                padding: 0;
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.2.0/pixi.min.js"></script>
+        <script>
+            const { view, renderer } = new PIXI.Application({
+                width: 256,
+                height: 256,
+                antialias: true,
+                transparent: true,
+                resolution: 1,
+            });
+            document.body.appendChild(view);
+            Object.assign(renderer.view.style, {
+                position: 'absolute',
+                display: 'block',
+                top: 0,
+                left: 0,
+            });
+            renderer.autoDensity = true;
+            window.addEventListener('resize', setSize);
+            function setSize() {
+                renderer.resize(window.innerWidth, window.innerHeight);
+            }
+            setSize();
+
+            const stage = new PIXI.Container();
+
+            function lerp(start, end, i) {
+                return start + (end - start) * i;
+            }
+
+            const { random } = Math;
+
+            const items = new Map([]);
+
+            const colours = [0xa864fd, 0x29cdff, 0x78ff44, 0xff718d, 0xfdff6a];
+
+            function particle(x, y) {
+                const key = Symbol('particle');
+                const epoch = performance.now();
+                const gfx = new PIXI.Graphics();
+                gfx.position.set(x, y);
+                gfx.beginFill(colours[0 | (colours.length * random())]);
+                [
+                    () => gfx.drawRect(0, 0, 20, 20),
+                    () => gfx.drawRect(0, 0, 20, 20),
+                    () => gfx.drawRect(0, 0, 5, 15),
+                    () => gfx.drawRect(0, 0, 15, 5),
+                    () => gfx.drawStar(0, 0, 4, 15),
+                    () => gfx.drawStar(0, 0, 6, 15),
+                ][0 | (Math.random() * 6)]();
+                stage.addChild(gfx);
+                let yVel = lerp(-25, -15, random());
+                let xVel = lerp(-5, 5, random());
+                let g = lerp(1, 1.5, random());
+                let rotation = lerp(0, 360, random());
+                const render = now => {
+                    const ms = now - epoch;
+                    gfx.y += yVel;
+                    gfx.x += xVel;
+                    yVel += g;
+                    rotation += 0.1;
+                    gfx.rotation = rotation;
+                    gfx.skew.y = rotation;
+                    if (gfx.y > window.innerHeight) {
+                        yVel = lerp(-25, -15, random());
+                    }
+                    if (ms > 800) {
+                        gfx.alpha = lerp(1, 0, (ms - 800) / 200);
+                    }
+                    if (ms > 1000) {
+                        stage.removeChild(gfx);
+                        gfx.destroy();
+                        items.delete(key);
+                    }
+                };
+                items.set(key, render);
+            }
+
+            function particles(x, y) {
+                Array.from({ length: 20 }, () => particle(x, y));
+            }
+
+            let x,
+                y,
+                down = false;
+            document.onmousedown = document.ontouchstart  = () => {
+                down = true;
+            };
+            document.onmouseup = document.ontouchend = () => {
+                down = false;
+            };
+            document.onmousemove = e => {
+                x = e.pageX;
+                y = e.pageY;
+            };
+            document.ontouchmove = e => {
+                x = e.touches[0].pageX;
+                y = e.touches[0].pageY;
+            };
+
+            void (function loop() {
+                requestAnimationFrame(loop);
+                down && particles(x, y);
+                const now = performance.now();
+                for ([_, render] of items) render(now);
+                renderer.render(stage);
+            })();
+        </script>
+    </body>
+</html>

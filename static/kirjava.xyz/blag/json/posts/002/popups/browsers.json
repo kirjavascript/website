@@ -1,0 +1,17 @@
+[
+    {
+        "shape": "foreignObject",
+        "size": [
+            400,
+            "auto"
+        ],
+        "uid": "browsers",
+        "style": {
+        },
+        "ajax" : "json/posts/002/popups/browsers.html",
+        "foci": {
+            "x": 500,
+            "y": 200
+        }
+    }
+]
