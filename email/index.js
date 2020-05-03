@@ -61,7 +61,7 @@ const app = express();
 app.listen(8002, console.log);
 
 mailin.start({
-    port: 8025,
+    port: 25,
     disableWebhook: true,
 });
 
