@@ -104,19 +104,19 @@
     ],
     "axm_monitor": {
       "Heap Size": {
-        "value": "193.81",
+        "value": "178.21",
         "type": "internal/v8/heap/total",
         "unit": "MiB",
         "historic": true
       },
       "Heap Usage": {
-        "value": 94.56,
+        "value": 91.43,
         "type": "internal/v8/heap/usage",
         "unit": "%",
         "historic": true
       },
       "Used Heap Size": {
-        "value": "183.27",
+        "value": "162.93",
         "type": "internal/v8/heap/used",
         "unit": "MiB",
         "historic": true
@@ -132,13 +132,13 @@
         "historic": true
       },
       "Event Loop Latency": {
-        "value": "0.54",
+        "value": "0.57",
         "type": "internal/libuv/latency/p50",
         "unit": "ms",
         "historic": true
       },
       "Event Loop Latency p95": {
-        "value": "3.70",
+        "value": "4.63",
         "type": "internal/libuv/latency/p95",
         "unit": "ms",
         "historic": true
@@ -320,5 +320,204 @@
     "username": "cake",
     "windowsHide": true,
     "kill_retry_time": 100
+  },
+  {
+    "kill_retry_time": 100,
+    "windowsHide": true,
+    "username": "cake",
+    "treekill": true,
+    "automation": true,
+    "pmx": true,
+    "instance_var": "NODE_APP_INSTANCE",
+    "watch": false,
+    "autorestart": true,
+    "vizion": true,
+    "merge_logs": true,
+    "env": {
+      "PM2_USAGE": "CLI",
+      "_": "/usr/bin/pm2",
+      "OLDPWD": "/home/cake",
+      "SSH_TTY": "/dev/pts/1",
+      "MAIL": "/var/spool/mail/cake",
+      "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+      "PATH": "/home/cake/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/cake/.fzf/bin",
+      "SSH_CLIENT": "86.22.66.226 55004 22",
+      "XDG_RUNTIME_DIR": "/run/user/1000",
+      "XDG_SESSION_ID": "157",
+      "SHLVL": "1",
+      "USER": "cake",
+      "TERM": "xterm-termite",
+      "XDG_SESSION_CLASS": "user",
+      "SSH_CONNECTION": "86.22.66.226 55004 167.86.111.224 22",
+      "LANG": "en_US.UTF-8",
+      "HOME": "/home/cake",
+      "XDG_SESSION_TYPE": "tty",
+      "LOGNAME": "cake",
+      "PWD": "/home/cake/email",
+      "SHELL": "/bin/bash",
+      "PM2_HOME": "/home/cake/.pm2",
+      "email": {},
+      "unique_id": "3f699088-84cc-49ab-8ee3-c59b0ae8f337"
+    },
+    "namespace": "default",
+    "name": "email",
+    "node_args": [],
+    "pm_exec_path": "/home/cake/email/index.js",
+    "pm_cwd": "/home/cake/email",
+    "exec_interpreter": "node",
+    "exec_mode": "fork_mode",
+    "pm_out_log_path": "/home/cake/.pm2/logs/email-out.log",
+    "pm_err_log_path": "/home/cake/.pm2/logs/email-error.log",
+    "pm_pid_path": "/home/cake/.pm2/pids/email-2.pid",
+    "km_link": false,
+    "vizion_running": false,
+    "NODE_APP_INSTANCE": 0,
+    "PM2_USAGE": "CLI",
+    "_": "/usr/bin/pm2",
+    "OLDPWD": "/home/cake",
+    "SSH_TTY": "/dev/pts/1",
+    "MAIL": "/var/spool/mail/cake",
+    "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+    "PATH": "/home/cake/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/cake/.fzf/bin",
+    "SSH_CLIENT": "86.22.66.226 55004 22",
+    "XDG_RUNTIME_DIR": "/run/user/1000",
+    "XDG_SESSION_ID": "157",
+    "SHLVL": "1",
+    "USER": "cake",
+    "TERM": "xterm-termite",
+    "XDG_SESSION_CLASS": "user",
+    "SSH_CONNECTION": "86.22.66.226 55004 167.86.111.224 22",
+    "LANG": "en_US.UTF-8",
+    "HOME": "/home/cake",
+    "XDG_SESSION_TYPE": "tty",
+    "LOGNAME": "cake",
+    "PWD": "/home/cake/email",
+    "SHELL": "/bin/bash",
+    "PM2_HOME": "/home/cake/.pm2",
+    "unique_id": "3f699088-84cc-49ab-8ee3-c59b0ae8f337",
+    "status": "online",
+    "pm_uptime": 1588529158476,
+    "axm_actions": [
+      {
+        "action_name": "km:heapdump",
+        "action_type": "internal",
+        "arity": 2
+      },
+      {
+        "action_name": "km:cpu:profiling:start",
+        "action_type": "internal",
+        "arity": 2
+      },
+      {
+        "action_name": "km:cpu:profiling:stop",
+        "action_type": "internal",
+        "arity": 1
+      },
+      {
+        "action_name": "km:heap:sampling:start",
+        "action_type": "internal",
+        "arity": 2
+      },
+      {
+        "action_name": "km:heap:sampling:stop",
+        "action_type": "internal",
+        "arity": 1
+      }
+    ],
+    "axm_monitor": {
+      "Heap Size": {
+        "value": "17.78",
+        "type": "internal/v8/heap/total",
+        "unit": "MiB",
+        "historic": true
+      },
+      "Heap Usage": {
+        "value": 90.14,
+        "type": "internal/v8/heap/usage",
+        "unit": "%",
+        "historic": true
+      },
+      "Used Heap Size": {
+        "value": "16.03",
+        "type": "internal/v8/heap/used",
+        "unit": "MiB",
+        "historic": true
+      },
+      "Active requests": {
+        "value": 0,
+        "type": "internal/libuv/requests",
+        "historic": true
+      },
+      "Active handles": {
+        "value": 5,
+        "type": "internal/libuv/handles",
+        "historic": true
+      },
+      "Event Loop Latency": {
+        "value": "0.97",
+        "type": "internal/libuv/latency/p50",
+        "unit": "ms",
+        "historic": true
+      },
+      "Event Loop Latency p95": {
+        "value": "3.54",
+        "type": "internal/libuv/latency/p95",
+        "unit": "ms",
+        "historic": true
+      },
+      "HTTP Mean Latency": {
+        "value": 4,
+        "type": "internal/http/builtin/latency/p50",
+        "unit": "ms",
+        "historic": true
+      },
+      "HTTP P95 Latency": {
+        "value": 34,
+        "type": "internal/http/builtin/latency/p95",
+        "unit": "ms",
+        "historic": true
+      },
+      "HTTP": {
+        "value": 0.06,
+        "type": "internal/http/builtin/reqs",
+        "unit": "req/min",
+        "historic": true
+      }
+    },
+    "axm_options": {
+      "error": true,
+      "heapdump": true,
+      "feature.profiler.heapsnapshot": false,
+      "feature.profiler.heapsampling": true,
+      "feature.profiler.cpu_js": true,
+      "latency": true,
+      "catchExceptions": true,
+      "profiling": true,
+      "metrics": {
+        "http": true,
+        "runtime": true,
+        "eventLoop": true,
+        "network": false,
+        "v8": true
+      },
+      "standalone": false,
+      "tracing": {
+        "outbound": false,
+        "enabled": false
+      },
+      "module_conf": {},
+      "apm": {
+        "version": "4.3.4",
+        "type": "node"
+      },
+      "module_name": "email",
+      "module_version": "4.2.3"
+    },
+    "axm_dynamic": {},
+    "created_at": 1588529158477,
+    "restart_time": 0,
+    "unstable_restarts": 0,
+    "versioning": null,
+    "node_version": "14.1.0"
   }
 ]
