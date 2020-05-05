@@ -123,7 +123,7 @@ app.use((req, res) => {
         } else {
             const id = dirs.pop() | 0;
             const address = dirs.pop();
-            const data = message.get(id);
+            const data = message.get(id) || {};
             const output = `
                 <h1>${address} - ${data.subject}</h1>
                 From: <strong>${data.from}</strong><br />
