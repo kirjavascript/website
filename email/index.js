@@ -124,6 +124,11 @@ app.use((req, res) => {
             const id = dirs.pop() | 0;
             const address = dirs.pop();
             const data = message.get(id) || {};
+            const mkJSON = (obj) => {
+                try {
+                    return JSON.stringify(JSON.parse(object), 0, 4);
+                } catch (e) { }
+            };
             const output = `
                 <h1>${address} - ${data.subject}</h1>
                 From: <strong>${data.from}</strong><br />
@@ -133,11 +138,8 @@ app.use((req, res) => {
                 Message: <div style="padding:40px">
                     ${data.html || data.text}
                 </div>
-                Headers: <pre style="white-space: pre-wrap">${JSON.stringify(
-                    JSON.parse(data.headers),
-                    null,
-                    4,
-                )}</pre>
+                Headers: <pre style="white-space: pre-wrap">
+                ${mkJSON(data.headers)}</pre>
             `;
 
             res.send(layout(output));
