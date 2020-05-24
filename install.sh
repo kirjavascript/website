@@ -41,8 +41,6 @@ cd email && yarn
 sudo systemctl enable nginx
 sudo system start nginx
 
-# TODO certbot
-
 # pm2
 sudo yarn global add pm2
 
@@ -74,4 +72,4 @@ pm2 start --name "nibblrjr" index.js
 pm2 startup
 pm2 save
 
-# DNS
+# DNS & certbot
