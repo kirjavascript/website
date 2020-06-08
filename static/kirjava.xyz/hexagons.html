@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Hexagons</title>
+        <style>
+            body {
+                margin: 0;
+                height: 100%;
+            }
+            canvas {
+                position: absolute;
+                overflow: hidden;
+                cursor: all-scroll;
+                left: 0;
+                top: 0;
+                z-index: 0;
+            }
+        </style>
+    </head>
+    <body>
+
+        <canvas></canvas>
+        <script>
+
+function hexagon(x, y, size, length = 7) {
+    const chord = Math.PI / 3;
+    return Array.from({ length }, (_, i) => [
+        x + Math.sin(i * chord) * size,
+        y + Math.cos(i * chord) * size,
+    ]);
+}
+
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+
+const measure = (points, indexA, indexB, type) => points[indexA][type] - points[indexB][type];
+const getHexWidth = (points) => measure(points, 1, 4, 0);
+const getHexHeight = (points) => measure(points, 1, 3, 1);
+
+const epoch = performance.now();
+const mouse = drag();
+
+(function loop() {
+    requestAnimationFrame(loop);
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'bevel';
+
+    const drawLayer = (x, y, size, adjustCtx) => {
+        const initial = hexagon(0, 0, size)
+        const hexWidth = getHexWidth(initial);
+        const hexHeight = getHexHeight(initial);
+        // we only draw half a hexagon each time, so need quite a bit of overscroll
+        const quantityX = Math.floor(canvas.width / hexWidth) + 5;
+        const quantityY = Math.floor(canvas.height / hexHeight) + 5;
+
+        const drawLine = (x, y) => {
+            const offset = x % hexWidth;
+            for (let i = 0; i < quantityX; i++) {
+                const points = hexagon(((i - 2) * hexWidth) - offset, y, size, 4);
+                ctx.beginPath();
+                adjustCtx && adjustCtx(ctx);
+                points.forEach(([x, y]) => ctx.lineTo(x, y));
+                ctx.stroke();
+            }
+        };
+
+        for (let i = 0; i < quantityY; i++) {
+            const offsetX = - (i % 2) * hexWidth / 2;
+            const offsetY = y % (hexHeight * 2);
+            drawLine(offsetX - x, ((i - 2) * hexHeight) + offsetY);
+        }
+    };
+
+    const t = performance.now() - epoch;
+
+    mouse.x += 1;
+    mouse.y += Math.sin(t / 1e3);
+
+    mouse.render();
+
+    drawLayer(mouse.x, mouse.y, 50, (ctx) => {
+        ctx.strokeStyle = 'cyan'
+        ctx.lineWidth = 5;
+    });
+
+    cubes();
+
+    drawLayer(mouse.x * 2,mouse.y * 2, 100, (ctx) => {
+        ctx.strokeStyle = 'steelblue';
+        ctx.lineWidth = 10;
+    });
+})();
+
+function cubeCenter(points) {
+    const [[x0, y0], one, two, [x1, y1]] = points;
+    return [x0, y0 - ((y0 - y1) / 2)];
+}
+
+function cubes() {
+
+
+    // get ground
+    // get k
+    // spawn above, add gravity
+    //
+
+    const dimensions = hexagon(0, 0, 50);
+    const hexWidth = getHexWidth(dimensions);
+    const hexHeight = getHexHeight(dimensions);
+    const cubeHeight = measure(dimensions, 4, 3, 1) * 1.04; // give some extra space for stroke width
+    const centerX = hexWidth * (0 | canvas.width / hexWidth / 2);
+    const centerY = hexHeight * (0 | canvas.height / hexHeight / 2);
+    const snapX = ((mouse.x)) + centerX;
+    const snapY = ((mouse.y)) + centerY;
+    const cubes = [
+        [(hexWidth / 2) * 3, cubeHeight * -3],
+        [(hexWidth / 2) * 3, cubeHeight * -1],
+        [(hexWidth / 2) * 3, cubeHeight * 1],
+        [(hexWidth / 2) * 5, cubeHeight * 1],
+        [(hexWidth / 2) * 7, cubeHeight * 1],
+        [0, 0],
+        [(hexWidth / 2) * 1, cubeHeight * 1],
+        [(hexWidth / 2) * 2, cubeHeight * 2],
+        [(hexWidth / 2) * 3, cubeHeight * 3],
+        [(hexWidth / 2) * 4, cubeHeight * 4],
+    ];
+    const g = 0.9;
+
+    [...cubes.map(([x, y]) => [x, y + (cubeHeight * 2)]), ...cubes]
+        <!-- .map(([x, y], i) => [x, y - Math.max(0, (1000- ((i%8) *40)) - t)]) -->
+        .forEach(([x, y], i) => {
+            const points = hexagon(x + snapX, y + snapY, 50);
+            <!-- const fill = 'pink'; -->
+            <!-- const stroke = 'purple; -->
+            const fill = `hsl(${i*22},100%,75%)`;
+            const stroke = `hsl(${i*22},100%,50%)`;
+            <!-- const fill = `hsl(${i*22},100%,100%)`; -->
+            <!-- const stroke = `hsl(${i*22},100%,0%)`; -->
+            ctx.beginPath();
+            points.forEach(([x, y]) => ctx.lineTo(x, y));
+            ctx.fillStyle = fill;
+            ctx.fill();
+            ctx.lineWidth = 7;
+            ctx.strokeStyle = stroke;
+            ctx.stroke();
+            ctx.closePath();
+            ctx.beginPath();
+            points[3] = cubeCenter(points);
+            points.forEach(([x, y]) => ctx.lineTo(x, y));
+            ctx.fillStyle = stroke;
+            ctx.fill();
+        });
+
+}
+
+function drag() {
+    let lastX, lastY, down;
+
+    const mouse = {
+        x: 0, y: 0, vx: -20, vy: 10,
+        render: () => {
+            mouse.x += mouse.vx;
+            mouse.y += mouse.vy;
+            if (!down) {
+                mouse.vx *= .95;
+                mouse.vy *= .95;
+            }
+        },
+    };
+
+    const setPos = (e) => [
+        lastX, lastX = e.offsetX / 5,
+        lastY, lastY = e.offsetY / 5,
+    ];
+
+    canvas.addEventListener('mousedown', e => {
+        down = true;
+        setPos(e);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (down) {
+            const [lastX, x, lastY, y] = setPos(e);
+            mouse.vx = x - lastX;
+            mouse.vy = y - lastY;
+        }
+    });
+
+    const end = (e) => { down = false; };
+    canvas.addEventListener('mouseup', end);
+    canvas.addEventListener('mouseout', end);
+
+    return mouse;
+}
+
+        </script>
+    </body>
+</html>
