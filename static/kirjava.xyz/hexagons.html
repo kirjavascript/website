@@ -41,6 +41,7 @@ const getHexHeight = (points) => measure(points, 1, 3, 1);
 
 const epoch = performance.now();
 const mouse = drag();
+const cubes = [];
 
 (function loop() {
     requestAnimationFrame(loop);
@@ -77,8 +78,8 @@ const mouse = drag();
 
     const t = performance.now() - epoch;
 
-    mouse.x += 1;
-    mouse.y += Math.sin(t / 1e3);
+    // mouse.x += 1;
+    // mouse.y += Math.sin(t / 1e3);
 
     mouse.render();
 
@@ -87,7 +88,7 @@ const mouse = drag();
         ctx.lineWidth = 5;
     });
 
-    cubes();
+    drawCubes();
 
     drawLayer(mouse.x * 2,mouse.y * 2, 100, (ctx) => {
         ctx.strokeStyle = 'steelblue';
@@ -95,15 +96,115 @@ const mouse = drag();
     });
 })();
 
-function cubeCenter(points) {
+
+function drag() {
+    let lastX, lastY, down;
+
+    const mouse = {
+        x: 0, y: 0, vx: -20, vy: 10,
+        render: () => {
+            mouse.x += mouse.vx;
+            mouse.y += mouse.vy;
+            if (!down) {
+                mouse.vx *= .95;
+                mouse.vy *= .95;
+            }
+        },
+    };
+
+    const setPos = (e) => [
+        lastX, lastX = e.offsetX / 5,
+        lastY, lastY = e.offsetY / 5,
+    ];
+
+    canvas.addEventListener('mousedown', e => {
+        down = true;
+        setPos(e);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (down) {
+            const [lastX, x, lastY, y] = setPos(e);
+            mouse.vx = x - lastX;
+            mouse.vy = y - lastY;
+        }
+    });
+
+    const end = (e) => { down = false; };
+    canvas.addEventListener('mouseup', end);
+    canvas.addEventListener('mouseout', end);
+
+    return mouse;
+}
+
+function getScreenCenter() {
+    const dimensions = hexagon(0, 0, 50);
+    const hexWidth = getHexWidth(dimensions);
+    const hexHeight = getHexHeight(dimensions);
+    const centerX = hexWidth * (0 | canvas.width / hexWidth / 2);
+    const centerY = hexHeight * (0 | canvas.height / hexHeight / 2);
+    return [centerX, centerY];
+}
+
+function getCubeCenter(points) {
     const [[x0, y0], one, two, [x1, y1]] = points;
     return [x0, y0 - ((y0 - y1) / 2)];
 }
+function lerp(start, end, i) {
+    return start + (end - start) * i;
+}
 
-function cubes() {
+function drawCubes() {
+    if (!cubes.length) {
+        const [centerX, centerY] = getScreenCenter();
+        const dimensions = hexagon(0, 0, 50);
+        const hexWidth = getHexWidth(dimensions);
+
+        const cubeHeight = measure(dimensions, 4, 3, 1) * 1.04; // give some extra space for stroke width
+
+        const K = [[3, -3], [3, -1], [3, 1], [5, 1], [7, 1], [0, 0], [1, 1], [2, 2], [3, 3], [4, 4]];
+
+        [...K.map(([x, y]) => [x, y + 2]), ...K]
+            .forEach(([offsetX, offsetY], i) => {
+                const x = centerX + (hexWidth / 2 * offsetX);
+                const y = centerY + (cubeHeight * offsetY);
+                const color = 0 | Math.random() * 360;
+                cubes.push({ x, y, color, dx: 0, dy: -centerY, vx: 0, vy: - i });
+            });
+
+        // cubes.push({ x: centerX, y: centerY, color, dx: 0, dy: -centerY, vx: 0, vy: 5 });
+    } else {
+        // TODO: bounce off screen based on mouse vel
+
+        cubes.forEach(cube => {
+            cube.vy += 0.5;
+            cube.dy = Math.min(0, cube.dy + cube.vy);
+            const { color, x, y, dx, dy } = cube;
+            const points = hexagon(mouse.x + x + dx, mouse.y + y + dy, 50);
+            const fill = `hsl(${color},100%,50%)`;
+            const stroke = `hsl(${color},100%,25%)`;
+            ctx.beginPath();
+            points.forEach(([x, y]) => ctx.lineTo(x, y));
+            ctx.fillStyle = fill;
+            ctx.fill();
+            ctx.lineWidth = 7;
+            ctx.strokeStyle = stroke;
+            ctx.stroke();
+            ctx.closePath();
+            ctx.beginPath();
+            points[3] = getCubeCenter(points); // sneaky
+            points.forEach(([x, y]) => ctx.lineTo(x, y));
+            ctx.fillStyle = stroke;
+            ctx.fill();
+
+        });
+    }
+}
+
+function _cubes() {
 
 
-    // get ground
+    // get ground / centers
     // get k
     // spawn above, add gravity
     //
@@ -155,46 +256,6 @@ function cubes() {
             ctx.fill();
         });
 
-}
-
-function drag() {
-    let lastX, lastY, down;
-
-    const mouse = {
-        x: 0, y: 0, vx: -20, vy: 10,
-        render: () => {
-            mouse.x += mouse.vx;
-            mouse.y += mouse.vy;
-            if (!down) {
-                mouse.vx *= .95;
-                mouse.vy *= .95;
-            }
-        },
-    };
-
-    const setPos = (e) => [
-        lastX, lastX = e.offsetX / 5,
-        lastY, lastY = e.offsetY / 5,
-    ];
-
-    canvas.addEventListener('mousedown', e => {
-        down = true;
-        setPos(e);
-    });
-
-    canvas.addEventListener('mousemove', e => {
-        if (down) {
-            const [lastX, x, lastY, y] = setPos(e);
-            mouse.vx = x - lastX;
-            mouse.vy = y - lastY;
-        }
-    });
-
-    const end = (e) => { down = false; };
-    canvas.addEventListener('mouseup', end);
-    canvas.addEventListener('mouseout', end);
-
-    return mouse;
 }
 
         </script>
