@@ -84,7 +84,7 @@ const cubes = [];
     mouse.render();
 
     drawLayer(mouse.x, mouse.y, 50, (ctx) => {
-        ctx.strokeStyle = 'cyan'
+        ctx.strokeStyle = 'cyan';
         ctx.lineWidth = 5;
     });
 
@@ -94,6 +94,8 @@ const cubes = [];
         ctx.strokeStyle = 'steelblue';
         ctx.lineWidth = 10;
     });
+
+    document.title = String.fromCharCode(5e5 + ((t ^ 0x7F) % 0x7F));
 })();
 
 
@@ -150,6 +152,7 @@ function getCubeCenter(points) {
     const [[x0, y0], one, two, [x1, y1]] = points;
     return [x0, y0 - ((y0 - y1) / 2)];
 }
+
 function lerp(start, end, i) {
     return start + (end - start) * i;
 }
@@ -159,7 +162,6 @@ function drawCubes() {
         const [centerX, centerY] = getScreenCenter();
         const dimensions = hexagon(0, 0, 50);
         const hexWidth = getHexWidth(dimensions);
-
         const cubeHeight = measure(dimensions, 4, 3, 1) * 1.04; // give some extra space for stroke width
 
         const K = [[3, -3], [3, -1], [3, 1], [5, 1], [7, 1], [0, 0], [1, 1], [2, 2], [3, 3], [4, 4]];
