@@ -95,12 +95,11 @@ const cubes = [];
         ctx.lineWidth = 10;
     });
 
-    document.title = String.fromCharCode(5e5 + ((t ^ 0x7F) % 0x7F));
+    document.title = String.fromCharCode(5e5 + ((t ^ 0x7F) % 0x7F)); // TODO: favicon
 })();
 
-
 function drag() {
-    let lastX, lastY, down;
+    let lastX, lastY, down
 
     const mouse = {
         x: 0, y: 0, vx: -20, vy: 10,
@@ -179,12 +178,15 @@ function drawCubes() {
         // TODO: bounce off screen based on mouse vel
 
         cubes.forEach(cube => {
-            cube.vy += 0.5;
+            cube.vy += 0.9;
             cube.dy = Math.min(0, cube.dy + cube.vy);
+
             const { color, x, y, dx, dy } = cube;
             const points = hexagon(mouse.x + x + dx, mouse.y + y + dy, 50);
-            const fill = `hsl(${color},100%,50%)`;
-            const stroke = `hsl(${color},100%,25%)`;
+
+            const i = 1 - (Math.min(500, dy) / -500);
+            const fill = `hsl(${color},100%,${lerp(75, 100, i)}%)`;
+            const stroke = `hsl(${color},${lerp(100, 0, i)}%,${lerp(25, 10, i)}%)`;
             ctx.beginPath();
             points.forEach(([x, y]) => ctx.lineTo(x, y));
             ctx.fillStyle = fill;
@@ -202,64 +204,3 @@ function drawCubes() {
         });
     }
 }
-
-function _cubes() {
-
-
-    // get ground / centers
-    // get k
-    // spawn above, add gravity
-    //
-
-    const dimensions = hexagon(0, 0, 50);
-    const hexWidth = getHexWidth(dimensions);
-    const hexHeight = getHexHeight(dimensions);
-    const cubeHeight = measure(dimensions, 4, 3, 1) * 1.04; // give some extra space for stroke width
-    const centerX = hexWidth * (0 | canvas.width / hexWidth / 2);
-    const centerY = hexHeight * (0 | canvas.height / hexHeight / 2);
-    const snapX = ((mouse.x)) + centerX;
-    const snapY = ((mouse.y)) + centerY;
-    const cubes = [
-        [(hexWidth / 2) * 3, cubeHeight * -3],
-        [(hexWidth / 2) * 3, cubeHeight * -1],
-        [(hexWidth / 2) * 3, cubeHeight * 1],
-        [(hexWidth / 2) * 5, cubeHeight * 1],
-        [(hexWidth / 2) * 7, cubeHeight * 1],
-        [0, 0],
-        [(hexWidth / 2) * 1, cubeHeight * 1],
-        [(hexWidth / 2) * 2, cubeHeight * 2],
-        [(hexWidth / 2) * 3, cubeHeight * 3],
-        [(hexWidth / 2) * 4, cubeHeight * 4],
-    ];
-    const g = 0.9;
-
-    [...cubes.map(([x, y]) => [x, y + (cubeHeight * 2)]), ...cubes]
-        <!-- .map(([x, y], i) => [x, y - Math.max(0, (1000- ((i%8) *40)) - t)]) -->
-        .forEach(([x, y], i) => {
-            const points = hexagon(x + snapX, y + snapY, 50);
-            <!-- const fill = 'pink'; -->
-            <!-- const stroke = 'purple; -->
-            const fill = `hsl(${i*22},100%,75%)`;
-            const stroke = `hsl(${i*22},100%,50%)`;
-            <!-- const fill = `hsl(${i*22},100%,100%)`; -->
-            <!-- const stroke = `hsl(${i*22},100%,0%)`; -->
-            ctx.beginPath();
-            points.forEach(([x, y]) => ctx.lineTo(x, y));
-            ctx.fillStyle = fill;
-            ctx.fill();
-            ctx.lineWidth = 7;
-            ctx.strokeStyle = stroke;
-            ctx.stroke();
-            ctx.closePath();
-            ctx.beginPath();
-            points[3] = cubeCenter(points);
-            points.forEach(([x, y]) => ctx.lineTo(x, y));
-            ctx.fillStyle = stroke;
-            ctx.fill();
-        });
-
-}
-
-        </script>
-    </body>
-</html>
