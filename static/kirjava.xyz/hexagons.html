@@ -19,7 +19,6 @@
         </style>
     </head>
     <body>
-        <pre> </pre>
         <canvas></canvas>
         <script>
 
@@ -77,8 +76,8 @@ const cubes = [];
 
     const t = performance.now() - epoch;
 
-    // mouse.x += 1;
-    // mouse.y += Math.sin(t / 1e3) * 0.5;
+    mouse.x += 1;
+    mouse.y += Math.sin(t / 1e3) * 0.5;
 
     mouse.render();
 
@@ -139,9 +138,12 @@ function getScreenCenter() {
     const dimensions = hexagon(0, 0, 50);
     const hexWidth = getHexWidth(dimensions);
     const hexHeight = getHexHeight(dimensions);
-    const centerX = hexWidth * (0 | canvas.width / hexWidth / 2);
-    const centerY = hexHeight * (0 | canvas.height / hexHeight / 2);
-    return [centerX - mouse.x, centerY - mouse.y];
+    const centerX = canvas.width / 2-mouse.x;
+    const centerY = canvas.height / 2-mouse.y;
+    return [
+        hexWidth * (0 | centerX / hexWidth),
+        hexHeight * (0 | centerY / hexHeight / 2) * 2,
+    ];
 }
 
 function getCubeCenter(points) {
@@ -171,17 +173,13 @@ function drawCubes(t) {
             });
 
     } else {
-        // bbox delete
-        // snap to hex
-        // colour fade out
-
-        ctx.save();
+        // TODO: come from everywhere
 
         const K = cubes.reduce((acc, cube, index) => {
             const { color, x, y, dx, dy } = cube;
             const points = hexagon(mouse.x + x + dx, mouse.y + y + dy, 50);
             const cubeCenter = getCubeCenter(points);
-            const i = 1 - (Math.min(500, dy) / -500);
+            const i = 1 - (Math.min(1000, Math.abs(dy) + Math.abs(dy)) / 1000);
             const fill = `hsl(${color},100%,${lerp(75, 100, i)}%)`;
             const stroke = `hsl(${color},${lerp(100, 0, i)}%,${lerp(25, 10, i)}%)`;
             ctx.beginPath();
@@ -199,22 +197,20 @@ function drawCubes(t) {
             ctx.fill();
 
             if (!cube.state) {
-                cube.vy += 0.8;
+                cube.vy += 0.9;
                 cube.dy = Math.min(0, cube.dy + cube.vy);
                 if (cube.dy === 0) {
                     cube.vx = 0;
                     cube.vy = 0;
                     cube.state++;
                 }
-                ctx.filter = 'blur(4px)';
             } else {
-                ctx.filter = 'blur(0px)';
                 const [x, y] = cubeCenter;
                 const { width, height } = canvas;
-                if (y < 0 || x < 0 || x > width || y > height) {
+                if (y < -50 || x < -50 || x > width + 50 || y > height + 50) {
                     cube.vx = -mouse.vx * 2;
                     cube.vy = -mouse.vy * 2;
-                    if (cube.state++ > 2) {
+                    if (cube.state++ > 1) {
                         cube.done = true;
                     }
                 }
@@ -222,17 +218,14 @@ function drawCubes(t) {
                 cube.dy += cube.vy;
             }
 
-            return acc && cube.state === 1;
+            return cube.state === 1 && acc;
         }, true);
 
         cubes.splice(0, cubes.length, ...cubes.filter(cube => !cube.done));
 
-        document.title = K
+        document.title = K && cubes.length
             ? [...'ĶǨᴷḰḲḴKＫ𝐊𝐾𝑲𝒦𝓚𝕂𝖪𝗞𝘒𝙆𝙺'][(0 | t / 20) % 19]
             : String.fromCharCode(5e5 + ((t ^ 0x7F) % 0x7F));
-
-        document.querySelector('pre').textContent = JSON.stringify([mouse], 0, 4)
-        ctx.restore();
     }
 }
 
