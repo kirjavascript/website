@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
-        <title>Hexagons</title>
         <style>
             body {
                 margin: 0;
@@ -20,7 +19,7 @@
         </style>
     </head>
     <body>
-
+        <pre> </pre>
         <canvas></canvas>
         <script>
 
@@ -79,7 +78,7 @@ const cubes = [];
     const t = performance.now() - epoch;
 
     // mouse.x += 1;
-    // mouse.y += Math.sin(t / 1e3);
+    // mouse.y += Math.sin(t / 1e3) * 0.5;
 
     mouse.render();
 
@@ -88,14 +87,12 @@ const cubes = [];
         ctx.lineWidth = 5;
     });
 
-    drawCubes();
+    drawCubes(t);
 
-    drawLayer(mouse.x * 2,mouse.y * 2, 100, (ctx) => {
+    drawLayer(mouse.x * 2, mouse.y * 2, 100, (ctx) => {
         ctx.strokeStyle = 'steelblue';
         ctx.lineWidth = 10;
     });
-
-    document.title = String.fromCharCode(5e5 + ((t ^ 0x7F) % 0x7F)); // TODO: favicon
 })();
 
 function drag() {
@@ -144,7 +141,7 @@ function getScreenCenter() {
     const hexHeight = getHexHeight(dimensions);
     const centerX = hexWidth * (0 | canvas.width / hexWidth / 2);
     const centerY = hexHeight * (0 | canvas.height / hexHeight / 2);
-    return [centerX, centerY];
+    return [centerX - mouse.x, centerY - mouse.y];
 }
 
 function getCubeCenter(points) {
@@ -156,8 +153,8 @@ function lerp(start, end, i) {
     return start + (end - start) * i;
 }
 
-function drawCubes() {
-    if (!cubes.length) {
+function drawCubes(t) {
+    if (!cubes.length && (!t||Math.abs(mouse.vx) + Math.abs(mouse.vy) < 1)) {
         const [centerX, centerY] = getScreenCenter();
         const dimensions = hexagon(0, 0, 50);
         const hexWidth = getHexWidth(dimensions);
@@ -170,20 +167,20 @@ function drawCubes() {
                 const x = centerX + (hexWidth / 2 * offsetX);
                 const y = centerY + (cubeHeight * offsetY);
                 const color = 0 | Math.random() * 360;
-                cubes.push({ x, y, color, dx: 0, dy: -centerY, vx: 0, vy: - i });
+                cubes.push({ x, y, color, dx: 0, dy: -canvas.height, vx: 0, vy: -i, state: 0 });
             });
 
-        // cubes.push({ x: centerX, y: centerY, color, dx: 0, dy: -centerY, vx: 0, vy: 5 });
     } else {
-        // TODO: bounce off screen based on mouse vel
+        // bbox delete
+        // snap to hex
+        // colour fade out
 
-        cubes.forEach(cube => {
-            cube.vy += 0.9;
-            cube.dy = Math.min(0, cube.dy + cube.vy);
+        ctx.save();
 
+        const K = cubes.reduce((acc, cube, index) => {
             const { color, x, y, dx, dy } = cube;
             const points = hexagon(mouse.x + x + dx, mouse.y + y + dy, 50);
-
+            const cubeCenter = getCubeCenter(points);
             const i = 1 - (Math.min(500, dy) / -500);
             const fill = `hsl(${color},100%,${lerp(75, 100, i)}%)`;
             const stroke = `hsl(${color},${lerp(100, 0, i)}%,${lerp(25, 10, i)}%)`;
@@ -196,11 +193,49 @@ function drawCubes() {
             ctx.stroke();
             ctx.closePath();
             ctx.beginPath();
-            points[3] = getCubeCenter(points); // sneaky
+            points[3] = cubeCenter; // sneaky
             points.forEach(([x, y]) => ctx.lineTo(x, y));
             ctx.fillStyle = stroke;
             ctx.fill();
 
-        });
+            if (!cube.state) {
+                cube.vy += 0.8;
+                cube.dy = Math.min(0, cube.dy + cube.vy);
+                if (cube.dy === 0) {
+                    cube.vx = 0;
+                    cube.vy = 0;
+                    cube.state++;
+                }
+                ctx.filter = 'blur(4px)';
+            } else {
+                ctx.filter = 'blur(0px)';
+                const [x, y] = cubeCenter;
+                const { width, height } = canvas;
+                if (y < 0 || x < 0 || x > width || y > height) {
+                    cube.vx = -mouse.vx * 2;
+                    cube.vy = -mouse.vy * 2;
+                    if (cube.state++ > 2) {
+                        cube.done = true;
+                    }
+                }
+                cube.dx += cube.vx;
+                cube.dy += cube.vy;
+            }
+
+            return acc && cube.state === 1;
+        }, true);
+
+        cubes.splice(0, cubes.length, ...cubes.filter(cube => !cube.done));
+
+        document.title = K
+            ? [...'ĶǨᴷḰḲḴKＫ𝐊𝐾𝑲𝒦𝓚𝕂𝖪𝗞𝘒𝙆𝙺'][(0 | t / 20) % 19]
+            : String.fromCharCode(5e5 + ((t ^ 0x7F) % 0x7F));
+
+        document.querySelector('pre').textContent = JSON.stringify([mouse], 0, 4)
+        ctx.restore();
     }
 }
+
+        </script>
+    </body>
+</html>
