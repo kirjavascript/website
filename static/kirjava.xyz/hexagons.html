@@ -156,7 +156,7 @@ function lerp(start, end, i) {
 }
 
 function drawCubes(t) {
-    if (!cubes.length && (!t||Math.abs(mouse.vx) + Math.abs(mouse.vy) < 1)) {
+    if (!cubes.length && (t < 10 || Math.abs(mouse.vx) + Math.abs(mouse.vy) < 1)) {
         const [centerX, centerY] = getScreenCenter();
         const dimensions = hexagon(0, 0, 50);
         const hexWidth = getHexWidth(dimensions);
@@ -173,8 +173,6 @@ function drawCubes(t) {
             });
 
     } else {
-        // TODO: come from everywhere
-
         const K = cubes.reduce((acc, cube, index) => {
             const { color, x, y, dx, dy } = cube;
             const points = hexagon(mouse.x + x + dx, mouse.y + y + dy, 50);
