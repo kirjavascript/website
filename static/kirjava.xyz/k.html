@@ -112,10 +112,9 @@ function drag() {
     };
 
     const setPos = e => {
-        const [x, y] = e.touches ? [
-            e.touches[0].pageX,
-            e.touches[0].pageY,
-        ] : [e.offsetX, e.offsetY];
+        const [x, y] = e.touches
+            ? [e.touches[0].pageX, e.touches[0].pageY]
+            : [e.offsetX, e.offsetY];
         return [
             lastX, lastX = x / 5,
             lastY, lastY = y / 5,
