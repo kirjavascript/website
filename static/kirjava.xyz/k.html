@@ -32,6 +32,8 @@ function hexagon(x, y, size, length = 7) {
 
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
+const isMobile = window.innerWidth < 768;
+const baseSize = isMobile ? 25 : 50;
 
 const measure = (points, indexA, indexB, type) => points[indexA][type] - points[indexB][type];
 const getHexWidth = (points) => measure(points, 1, 4, 0);
@@ -81,14 +83,14 @@ const cubes = [];
 
     mouse.render();
 
-    drawLayer(mouse.x, mouse.y, 50, (ctx) => {
+    drawLayer(mouse.x, mouse.y, baseSize, (ctx) => {
         ctx.strokeStyle = 'cyan';
         ctx.lineWidth = 5;
     });
 
-    drawCubes(t);
+    drawCubes(t, isMobile);
 
-    drawLayer(mouse.x * 2, mouse.y * 2, 100, (ctx) => {
+    drawLayer(mouse.x * 2, mouse.y * 2, baseSize * 2, (ctx) => {
         ctx.strokeStyle = 'steelblue';
         ctx.lineWidth = 10;
     });
@@ -98,7 +100,7 @@ function drag() {
     let lastX, lastY, down
 
     const mouse = {
-        x: 0, y: 0, vx: -20, vy: 10,
+        x: 0, y: 0, vx: isMobile ? 0 : -20, vy: 10,
         render: () => {
             mouse.x += mouse.vx;
             mouse.y += mouse.vy;
@@ -109,37 +111,45 @@ function drag() {
         },
     };
 
-    const setPos = (e) => [
-        lastX, lastX = e.offsetX / 5,
-        lastY, lastY = e.offsetY / 5,
-    ];
+    const setPos = e => {
+        const [x, y] = e.touches ? [
+            e.touches[0].pageX,
+            e.touches[0].pageY,
+        ] : [e.offsetX, e.offsetY];
+        return [
+            lastX, lastX = x / 5,
+            lastY, lastY = y / 5,
+        ];
+    };
 
-    canvas.addEventListener('mousedown', e => {
-        down = true;
-        setPos(e);
-    });
+    const start = e => { down = true; setPos(e); };
+    canvas.addEventListener('touchstart', start);
+    canvas.addEventListener('mousedown', start);
 
-    canvas.addEventListener('mousemove', e => {
+    const move = e => {
         if (down) {
             const [lastX, x, lastY, y] = setPos(e);
             mouse.vx = x - lastX;
             mouse.vy = y - lastY;
         }
-    });
+    };
+    canvas.addEventListener('touchmove', move);
+    canvas.addEventListener('mousemove', move);
 
-    const end = (e) => { down = false; };
+    const end = e => { down = false; };
     canvas.addEventListener('mouseup', end);
     canvas.addEventListener('mouseout', end);
+    canvas.addEventListener('touchend', end);
 
     return mouse;
 }
 
 function getScreenCenter() {
-    const dimensions = hexagon(0, 0, 50);
+    const dimensions = hexagon(0, 0, baseSize);
     const hexWidth = getHexWidth(dimensions);
     const hexHeight = getHexHeight(dimensions);
-    const centerX = canvas.width / 2-mouse.x;
-    const centerY = canvas.height / 2-mouse.y;
+    const centerX = (isMobile ? 0 : canvas.width / 2) - mouse.x;
+    const centerY = canvas.height / 2 - mouse.y;
     return [
         hexWidth * (0 | centerX / hexWidth),
         hexHeight * (0 | centerY / hexHeight / 2) * 2,
@@ -158,7 +168,7 @@ function lerp(start, end, i) {
 function drawCubes(t) {
     if (!cubes.length && (t < 10 || Math.abs(mouse.vx) + Math.abs(mouse.vy) < 1)) {
         const [centerX, centerY] = getScreenCenter();
-        const dimensions = hexagon(0, 0, 50);
+        const dimensions = hexagon(0, 0, baseSize);
         const hexWidth = getHexWidth(dimensions);
         const cubeHeight = measure(dimensions, 4, 3, 1) * 1.04; // give some extra space for stroke width
 
@@ -175,7 +185,7 @@ function drawCubes(t) {
     } else {
         const K = cubes.reduce((acc, cube, index) => {
             const { color, x, y, dx, dy } = cube;
-            const points = hexagon(mouse.x + x + dx, mouse.y + y + dy, 50);
+            const points = hexagon(mouse.x + x + dx, mouse.y + y + dy, baseSize);
             const cubeCenter = getCubeCenter(points);
             const i = 1 - (Math.min(1000, Math.abs(dy) + Math.abs(dy)) / 1000);
             const fill = `hsl(${color},100%,${lerp(75, 100, i)}%)`;
