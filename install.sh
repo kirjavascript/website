@@ -51,7 +51,7 @@ pm2 start --name "email" index.js
 # pasta
 git clone https://github.com/kirjavascript/pastaslut
 cargo build --release
-pm2 start --name "eval" target/release/pastaslut
+pm2 start --name "pasta" target/release/pastaslut
 
 # eval
 git clone https://github.com/kirjavascript/eval
