@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="theme-color" content="#111111">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui">
+        <title>nestulator</title>
+        <link rel="stylesheet" href="./styles.css" type="text/css" charset="utf-8">
+    </head>
+    <body>
+        <main>
+            <div class="screen">
+                <canvas class="background"></canvas>
+                <canvas class="flash"></canvas>
+                <canvas class="sprites"></canvas>
+            </div>
+            <p id="controls">
+                Arrows / WASD / IJKL
+                B: Z / N
+                A: X / M
+                Start: Enter / V
+                Select: Shift / C
+            </p>
+            <div class="options">
+                <div>
+                    <button id="fullscreen">fullscreen</button>
+                    <button id="input">input</button>
+                    <label for="file" class="file">
+                        ROM
+                    </label>
+                    <input id="file" type="file" />
+                </div>
+                <p class="frameInfo">
+                    NES frames this frame: <span class="frameCount"></span>
+                </p>
+                <div>
+                    <label for="runahead">1f runahead</label>
+                    <input type="checkbox" id="runahead" name="runahead" checked>
+                    <label for="sfx">sfx</label>
+                    <input type="checkbox" id="sfx" name="sfx">
+                </div>
+            </div>
+        </main>
+        <a
+            class="source"
+            target="_blank"
+            href="https://github.com/kirjavascript/nestulator"
+        >
+            source
+        </a>
+        <script src="./bundle.js"></script>
+    </body>
+</html>
